@@ -1,5 +1,12 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-07 — Recoger en tienda (sin respaldo en Figma, D43)
+- Carrito: "Enviar a domicilio" / "Recoger en tienda" por artículo con existencias en línea y en "Mi tienda"; la cantidad se ajusta a las piezas de la tienda; "Método de entrega" (todo a domicilio / todo en tienda) y "Zona de entrega" ("Guadalajara y sus alrededores"), con carga "Calculando disponibilidad en tienda".
+- Cambio de tienda o C.P.: lo que se recoge se recalcula con la nueva tienda.
+- Checkout: "Recoger en tienda" separado de los envíos en el paso 2 y en la confirmación.
+- Detalle: barra lateral "Buscar en otras tiendas" con "Cambiar dirección".
+- Publicación en GitHub Pages (`.github/workflows/pages.yml`). Prueba nueva `tests/referencia/recoger-demo.mjs`.
+
 ## 2026-10-06 — Barrido del flujo: correcciones (sin respaldo en Figma)
 - Existencias y envíos con una sola red de tiendas (D41): "Mi tienda", compra en línea y envíos usan las mismas existencias; envíos agrupados por la tienda más cercana con existencia; sin costo de envío en todo el checkout; tope de piezas en carrito y detalle.
 - Pedidos y cuenta (D42): número y fecha reales, "Mis pedidos", "Seguir comprando" conserva la sesión, direcciones reales del registrado en el paso 1, alta de dirección desde el checkout, formulario del invitado conservado, tarjeta del invitado vacía y validada, "Salir" al inicio, total y paginado del catálogo, migas de pan del producto.

@@ -2,11 +2,11 @@
  * Estado de la demo: cliente, ubicación (C.P./dirección), carrito, envío y pago.
  * Todos los datos son simulados (constitution, Principio V).
  */
-import { createContext, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
-import { CARRITO_2026, formatoMXN, type EstadoExistencia, type LineaCarrito, type Producto } from '../mocks/productos';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { CARRITO_2026, formatoMXN, type EstadoExistencia, type LineaCarrito, type ModoEntrega, type Producto } from '../mocks/productos';
 import { type Totales } from '../design-system/components/organisms/Resumen';
 import type { DatosTarjeta, FormaSeleccionada } from '../design-system/components/organisms/FormaDePago';
-import { estadoExistencia } from '../mocks/existencias';
+import { estadoExistencia, existenciaEnTienda, maximoVenta } from '../mocks/existencias';
 import { costoEnvio } from '../mocks/logistica';
 import { CLIENTE_INVITADO, CLIENTES, DIRECCIONES_ENTREGA, UBICACION_FIGMA, type Cliente, type DireccionEntrega, type Ubicacion } from '../mocks/clientes';
 import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, type TiendaCercana } from '../mocks/tiendas';
@@ -116,6 +116,13 @@ type DemoState = {
   hacerPredeterminada: (id: string) => void;
   agregar: (p: Producto, cantidad?: number) => void;
   cambiarCantidad: (id: string, cantidad: number) => void;
+  /**
+   * Sitio (D43): "Enviar a domicilio" o "Recoger en tienda" para un artículo. Recoger solo usa las existencias de
+   * "Mi tienda": la cantidad se ajusta a sus piezas y, si no tiene, el artículo se queda a domicilio.
+   */
+  cambiarEntrega: (id: string, modo: ModoEntrega) => void;
+  /** "Enviar todo a domicilio" / "Recoger todo en tienda" (solo la tienda seleccionada). */
+  entregaMasiva: (modo: ModoEntrega) => void;
   quitar: (id: string) => void;
   /** "Guardar para más tarde" (668:18478): saca la línea del carrito y la deja en guardados. */
   guardados: LineaCarrito[];
@@ -187,6 +194,21 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
     setTiendaId(null);
   };
   const modoFigma = !!inicial.modoFigma;
+
+  /* D43: aplica un modo de entrega a una línea con las existencias de "Mi tienda" o de la compra en línea. */
+  const ajustarEntrega = (l: LineaCarrito, modo: ModoEntrega): LineaCarrito => {
+    const pz = (n: number) => (n === 1 ? '1 pieza disponible' : `${n} piezas disponibles`);
+    if (modo === 'domicilio') {
+      const n = maximoVenta(l.producto.id, ubicacion?.codigoPostal ?? null);
+      if (n > 0 && l.cantidad > n) return { ...l, entrega: 'domicilio', cantidad: n, aviso: `Ajustamos la cantidad a ${pz(n)} para envío a domicilio.` };
+      return { ...l, entrega: 'domicilio', aviso: undefined };
+    }
+    const n = tienda ? existenciaEnTienda(l.producto.id, tienda.id) : 0;
+    const nombre = tienda ? `Autex ${tienda.nombre}` : 'tu tienda';
+    if (!n) return { ...l, entrega: 'domicilio', aviso: `${nombre} no tiene este producto; se queda con envío a domicilio.` };
+    if (l.cantidad > n) return { ...l, entrega: 'tienda', cantidad: n, aviso: `Ajustamos la cantidad a ${pz(n)} en ${nombre}.` };
+    return { ...l, entrega: 'tienda', aviso: undefined };
+  };
   /* Figma: "#0001087 - 24"; en el sitio cada compra toma el siguiente número. */
   const numeroPedido = `#${String(1087 + pedidos.length).padStart(7, '0')} - 24`;
   const ubicacionInicial = modoFigma ? null : UBICACION_PREDETERMINADA;
@@ -198,6 +220,15 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
     return u ? tiendasCercanas(u) : [];
   }, [ubicacion]);
   const tienda = tiendas.find((t) => t.id === tiendaId) ?? tiendas[0] ?? null;
+
+  /* D43: si cambia "Mi tienda" (o el C.P., que la recalcula), lo que se recoge se ajusta a las piezas de la nueva tienda
+     y los avisos de la tienda anterior se quitan. */
+  const tiendaPrevia = useRef(tienda?.id);
+  useEffect(() => {
+    if (tiendaPrevia.current === tienda?.id) return;
+    tiendaPrevia.current = tienda?.id;
+    setCarrito((c) => c.map((l) => (l.entrega === 'tienda' ? ajustarEntrega(l, 'tienda') : { ...l, aviso: undefined })));
+  }, [tienda?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const value = useMemo<DemoState>(() => {
     const subtotal = carrito.reduce((s, l) => s + l.producto.precio * l.cantidad, 0);
@@ -225,6 +256,11 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
       abrirMini: () => setMiniAbierto(true),
       disponibilidad: (id) => {
         const linea = carrito.find((l) => l.producto.id === id);
+        /* D43: lo que se recoge depende solo de las piezas de "Mi tienda". */
+        if (!modoFigma && linea?.entrega === 'tienda') {
+          const ok = !!tienda && existenciaEnTienda(id, tienda.id) >= linea.cantidad;
+          return ok ? { ok, texto: 'Disponible para recoger en tienda', estado: 'disponible' } : { ok, texto: 'Sin existencia en tu tienda', estado: 'sin-existencia' };
+        }
         const estado: EstadoExistencia = modoFigma || !ubicacion
           ? linea?.producto.estadoFigma ?? 'disponible'
           : estadoExistencia(id, ubicacion.codigoPostal, linea?.cantidad ?? 1);
@@ -350,7 +386,9 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
         });
       },
       cambiarCantidad: (id, cantidad) =>
-        setCarrito((c) => c.map((l) => (l.producto.id === id ? { ...l, cantidad: Math.max(1, cantidad) } : l))),
+        setCarrito((c) => c.map((l) => (l.producto.id === id ? { ...l, cantidad: Math.max(1, cantidad), aviso: undefined } : l))),
+      cambiarEntrega: (id, modo) => setCarrito((c) => c.map((l) => (l.producto.id === id ? ajustarEntrega(l, modo) : l))),
+      entregaMasiva: (modo) => setCarrito((c) => c.map((l) => ajustarEntrega(l, modo))),
       quitar: (id) => setCarrito((c) => c.filter((l) => l.producto.id !== id)),
       guardados,
       guardar: (id) => {
@@ -395,7 +433,7 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
           fecha: new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
           total: totales.total,
           piezas: carrito.reduce((n, l) => n + l.cantidad, 0),
-          articulos: carrito.map((l) => `${l.cantidad} × ${l.producto.nombre}`),
+          articulos: carrito.map((l) => `${l.cantidad} × ${l.producto.nombre}${l.entrega === 'tienda' && tienda ? ` (recoger en Autex ${tienda.nombre})` : ''}`),
           direccion: envioDetalle.direccion ?? '',
           enTienda: pago === 'tienda',
           registrado: cliente.tipo !== 'invitado',

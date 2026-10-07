@@ -7,12 +7,14 @@
  * Sitio (sin respaldo en Figma, D35): sin costos de envío, "Dirección de entrega" visible, envíos múltiples por
  * sucursal y, para el cliente registrado (que llega aquí directo desde el carrito), "Cambiar dirección de entrega"
  * en lugar de "Regresar".
+ * Sitio (D43): lo que el cliente eligió recoger en "Mi tienda" no entra en los envíos y se muestra en "Recoger en tienda".
  * Última sincronización: 2026-10-05
  */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../design-system/components/atoms/Button';
 import { Icon } from '../../design-system/components/atoms/Icon';
+import { ProductThumb } from '../../design-system/components/atoms/ProductThumb';
 import { CheckoutCard } from '../../design-system/components/organisms/CheckoutCard';
 import { Modal } from '../../design-system/components/organisms/Modal';
 import { EnvioPaqueteria } from '../../design-system/components/molecules/EnvioPaqueteria';
@@ -21,7 +23,7 @@ import { OpcionSeleccionable } from '../../design-system/components/molecules/Op
 import { lineaDireccion } from '../../mocks/clientes';
 import { repartirEnvios } from '../../mocks/envios';
 import { costoEnvio, UMBRAL_ENVIO_GRATIS } from '../../mocks/logistica';
-import { coordenadas, UBICACION_PREDETERMINADA } from '../../mocks/tiendas';
+import { coordenadas, estadoHorario, UBICACION_PREDETERMINADA } from '../../mocks/tiendas';
 import { useDemo } from '../../state/DemoContext';
 import { CheckoutLayout } from './CheckoutLayout';
 import styles from './MetodoEnvio.module.css';
@@ -31,17 +33,20 @@ const AVISO_CAMBIO = 'La fecha estimada de entrega y el envío están basados en
 export function MetodoEnvio() {
   const navigate = useNavigate();
   const demo = useDemo();
-  const { carrito, disponibilidad, setEnvio, modoFigma, cliente, direccion, envioDetalle, setEnvioDetalle, ubicacion } = demo;
+  const { carrito, disponibilidad, setEnvio, modoFigma, cliente, direccion, envioDetalle, setEnvioDetalle, ubicacion, tienda } = demo;
+  const sitio = !modoFigma;
+  /* D43: en el sitio solo se envía lo que no se recoge en tienda. */
+  const aDomicilio = sitio ? carrito.filter((l) => l.entrega !== 'tienda') : carrito;
+  const aTienda = sitio ? carrito.filter((l) => l.entrega === 'tienda') : [];
   const subtotal = carrito.reduce((s, l) => s + l.producto.precio * l.cantidad, 0);
   const costo = costoEnvio(subtotal);
-  const hayBajoPedido = carrito.some((l) => disponibilidad(l.producto.id).estado === 'bajo-pedido');
-  const hayInmediata = carrito.some((l) => disponibilidad(l.producto.id).estado === 'disponible');
-  const sitio = !modoFigma;
+  const hayBajoPedido = aDomicilio.some((l) => disponibilidad(l.producto.id).estado === 'bajo-pedido');
+  const hayInmediata = aDomicilio.some((l) => disponibilidad(l.producto.id).estado === 'disponible');
   const registrado = sitio && cliente.tipo !== 'invitado';
   const [cambiando, setCambiando] = useState(false);
 
   /* Envíos por sucursal desde la ubicación de entrega. */
-  const envios = sitio ? repartirEnvios(carrito, (ubicacion && coordenadas(ubicacion)) || UBICACION_PREDETERMINADA, (id) => disponibilidad(id).estado) : [];
+  const envios = sitio ? repartirEnvios(aDomicilio, (ubicacion && coordenadas(ubicacion)) || UBICACION_PREDETERMINADA, (id) => disponibilidad(id).estado) : [];
   const inmediatos = envios.filter((e) => !e.bajoPedido);
   const pedidos = envios.filter((e) => e.bajoPedido);
   const textoDireccion = registrado && direccion ? lineaDireccion(direccion) : envioDetalle.direccion;
@@ -79,7 +84,7 @@ export function MetodoEnvio() {
           </>
         }
       >
-        {sitio && textoDireccion && (
+        {sitio && textoDireccion && aDomicilio.length > 0 && (
           <div className={styles.direccion}>
             <Icon name="location_on" box={32} size={28} color="var(--color-secondary-500)" />
             <div>
@@ -90,7 +95,7 @@ export function MetodoEnvio() {
           </div>
         )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {(hayInmediata || !hayBajoPedido) && (
+          {aDomicilio.length > 0 && (hayInmediata || !hayBajoPedido) && (
             <EnvioPaqueteria
               tiempo={
                 costo > 0 && !sitio
@@ -108,6 +113,31 @@ export function MetodoEnvio() {
             <EnvioPaqueteria bajoPedido tiempo="Tiempo de entrega estimado de 2 a 4 días." costo={costo} faltante={UMBRAL_ENVIO_GRATIS - subtotal} ocultarCosto={sitio}>
               {sitio && pedidos.length > 0 ? <EnviosMultiples envios={pedidos} total={inmediatos.length ? 0 : envios.length} /> : null}
             </EnvioPaqueteria>
+          )}
+          {aTienda.length > 0 && tienda && (
+            <div className={styles.recoger}>
+              <div className={styles.recogerCabecera}>
+                <Icon name="store" box={32} size={28} color="var(--color-primary-500)" />
+                <div>
+                  <p className="text-subheadline-medium">Recoger en tienda</p>
+                  <p className="text-body-1-book">
+                    Autex {tienda.nombre} · <span className={styles.gris}>{tienda.direccion}</span>
+                  </p>
+                  <p className={`${styles.gris} text-body-2-book`}>
+                    {estadoHorario(tienda.horario).corto} · Te avisaremos por correo cuando tu pedido esté listo para recoger.
+                  </p>
+                </div>
+              </div>
+              <ul className={styles.recogerLista}>
+                {aTienda.map((l) => (
+                  <li key={l.producto.id} className="text-body-2-book">
+                    <ProductThumb capas={l.producto.imagen} size={48} />
+                    <span className={styles.recogerNombre}>{l.producto.nombre}</span>
+                    <span className={styles.gris}>Cantidad: {l.cantidad}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       </CheckoutCard>

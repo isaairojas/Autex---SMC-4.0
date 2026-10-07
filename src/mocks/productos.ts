@@ -82,7 +82,10 @@ export const PRODUCTOS_2026_EXTRA: Producto[] = [
   { id: 'switch-luces', sku: 'SL-0012345', nombre: LOREM, precio: 132.25, imagen: [{ src: switchLuces, fit: 'cover' }], skuCarrito: 'SKU #0012345', noOriginal: 'No. Original AI3922', estadoFigma: 'disponible' },
 ];
 
-export type LineaCarrito = { producto: Producto; cantidad: number };
+/** Sitio (D43): cómo recibe el cliente cada artículo. Sin valor: envío a domicilio. */
+export type ModoEntrega = 'domicilio' | 'tienda';
+/** aviso: mensaje del último ajuste de cantidad o de entrega (p. ej. al pasar a "Recoger en tienda"). */
+export type LineaCarrito = { producto: Producto; cantidad: number; entrega?: ModoEntrega; aviso?: string };
 
 /** Carrito de Autex_Carrito- 1 (673:18974): un producto disponible y uno bajo pedido. */
 export const CARRITO_2026: LineaCarrito[] = PRODUCTOS_2026.map((producto) => ({ producto, cantidad: 1 }));

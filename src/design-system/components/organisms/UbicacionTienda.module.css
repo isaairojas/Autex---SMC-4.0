@@ -376,3 +376,57 @@
 .menuCuenta button:hover {
   background: var(--color-neutral-50);
 }
+
+/* SIN RESPALDO EN FIGMA (D43): barra lateral "Buscar en otras tiendas" del detalle */
+.lateralCapa {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--color-alpha-back-300);
+}
+
+/* La página usa CSS zoom (D37): la altura se divide entre la escala para ocupar toda la ventana. */
+.lateral {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 51;
+  width: 440px;
+  height: calc(100vh / var(--escala, 1));
+  display: flex;
+  flex-direction: column;
+  background: var(--color-nativo-blanco);
+  box-shadow: var(--shadow-modal-login);
+  color: var(--color-neutral-900);
+}
+
+.lateral p {
+  margin: 0;
+}
+
+.lateralIntro {
+  padding: 0 20px 12px;
+}
+
+.piezas {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: var(--color-neutral-100);
+}
+
+.piezasCero {
+  color: var(--color-secondary-500);
+}
+
+.lateralPie {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px 20px;
+  box-shadow: inset 0 1px 0 var(--color-neutral-200);
+}
+

@@ -79,7 +79,7 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
     abrirPanel('entrega');
   };
   return (
-    <div ref={marco} style={{ width: ANCHO, margin: '0 auto', background: 'var(--color-nativo-blanco)', position: 'relative', zoom: escala }}>
+    <div ref={marco} style={{ width: ANCHO, margin: '0 auto', background: 'var(--color-nativo-blanco)', position: 'relative', zoom: escala, ['--escala' as string]: escala }}>
       {version2026 ? (
         <Navbar2026
           /* En la galería se muestran los textos literales del Head 2026 (I673:18975;606:13284, badge "99+"). */

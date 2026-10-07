@@ -178,6 +178,14 @@
     }
   },
   "sinRespaldoEnFigma": {
+    "Entrega por artículo / Recoger en tienda (carrito)": {
+      "pantalla": "src/design-system/components/organisms/EntregaCarrito.tsx",
+      "nota": "Sin respaldo en Figma (D43). Ejemplo de Home Depot del usuario: Enviar a domicilio / Recoger en tienda por artículo, Método de entrega y Zona de entrega en el carrito."
+    },
+    "Buscar en otras tiendas (detalle)": {
+      "pantalla": "src/design-system/components/organisms/UbicacionTienda.tsx",
+      "nota": "Sin respaldo en Figma (D43). Barra lateral con las tiendas que tienen el producto, Seleccionar tienda y Cambiar dirección."
+    },
     "/producto/:id": {
       "pantalla": "src/screens/tienda/DetalleProducto.tsx",
       "nota": "Sin frame en Autex_2026_Frames; se conserva el detalle del archivo anterior (12849:113500) con el Navbar clásico."

@@ -374,3 +374,91 @@ export function AvisoTienda({ bloqueado, onManual, onUsarMiUbicacion, onClose }:
     </Modal>
   );
 }
+
+/* ---------- Barra lateral "Buscar en otras tiendas" (D43) ---------- */
+
+type OtrasTiendasProps = {
+  /** Tiendas cercanas a la entrega con las piezas del producto en cada una. */
+  tiendas: (TiendaCercana & { piezas: number })[];
+  actual: TiendaCercana | null;
+  codigoPostal: string | null;
+  producto: string;
+  onSeleccionar: (id: string) => void;
+  onCambiarDireccion: () => void;
+  onClose: () => void;
+};
+
+/**
+ * SIN RESPALDO EN FIGMA (D43). Ejemplo de Home Depot del usuario: barra a la derecha con "Mi tienda" primero y las
+ * tiendas con existencia del producto (abierto / cierra, piezas, dirección, teléfono, mapa, "Seleccionar tienda");
+ * al pie, "Cambiar dirección" lleva al C.P. o la dirección de entrega.
+ */
+export function BuscarOtraTienda({ tiendas, actual, codigoPostal, producto, onSeleccionar, onCambiarDireccion, onClose }: OtrasTiendasProps) {
+  const lista = [...tiendas].sort((a, b) => Number(b.id === actual?.id) - Number(a.id === actual?.id));
+  const otras = lista.filter((t) => t.id !== actual?.id).length;
+  return (
+    <>
+      <div className={styles.lateralCapa} onClick={onClose} />
+      <aside className={styles.lateral} role="dialog" aria-label="Buscar en otras tiendas">
+        <div className={styles.panelCabecera}>
+          <p className="text-subheadline-medium">Buscar en otras tiendas</p>
+          <button type="button" className={styles.cerrar} onClick={onClose} aria-label="Cerrar">
+            <Icon name="close" />
+          </button>
+        </div>
+        <p className={`${styles.gris} ${styles.lateralIntro} text-body-2-book`}>
+          {otras
+            ? `${otras} ${otras === 1 ? 'tienda tiene' : 'tiendas tienen'} ${producto} cerca de tu entrega${codigoPostal ? ` en C.P. ${codigoPostal}` : ''}.`
+            : `Ninguna otra tienda cerca de tu entrega tiene ${producto}.`}
+        </p>
+        <div className={styles.listaTiendas}>
+          {lista.map((t) => {
+            const mia = t.id === actual?.id;
+            const h = estadoHorario(t.horario);
+            return (
+              <div key={t.id} className={mia ? `${styles.tienda} ${styles.tiendaMia}` : styles.tienda}>
+                {mia && <span className={`${styles.etiqueta} text-caption-book`}>Mi tienda</span>}
+                <div className={styles.tiendaCabecera}>
+                  <p className="text-subheadline-book">Autex {t.nombre}</p>
+                  <span className={`${styles.gris} text-body-2-book`}>{formatoKm(t.km)}</span>
+                </div>
+                {h.abierto !== null && (
+                  <p className="text-body-2-book">
+                    <span className={h.abierto ? styles.verde : styles.rojo}>{h.abierto ? 'Abierto' : 'Cerrado'}</span>
+                    <span className={styles.gris}> · {h.texto}</span>
+                  </p>
+                )}
+                <span className={`${styles.piezas} ${t.piezas ? '' : styles.piezasCero} text-body-1-medium`}>
+                  <Icon name="inventory_2" box={20} size={18} color={t.piezas ? 'var(--color-neutral-800)' : 'var(--color-secondary-500)'} />
+                  {t.piezas} disponibles
+                </span>
+                <p className={`${styles.gris} text-body-2-book`}>{t.direccion}</p>
+                {t.telefono && (
+                  <a className={`${styles.fila} ${styles.azul} text-body-2-book`} href={`tel:${t.telefono}`}>
+                    <Icon name="call" box={20} size={18} color="var(--color-primary-500)" />
+                    {t.telefono.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2 $3')}
+                  </a>
+                )}
+                <a className={`${styles.fila} ${styles.azul} ${styles.subrayado} text-body-2-book`} href={mapa(t)} target="_blank" rel="noreferrer">
+                  <Icon name="directions" box={20} size={18} color="var(--color-primary-500)" />
+                  Mostrar en Google Maps
+                </a>
+                {!mia && (
+                  <Button variant="outline" className={styles.anchoCompleto} onClick={() => onSeleccionar(t.id)}>
+                    Seleccionar tienda
+                  </Button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <div className={styles.lateralPie}>
+          <p className={`${styles.gris} text-body-2-book`}>Las tiendas se muestran según tu dirección de entrega.</p>
+          <Button variant="outline" className={styles.anchoCompleto} icon={<Icon name="edit_location_alt" />} onClick={onCambiarDireccion}>
+            Cambiar dirección
+          </Button>
+        </div>
+      </aside>
+    </>
+  );
+}

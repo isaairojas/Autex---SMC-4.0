@@ -24,7 +24,10 @@ const CALZ = 'Calz del Federalismo Nte 1343 Col, Mezquitan Country, 45190 Guadal
 
 export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: OverlayConfirmacion }) {
   const navigate = useNavigate();
-  const { pago, envioDetalle, pagoDetalle, modoFigma, cliente, numeroPedido, registrarPedido } = useDemo();
+  const { pago, envioDetalle, pagoDetalle, modoFigma, cliente, numeroPedido, registrarPedido, carrito, tienda: miTienda } = useDemo();
+  /* D43: lo que se recoge en tienda va en su propia fila de "Método de envío". */
+  const recoge = !modoFigma && carrito.some((l) => l.entrega === 'tienda');
+  const envia = modoFigma || carrito.some((l) => l.entrega !== 'tienda');
   /* Sitio: el registrado cambia la dirección en el paso 2 ("Cambiar dirección de entrega"); el invitado, en su formulario. */
   const pasoDireccion = !modoFigma && cliente.tipo !== 'invitado' ? '/checkout/envio' : '/checkout/datos';
   const terminar = () => {
@@ -100,11 +103,10 @@ export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: 
             gap={112}
             variante="envio"
             filas={[
-              {
-                etiqueta: 'Envío a domicilio',
-                valor: modoFigma ? CALZ : envioDetalle.direccion ?? CALZ,
-                onCambiar: () => navigate(pasoDireccion),
-              },
+              ...(envia
+                ? [{ etiqueta: 'Envío a domicilio', valor: modoFigma ? CALZ : envioDetalle.direccion ?? CALZ, onCambiar: () => navigate(pasoDireccion) }]
+                : []),
+              ...(recoge && miTienda ? [{ etiqueta: 'Recoger en tienda', valor: `Autex ${miTienda.nombre} · ${miTienda.direccion}`, onCambiar: () => navigate('/carrito') }] : []),
             ]}
           />
           <ConfirmacionBloque

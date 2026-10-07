@@ -4,6 +4,8 @@
  * Head (225) · Frame 4534607 (673:20283, y=245, fondo gris) con productos agrupados por existencia SMC 4.0
  * (disponibles / bajo pedido), Subtotal y Resumen · Content_Saved items (668:18472, y=1175) · Footer 491.
  * Reemplaza a la página de carrito "sin respaldo" (D5) del archivo anterior.
+ * Sitio (sin respaldo en Figma, D43): cada artículo se envía a domicilio o se recoge en "Mi tienda" (con sus
+ * existencias); en la columna derecha, "Método de entrega" para todo el pedido y "Zona de entrega".
  * Última sincronización: 2026-10-05
  */
 import { useState } from 'react';
@@ -16,7 +18,10 @@ import {
   ResumenCarrito,
   SubtotalCarrito,
 } from '../../design-system/components/organisms/CarritoCompra';
-import { maximoVenta } from '../../mocks/existencias';
+import { etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta } from '../../mocks/existencias';
+import { estadoHorario, zonaEntrega } from '../../mocks/tiendas';
+import { ColumnaCarrito, MetodoEntregaCarrito, SelectorEntrega, ZonaEntregaCarrito } from '../../design-system/components/organisms/EntregaCarrito';
+import type { ModoEntrega } from '../../mocks/productos';
 import { formatoMXN } from '../../mocks/productos';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
@@ -55,8 +60,25 @@ export function CarritoPagina() {
           ? navigate('/checkout/datos')
           : /* Sin direcciones guardadas: paso 1 para añadir una. */
             demo.conCarga('Preparando tu pedido', 'Calculamos los envíos para tu dirección de entrega…', () => navigate(demo.direcciones.length ? '/checkout/envio' : '/checkout/datos'));
-  /* Sitio (D39): la cantidad no supera las piezas para compra en línea del C.P. de entrega. */
-  const maximo = (id: string) => (modoFigma ? undefined : maximoVenta(id, ubicacion?.codigoPostal ?? null));
+  /* Sitio (D39/D43): la cantidad no supera las piezas para compra en línea del C.P. o, si se recoge, las de "Mi tienda". */
+  const cp = ubicacion?.codigoPostal ?? null;
+  const { tienda } = demo;
+  const enTienda = (id: string) => (tienda ? existenciaEnTienda(id, tienda.id) : 0);
+  const recoge = (id: string) => carrito.find((l) => l.producto.id === id)?.entrega === 'tienda';
+  const maximo = (id: string) => (modoFigma ? undefined : recoge(id) ? enTienda(id) : maximoVenta(id, cp));
+  const nombreTienda = tienda ? `Autex ${tienda.nombre}` : 'tu tienda';
+  /* Cambiar la entrega recalcula existencias: carga de página como en el sitio. */
+  const cambiarEntrega = (id: string, modo: ModoEntrega) =>
+    demo.conCarga(modo === 'tienda' ? 'Calculando disponibilidad en tienda' : 'Calculando disponibilidad para envío', '', () => demo.cambiarEntrega(id, modo), 900);
+  const entregaMasiva = (modo: ModoEntrega) =>
+    demo.conCarga(modo === 'tienda' ? 'Calculando disponibilidad en tienda' : 'Calculando disponibilidad para envío', '', () => demo.entregaMasiva(modo), 900);
+  const modos = new Set(carrito.map((l) => l.entrega ?? 'domicilio'));
+  const todos: ModoEntrega | null = modos.size === 1 ? [...modos][0] : null;
+  /* Los paneles de tienda y C.P. se abren bajo su botón del navbar. */
+  const abrirArriba = (panel: 'tienda' | 'entrega') => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    demo.abrirPanel(panel);
+  };
 
   const tarjeta = ({ linea, estado }: (typeof conEstado)[number]) => (
     <CardProductoCarrito
@@ -64,6 +86,18 @@ export function CarritoPagina() {
       linea={linea}
       estado={estado}
       maximo={estado === 'sin-existencia' ? undefined : maximo(linea.producto.id)}
+      entrega={
+        modoFigma ? undefined : (
+          <SelectorEntrega
+            modo={linea.entrega ?? 'domicilio'}
+            enLinea={etiquetaExistencia(existenciaEnLinea(linea.producto.id, cp))}
+            enTienda={enTienda(linea.producto.id)}
+            tienda={nombreTienda}
+            aviso={linea.aviso}
+            onCambiar={(modo) => cambiarEntrega(linea.producto.id, modo)}
+          />
+        )
+      }
       onCantidad={(n) => (n < 1 ? quitar(linea.producto.id) : cambiarCantidad(linea.producto.id, Math.min(n, maximo(linea.producto.id) ?? n)))}
       onEliminar={() => quitar(linea.producto.id)}
       onGuardar={() => guardar(linea.producto.id)}
@@ -100,12 +134,25 @@ export function CarritoPagina() {
             />
           )}
         </div>
-        <ResumenCarrito
-          titulo={modoFigma ? 'Subtotal (3 productos)' : `Subtotal (${piezas} productos)`}
-          total={modoFigma ? '$0.00' : formatoMXN(subtotal)}
-          onPagar={pagar}
-          deshabilitado={bloqueado && !!ubicacion}
-        />
+        {modoFigma ? (
+          <ResumenCarrito titulo="Subtotal (3 productos)" total="$0.00" onPagar={pagar} deshabilitado={bloqueado && !!ubicacion} />
+        ) : (
+          <ColumnaCarrito>
+            {carrito.length > 0 && (
+              <MetodoEntregaCarrito todos={todos} tienda={nombreTienda} puedeRecoger={carrito.some((l) => enTienda(l.producto.id) > 0)} onTodo={entregaMasiva} />
+            )}
+            {ubicacion && (
+              <ZonaEntregaCarrito
+                tienda={tienda ? { nombre: nombreTienda, direccion: tienda.direccion, horario: estadoHorario(tienda.horario).corto } : null}
+                zona={zonaEntrega(ubicacion)}
+                codigoPostal={ubicacion.codigoPostal}
+                onCambiarTienda={() => abrirArriba('tienda')}
+                onCambiarZona={() => abrirArriba('entrega')}
+              />
+            )}
+            <ResumenCarrito titulo={`Subtotal (${piezas} productos)`} total={formatoMXN(subtotal)} onPagar={pagar} deshabilitado={bloqueado && !!ubicacion} />
+          </ColumnaCarrito>
+        )}
       </div>
       <div className={styles.guardados}>
         <ProductosGuardados guardados={guardados} onMover={moverAlCarrito} contador={modoFigma ? 1 : guardados.length} />

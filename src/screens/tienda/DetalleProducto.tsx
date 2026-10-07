@@ -10,6 +10,8 @@ import { Icon } from '../../design-system/components/atoms/Icon';
 import { Breadcrumbs } from '../../design-system/components/molecules/Breadcrumbs';
 import { Tabs } from '../../design-system/components/molecules/Tabs';
 import { BuscadorVehiculo } from '../../design-system/components/organisms/BuscadorVehiculo';
+import { BuscarOtraTienda } from '../../design-system/components/organisms/UbicacionTienda';
+import { ALCANCE_MAXIMO_KM } from '../../mocks/tiendas';
 import removeIcon from '../../assets/icons/remove.svg';
 import addIcon from '../../assets/icons/add.svg';
 import playIcon from '../../assets/icons/video-play.svg';
@@ -73,7 +75,9 @@ const ESPECIFICACIONES = [
 export function DetalleProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { agregar, ubicacion, abrirUbicacion, disponibilidad, modoFigma, tienda, abrirPanel, carrito } = useDemo();
+  const { agregar, ubicacion, abrirUbicacion, disponibilidad, modoFigma, tienda, tiendas, abrirPanel, carrito, setTienda, conCarga } = useDemo();
+  /* D43: barra lateral "Buscar en otras tiendas". */
+  const [otrasTiendas, setOtrasTiendas] = useState(false);
   const producto = CATALOGO_SITIO.find((p) => p.id === id) ?? CATALOGO_SITIO[0];
   const [entero, centavos] = (producto.precio * cantidadInicial(modoFigma)).toFixed(2).split('.');
   const [cantidad, setCantidad] = useState(modoFigma ? 16 : 1);
@@ -235,7 +239,29 @@ export function DetalleProducto() {
           soloLocal={esSoloLocal(producto.id)}
           enTienda={tienda ? existenciaEnTienda(producto.id, tienda.id) : 0}
           tienda={tienda ? `${tienda.nombre}, ${tienda.estado}` : null}
-          onOtraTienda={() => abrirPanel('tienda')}
+          onOtraTienda={() => setOtrasTiendas(true)}
+        />
+      )}
+      {!modoFigma && otrasTiendas && (
+        <BuscarOtraTienda
+          /* Tiendas que alcanzan la entrega (Foráneo, 350 km) con piezas del producto; "Mi tienda" siempre aparece. */
+          tiendas={tiendas
+            .filter((t) => t.km <= ALCANCE_MAXIMO_KM || t.id === tienda?.id)
+            .map((t) => ({ ...t, piezas: existenciaEnTienda(producto.id, t.id) }))
+            .filter((t) => t.piezas > 0 || t.id === tienda?.id)}
+          actual={tienda}
+          codigoPostal={ubicacion?.codigoPostal ?? null}
+          producto={producto.nombre}
+          onSeleccionar={(id) => {
+            setOtrasTiendas(false);
+            conCarga('Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => setTienda(id));
+          }}
+          onCambiarDireccion={() => {
+            setOtrasTiendas(false);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            abrirPanel('entrega');
+          }}
+          onClose={() => setOtrasTiendas(false)}
         />
       )}
 

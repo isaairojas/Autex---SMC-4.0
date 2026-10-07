@@ -259,6 +259,33 @@ export function coordenadas(u: Ubicacion): { lat: number; lon: number } | null {
   return typeof c.lat === 'number' && typeof c.lon === 'number' ? { lat: c.lat, lon: c.lon } : resolverCP(u.codigoPostal);
 }
 
+/* ---------- Zona de entrega (D43) ---------- */
+
+/** Municipios conurbados: el carrito dice "Guadalajara y sus alrededores" aunque el C.P. sea de Zapopan. */
+const ZONAS_METROPOLITANAS: Record<string, string> = {
+  Zapopan: 'Guadalajara',
+  'San Pedro Tlaquepaque': 'Guadalajara',
+  Tlaquepaque: 'Guadalajara',
+  'Tonalá': 'Guadalajara',
+  'Tlajomulco de Zúñiga': 'Guadalajara',
+  'El Salto': 'Guadalajara',
+  Guadalupe: 'Monterrey',
+  Apodaca: 'Monterrey',
+  'San Nicolás de los Garza': 'Monterrey',
+  'General Escobedo': 'Monterrey',
+  Escobedo: 'Monterrey',
+  'Santa Catarina': 'Monterrey',
+  'San Pedro Garza García': 'Monterrey',
+  'Coyoacán': 'Ciudad de México',
+  'Nezahualcóyotl': 'Ciudad de México',
+  Ecatepec: 'Ciudad de México',
+  'Tlalnepantla': 'Ciudad de México',
+  'Naucalpan': 'Ciudad de México',
+};
+
+/** Ciudad de la zona de entrega ("Guadalajara" para Zapopan, Tlaquepaque, Tonalá…). */
+export const zonaEntrega = (u: Ubicacion) => ZONAS_METROPOLITANAS[u.ciudad] ?? u.ciudad;
+
 /* ---------- Distancias y nivel de servicio ---------- */
 
 export type TiendaCercana = Tienda & { km: number; servicio: Servicio | null };

@@ -7,7 +7,7 @@
  *  - ProductosGuardados: Content_Saved items 668:18472
  * Última sincronización: 2026-10-05
  */
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import removeIcon from '../../../assets/icons/remove.svg';
@@ -80,9 +80,11 @@ type CardProps = {
   onGuardar?: () => void;
   /** Sitio (D39): piezas disponibles para compra en línea; "+" se desactiva al llegar al tope. */
   maximo?: number;
+  /** Sitio (D43): selector "Enviar a domicilio" / "Recoger en tienda" bajo las acciones. */
+  entrega?: ReactNode;
 };
 
-export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onGuardar, maximo }: CardProps) {
+export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onGuardar, maximo, entrega }: CardProps) {
   const { producto, cantidad } = linea;
   const tope = maximo !== undefined && cantidad >= maximo;
   const bajo = estado === 'bajo-pedido';
@@ -114,7 +116,11 @@ export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onG
                 <img src={addIcon} alt="" width={16} height={16} />
               </button>
             </div>
-            {tope && <p className={`${styles.avisoTope} text-body-2-book`}>{maximo === 1 ? 'Solo hay 1 pieza disponible' : `Solo hay ${maximo} piezas disponibles`} para compra en línea.</p>}
+            {tope && (
+              <p className={`${styles.avisoTope} text-body-2-book`}>
+                {maximo === 1 ? 'Solo hay 1 pieza disponible' : `Solo hay ${maximo} piezas disponibles`} {linea.entrega === 'tienda' ? 'en tu tienda' : 'para compra en línea'}.
+              </p>
+            )}
             <div className={styles.links}>
               <button type="button" className={`${styles.link} text-body-1-book`} onClick={onEliminar}>
                 Eliminar
@@ -125,6 +131,7 @@ export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onG
               </button>
             </div>
           </div>
+          {entrega}
         </div>
       </div>
       <Precio valor={producto.precio * cantidad} />
