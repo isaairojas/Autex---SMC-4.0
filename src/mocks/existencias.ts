@@ -24,6 +24,10 @@ export const EXISTENCIAS: Record<string, Record<string, number>> = {
   'adolf-horn': { 'switch-encendido': 0, 'cuerpo-aceleracion': 40, 'filtro-aire': 0, 'faro-derecho': 0, 'marcha': 0, 'alternador': 30, 'bomba-gasolina': 0, 'modulo-bomba': 6, 'ventilador': 20, 'switch-luces': 10, 'inyector-ai3922': 50, 'faro-ai3922': 0, 'bosch-x5dc': 20, 'kem-l2113': 10, 'autolite-ai5703': 6, 'kgp-1451': 1, 'duralast-31t': 0, 'eagle-7352': 1, 'autolite-app5363': 2, 'sachs-3000990492': 0, 'bateria-duralast-platinum': 6, 'bateria-duralast-gold': 0, 'alternador-90a': 12, 'alternador-150a': 2, 'aceite-eneos-10w40': 80, 'liqui-moly-flush': 20, 'foco-h7': 30, 'filtro-gasolina-bosch': 0, 'kit-clutch-sachs': 1, 'cables-bujia-kem': 10, 'bujia-incandescente': 0, 'cinta-aislante': 150, 'relevador-12v': 25, 'faro-trabajo-led': 5, 'juego-llaves': 6, 'bujia-moto-iridium': 20, 'bujia-motor-pequeno': 0, 'chaleco-reflejante': 30, 'guantes-nitrilo': 0 },
   'central-camionera': { 'switch-encendido': 0, 'cuerpo-aceleracion': 34, 'filtro-aire': 0, 'faro-derecho': 0, 'marcha': 0, 'alternador': 44, 'bomba-gasolina': 0, 'modulo-bomba': 4, 'ventilador': 10, 'switch-luces': 8, 'inyector-ai3922': 30, 'faro-ai3922': 0, 'bosch-x5dc': 5, 'kem-l2113': 4, 'autolite-ai5703': 16, 'kgp-1451': 0, 'duralast-31t': 2, 'eagle-7352': 0, 'autolite-app5363': 1, 'sachs-3000990492': 1, 'bateria-duralast-platinum': 4, 'bateria-duralast-gold': 0, 'alternador-90a': 8, 'alternador-150a': 0, 'aceite-eneos-10w40': 60, 'liqui-moly-flush': 15, 'foco-h7': 25, 'filtro-gasolina-bosch': 0, 'kit-clutch-sachs': 0, 'cables-bujia-kem': 4, 'bujia-incandescente': 0, 'cinta-aislante': 120, 'relevador-12v': 10, 'faro-trabajo-led': 3, 'juego-llaves': 0, 'bujia-moto-iridium': 15, 'bujia-motor-pequeno': 0, 'chaleco-reflejante': 20, 'guantes-nitrilo': 0 },
   colon: { 'switch-encendido': 0, 'cuerpo-aceleracion': 30, 'filtro-aire': 0, 'faro-derecho': 0, 'marcha': 0, 'alternador': 30, 'bomba-gasolina': 0, 'modulo-bomba': 2, 'ventilador': 8, 'switch-luces': 6, 'inyector-ai3922': 24, 'faro-ai3922': 0, 'bosch-x5dc': 0, 'kem-l2113': 12, 'autolite-ai5703': 4, 'kgp-1451': 2, 'duralast-31t': 1, 'eagle-7352': 1, 'autolite-app5363': 0, 'sachs-3000990492': 0, 'bateria-duralast-platinum': 0, 'bateria-duralast-gold': 3, 'alternador-90a': 10, 'alternador-150a': 1, 'aceite-eneos-10w40': 45, 'liqui-moly-flush': 18, 'foco-h7': 20, 'filtro-gasolina-bosch': 0, 'kit-clutch-sachs': 0, 'cables-bujia-kem': 12, 'bujia-incandescente': 0, 'cinta-aislante': 90, 'relevador-12v': 15, 'faro-trabajo-led': 4, 'juego-llaves': 4, 'bujia-moto-iridium': 10, 'bujia-motor-pequeno': 0, 'chaleco-reflejante': 25, 'guantes-nitrilo': 0 },
+  /* D44: la marcha solo está en León (sucursales foráneas para Guadalajara): se vende bajo pedido. El clutch Sachs
+     tiene pocas piezas en Guadalajara y más en León: al pedir muchas, la mayoría sale de León y pasa a bajo pedido. */
+  'leon-moto-partes': { marcha: 4, 'kit-clutch-sachs': 6 },
+  'leon-torres-landa': { marcha: 3, 'kit-clutch-sachs': 6 },
   'cedis-41': { 'switch-encendido': 0, 'cuerpo-aceleracion': 80, 'filtro-aire': 25, 'faro-derecho': 6, 'marcha': 0, 'alternador': 40, 'bomba-gasolina': 0, 'modulo-bomba': 0, 'ventilador': 15, 'switch-luces': 10, 'inyector-ai3922': 30, 'faro-ai3922': 4, 'bosch-x5dc': 100, 'kem-l2113': 50, 'autolite-ai5703': 80, 'kgp-1451': 10, 'duralast-31t': 15, 'eagle-7352': 5, 'autolite-app5363': 40, 'sachs-3000990492': 3, 'bateria-duralast-platinum': 30, 'bateria-duralast-gold': 20, 'alternador-90a': 20, 'alternador-150a': 6, 'aceite-eneos-10w40': 200, 'liqui-moly-flush': 40, 'foco-h7': 50, 'filtro-gasolina-bosch': 15, 'kit-clutch-sachs': 3, 'cables-bujia-kem': 50, 'bujia-incandescente': 0, 'cinta-aislante': 500, 'relevador-12v': 60, 'faro-trabajo-led': 10, 'juego-llaves': 10, 'bujia-moto-iridium': 60, 'bujia-motor-pequeno': 20, 'chaleco-reflejante': 100, 'guantes-nitrilo': 0 },
 };
 
@@ -78,6 +82,30 @@ export function tiendasQueSurten(productoId: string, cp: string | null): Sucursa
 /** Cobertura de un C.P.: alguna tienda dentro del alcance Foráneo (configuracion-servicios-smc.json, 350 km). */
 const cobertura = (cp: string | null) => cp === null || tiendasQueSurten('', cp).length > 0;
 
+/** Piezas en tiendas Local o Local Extendido del C.P. (hasta 30 km); sin C.P., todas. */
+export function existenciaLocal(productoId: string, cp: string | null): number {
+  if (cp === null) return existenciaEnLinea(productoId, null);
+  const u = resolverCP(cp);
+  if (!u) return 0;
+  return SUCURSALES_RED.filter((s) => haversine(u.lat, u.lon, s.lat, s.lon) <= alcanceLocalKm()).reduce((n, s) => n + existenciaEnTienda(productoId, s.id), 0);
+}
+
+/**
+ * Origen de lo "bajo pedido" (D44):
+ * - 'foranea': las tiendas que alcanzan el C.P. completan las piezas, pero la mayoría tiene que salir de sucursales
+ *   foráneas (más de 30 km), así que puede demorar más de lo normal (2 a 4 días hábiles).
+ * - 'cedis': las tiendas no completan las piezas y CEDIS 41 sí.
+ * null: no es bajo pedido.
+ */
+export function origenBajoPedido(productoId: string, cp: string | null, cantidad = 1): 'foranea' | 'cedis' | null {
+  if (esSoloLocal(productoId) || !cobertura(cp)) return null;
+  const local = existenciaLocal(productoId, cp);
+  if (local >= cantidad) return null;
+  const enLinea = existenciaEnLinea(productoId, cp);
+  if (enLinea >= cantidad) return cantidad - local > cantidad / 2 ? 'foranea' : null;
+  return enLinea + piezasCedis(productoId) >= cantidad ? 'cedis' : null;
+}
+
 /** Piezas que se pueden comprar en línea para un C.P.: tiendas que lo alcanzan (baterías: solo locales); sin CEDIS. */
 export function existenciaEnLinea(productoId: string, cp: string | null = null): number {
   return tiendasQueSurten(productoId, cp).reduce((n, s) => n + existenciaEnTienda(productoId, s.id), 0);
@@ -88,14 +116,13 @@ export const piezasEnTiendas = (productoId: string) => existenciaEnLinea(product
 
 /**
  * Estado de existencia que ve el cliente (Autex_2026_Frames): disponible si las tiendas que alcanzan su C.P. tienen
- * piezas suficientes; bajo pedido si CEDIS 41 las completa (entrega de 2 a 4 días hábiles); sin existencia si nadie
- * las tiene o el C.P. no tiene cobertura (caja gris, spec 001). Baterías: nunca bajo pedido.
+ * piezas suficientes y la mayoría sale de tiendas locales; bajo pedido (entrega de 2 a 4 días hábiles) si la mayoría
+ * sale de sucursales foráneas o si solo CEDIS 41 las completa; sin existencia si nadie las tiene o el C.P. no tiene
+ * cobertura (caja gris, spec 001). Baterías: nunca bajo pedido.
  */
 export function estadoExistencia(productoId: string, cp: string | null, cantidad = 1): 'disponible' | 'bajo-pedido' | 'sin-existencia' {
-  const enLinea = existenciaEnLinea(productoId, cp);
-  if (enLinea >= cantidad) return 'disponible';
-  if (esSoloLocal(productoId) || !cobertura(cp)) return 'sin-existencia';
-  return enLinea + piezasCedis(productoId) >= cantidad ? 'bajo-pedido' : 'sin-existencia';
+  if (origenBajoPedido(productoId, cp, cantidad)) return 'bajo-pedido';
+  return existenciaEnLinea(productoId, cp) >= cantidad ? 'disponible' : 'sin-existencia';
 }
 
 /** Etiqueta de existencia por rangos, como el sitio: "+100", "+50", "+30", "+10" o la cantidad exacta. */

@@ -1,5 +1,9 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-07 — Sucursales foráneas y secciones de entrega (sin respaldo en Figma, D44)
+- Bajo pedido cuando la mayoría de las piezas sale de sucursales foráneas (más de 30 km), con la leyenda "podría demorar más de lo normal" en detalle, carrito y paso 2 (envío aparte desde la foránea).
+- Carrito: "Zona de entrega" solo con artículos a domicilio y "Recoger en tienda" como sección aparte solo con artículos para recoger.
+
 ## 2026-10-07 — Recoger en tienda (sin respaldo en Figma, D43)
 - Carrito: "Enviar a domicilio" / "Recoger en tienda" por artículo con existencias en línea y en "Mi tienda"; la cantidad se ajusta a las piezas de la tienda; "Método de entrega" (todo a domicilio / todo en tienda) y "Zona de entrega" ("Guadalajara y sus alrededores"), con carga "Calculando disponibilidad en tienda".
 - Cambio de tienda o C.P.: lo que se recoge se recalcula con la nueva tienda.

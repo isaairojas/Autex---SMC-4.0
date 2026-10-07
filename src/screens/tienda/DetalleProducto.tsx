@@ -36,7 +36,8 @@ import r3 from '../../assets/images/rel-3.png';
 import r4 from '../../assets/images/rel-4.png';
 import { CATALOGO_SITIO } from '../../mocks/catalogo';
 import { formatoMXN } from '../../mocks/productos';
-import { esSoloLocal, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta } from '../../mocks/existencias';
+import { esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta, origenBajoPedido } from '../../mocks/existencias';
+import { LEYENDA_FORANEA } from '../../design-system/components/organisms/EntregaCarrito';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
 import styles from './DetalleProducto.module.css';
@@ -88,6 +89,11 @@ export function DetalleProducto() {
   const enCarrito = carrito.find((l) => l.producto.id === producto.id)?.cantidad ?? 0;
   const maximo = modoFigma ? Infinity : Math.max(0, maximoVenta(producto.id, ubicacion?.codigoPostal ?? null) - enCarrito);
   const tope = !modoFigma && cantidad >= maximo;
+  /* D44: con la cantidad elegida (más lo del carrito), si la mayoría sale de sucursales foráneas es bajo pedido. */
+  const cp = ubicacion?.codigoPostal ?? null;
+  const piezasPedido = Math.max(1, Math.min(cantidad + enCarrito, maximoVenta(producto.id, cp)));
+  const estadoPedido = modoFigma ? disp.estado : estadoExistencia(producto.id, cp, piezasPedido);
+  const foranea = !modoFigma && origenBajoPedido(producto.id, cp, piezasPedido) === 'foranea';
   const aviso = modoFigma || !(tope || maximo <= 0)
     ? null
     : maximo <= 0
@@ -183,9 +189,18 @@ export function DetalleProducto() {
             </div>
           )}
           <div className={styles.disp}>
-            <Icon name={disp.ok ? 'check_circle' : 'cancel'} box={32} size={28} color={disp.ok ? 'var(--color-green-700)' : 'var(--color-secondary-500)'} />
-            <span className={styles.dispTxt}>{disp.texto}</span>
+            {!modoFigma && estadoPedido === 'bajo-pedido' ? (
+              <Icon name="schedule" box={32} size={28} color="var(--color-naranja-bajo-pedido)" />
+            ) : (
+              <Icon name={disp.ok ? 'check_circle' : 'cancel'} box={32} size={28} color={disp.ok ? 'var(--color-green-700)' : 'var(--color-secondary-500)'} />
+            )}
+            <span className={styles.dispTxt}>{modoFigma || estadoPedido !== 'bajo-pedido' ? disp.texto : 'Disponible bajo pedido'}</span>
           </div>
+          {!modoFigma && estadoPedido === 'bajo-pedido' && (
+            <p className={`${styles.dispBajo} text-body-1-book`}>
+              Entrega estimada de 2 a 4 días hábiles.{foranea && ` ${LEYENDA_FORANEA}`}
+            </p>
+          )}
         </div>
         <div className={styles.divider} />
         {/* Logo de Figma solo para Autolite; en el sitio, el nombre de la marca para las demás. */}

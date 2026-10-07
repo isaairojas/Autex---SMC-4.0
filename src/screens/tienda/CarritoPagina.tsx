@@ -20,7 +20,7 @@ import {
 } from '../../design-system/components/organisms/CarritoCompra';
 import { etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta } from '../../mocks/existencias';
 import { estadoHorario, zonaEntrega } from '../../mocks/tiendas';
-import { ColumnaCarrito, MetodoEntregaCarrito, SelectorEntrega, ZonaEntregaCarrito } from '../../design-system/components/organisms/EntregaCarrito';
+import { ColumnaCarrito, MetodoEntregaCarrito, RecoleccionCarrito, SelectorEntrega, ZonaEntregaCarrito } from '../../design-system/components/organisms/EntregaCarrito';
 import type { ModoEntrega } from '../../mocks/productos';
 import { formatoMXN } from '../../mocks/productos';
 import { useDemo } from '../../state/DemoContext';
@@ -94,6 +94,7 @@ export function CarritoPagina() {
             enTienda={enTienda(linea.producto.id)}
             tienda={nombreTienda}
             aviso={linea.aviso}
+            foranea={disponibilidad(linea.producto.id).foranea}
             onCambiar={(modo) => cambiarEntrega(linea.producto.id, modo)}
           />
         )
@@ -141,13 +142,14 @@ export function CarritoPagina() {
             {carrito.length > 0 && (
               <MetodoEntregaCarrito todos={todos} tienda={nombreTienda} puedeRecoger={carrito.some((l) => enTienda(l.producto.id) > 0)} onTodo={entregaMasiva} />
             )}
-            {ubicacion && (
-              <ZonaEntregaCarrito
-                tienda={tienda ? { nombre: nombreTienda, direccion: tienda.direccion, horario: estadoHorario(tienda.horario).corto } : null}
-                zona={zonaEntrega(ubicacion)}
-                codigoPostal={ubicacion.codigoPostal}
-                onCambiarTienda={() => abrirArriba('tienda')}
-                onCambiarZona={() => abrirArriba('entrega')}
+            {/* D44: secciones separadas según cómo se recibe: a domicilio (zona) y/o en tienda (sucursal). */}
+            {ubicacion && (carrito.length === 0 || carrito.some((l) => l.entrega !== 'tienda')) && (
+              <ZonaEntregaCarrito zona={zonaEntrega(ubicacion)} codigoPostal={ubicacion.codigoPostal} onCambiar={() => abrirArriba('entrega')} />
+            )}
+            {tienda && carrito.some((l) => l.entrega === 'tienda') && (
+              <RecoleccionCarrito
+                tienda={{ nombre: nombreTienda, direccion: tienda.direccion, horario: estadoHorario(tienda.horario).corto }}
+                onCambiar={() => abrirArriba('tienda')}
               />
             )}
             <ResumenCarrito titulo={`Subtotal (${piezas} productos)`} total={formatoMXN(subtotal)} onPagar={pagar} deshabilitado={bloqueado && !!ubicacion} />

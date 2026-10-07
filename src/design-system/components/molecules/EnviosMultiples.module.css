@@ -97,3 +97,9 @@
 .nombre {
   flex: 1 1 0;
 }
+
+/* D44: leyenda de sucursal foránea */
+.foranea {
+  color: var(--color-naranja-bajo-pedido);
+}
+

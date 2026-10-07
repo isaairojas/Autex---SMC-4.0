@@ -4,9 +4,11 @@
  * pedido se divide solo cuando la tienda más cercana no tiene todo.
  * Por regla general CEDIS 41 no es origen de envío (decisión del usuario, 2026-10-06): lo bajo pedido lo surte la
  * tienda más cercana a la entrega, que lo solicita y lo envía (2 a 4 días hábiles).
+ * D44: lo que es bajo pedido porque la mayoría de sus piezas está en sucursales foráneas (más de 30 km) sale de esas
+ * tiendas en envíos aparte, marcados como foráneos (2 a 4 días hábiles; puede demorar más de lo normal).
  */
 import type { EstadoExistencia, LineaCarrito } from './productos';
-import { alcanceKm, existenciaEnTienda, haversine, SUCURSALES_RED, type SucursalRed } from './existencias';
+import { alcanceKm, alcanceLocalKm, existenciaEnTienda, haversine, SUCURSALES_RED, type SucursalRed } from './existencias';
 import { ALCANCE_MAXIMO_KM, servicioPara, textoEntrega } from './tiendas';
 
 export type Envio = {
@@ -14,6 +16,8 @@ export type Envio = {
   sucursal: string;
   direccion: string | null;
   bajoPedido: boolean;
+  /** D44: sale de una sucursal foránea (más de 30 km de la entrega). */
+  foranea: boolean;
   /** "Entrega hoy…", "Entrega en 24 horas", "Entrega en 48 a 72 horas", "Entrega de 2 a 4 días hábiles". */
   tiempo: string;
   lineas: LineaCarrito[];
@@ -34,9 +38,22 @@ export function repartirEnvios(lineas: LineaCarrito[], entrega: { lat: number; l
     const e = estado(id);
     if (e === 'sin-existencia') continue;
     let faltan = l.cantidad;
+    const enAlcance = sucursales.filter((s) => s.km <= alcanceKm(id));
+    const enTiendas = enAlcance.reduce((n, s) => n + existenciaEnTienda(id, s.id), 0);
+    if (e === 'bajo-pedido' && enTiendas >= faltan) {
+      /* D44: bajo pedido por sucursales foráneas: primero las foráneas, para que el artículo viaje junto en su propio
+         envío; si no alcanzan, se completan con las tiendas locales. */
+      const foraneas = enAlcance.filter((s) => s.km > alcanceLocalKm());
+      for (const s of [...foraneas, ...enAlcance.filter((x) => !foraneas.includes(x))]) {
+        const toma = Math.min(faltan, existenciaEnTienda(id, s.id));
+        if (toma <= 0) continue;
+        sumar(pedidos, s.id, { ...l, cantidad: toma });
+        faltan -= toma;
+        if (!faltan) break;
+      }
+    }
     if (e === 'disponible') {
       /* Primero la tienda más cercana que tenga todas las piezas; si ninguna, se juntan de las más cercanas. */
-      const enAlcance = sucursales.filter((s) => s.km <= alcanceKm(id));
       const completa = enAlcance.find((s) => existenciaEnTienda(id, s.id) >= faltan);
       for (const s of completa ? [completa] : enAlcance) {
         const toma = Math.min(faltan, existenciaEnTienda(id, s.id));
@@ -55,6 +72,7 @@ export function repartirEnvios(lineas: LineaCarrito[], entrega: { lat: number; l
       sucursal: s.nombre,
       direccion: s.direccion,
       bajoPedido,
+      foranea: s.km > alcanceLocalKm(),
       /* Local: hoy si la compra es antes de las 2:00 p.m.; si no, mañana (D38). */
       tiempo: bajoPedido ? 'Entrega de 2 a 4 días hábiles' : textoEntrega(servicioPara(s.km)),
       lineas: ls,

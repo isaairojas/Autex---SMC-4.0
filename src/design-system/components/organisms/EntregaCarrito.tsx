@@ -3,7 +3,8 @@
  * usuario y compuesta con los tokens de Autex:
  *  - SelectorEntrega: existencias para compra en línea y en "Mi tienda", "Enviar a domicilio" / "Recoger en tienda".
  *  - MetodoEntregaCarrito: "Enviar todo a domicilio" / "Recoger todo en tienda".
- *  - ZonaEntregaCarrito: "Mi tienda" y "<ciudad> y sus alrededores", cada uno con "Cambiar".
+ *  - ZonaEntregaCarrito: "<ciudad> y sus alrededores" (si algo va a domicilio).
+ *  - RecoleccionCarrito: la tienda donde se recoge (si algo se recoge); con un pedido mixto se ven las dos.
  */
 import type { ReactNode } from 'react';
 import { Icon } from '../atoms/Icon';
@@ -30,6 +31,9 @@ function Opcion({ activo, icono, children, deshabilitado, onClick }: { activo: b
   );
 }
 
+/** D44: leyenda de lo que se surte desde sucursales foráneas. */
+export const LEYENDA_FORANEA = 'Se surte desde una sucursal foránea, por lo que podría demorar más de lo normal.';
+
 type SelectorProps = {
   modo: ModoEntrega;
   /** Etiqueta de piezas para compra en línea ("+100", "8"…). */
@@ -37,12 +41,20 @@ type SelectorProps = {
   enTienda: number;
   tienda: string;
   aviso?: string;
+  /** D44: bajo pedido desde sucursal foránea (solo aplica al envío a domicilio). */
+  foranea?: boolean;
   onCambiar: (modo: ModoEntrega) => void;
 };
 
-export function SelectorEntrega({ modo, enLinea, enTienda, tienda, aviso, onCambiar }: SelectorProps) {
+export function SelectorEntrega({ modo, enLinea, enTienda, tienda, aviso, foranea, onCambiar }: SelectorProps) {
   return (
     <div className={styles.selector}>
+      {foranea && modo === 'domicilio' && (
+        <p className={`${styles.foranea} text-body-2-book`}>
+          <Icon name="schedule" box={20} size={18} color="var(--color-naranja-bajo-pedido)" />
+          {LEYENDA_FORANEA}
+        </p>
+      )}
       <div className={styles.existencias}>
         <p className="text-body-2-book">
           <Icon name="devices" box={20} size={18} color="var(--color-neutral-700)" />
@@ -108,37 +120,50 @@ export function MetodoEntregaCarrito({ todos, tienda, puedeRecoger, onTodo }: Me
 }
 
 type ZonaProps = {
-  tienda: { nombre: string; direccion: string; horario: string } | null;
   zona: string;
   codigoPostal: string;
-  onCambiarTienda: () => void;
-  onCambiarZona: () => void;
+  onCambiar: () => void;
 };
 
-export function ZonaEntregaCarrito({ tienda, zona, codigoPostal, onCambiarTienda, onCambiarZona }: ZonaProps) {
+/** D43/D44: "Zona de entrega" — solo cuando algún artículo va a domicilio: "<ciudad> y sus alrededores" y el C.P. */
+export function ZonaEntregaCarrito({ zona, codigoPostal, onCambiar }: ZonaProps) {
   return (
     <section className={styles.tarjeta} aria-label="Zona de entrega">
       <p className={`${styles.titulo} text-body-1-medium`}>Zona de entrega</p>
-      <div className={styles.fila}>
-        <Icon name="store" color="var(--color-neutral-800)" />
-        <div className={styles.filaTexto}>
-          <p className="text-body-1-medium">{tienda ? tienda.nombre : 'Sin tienda seleccionada'}</p>
-          {tienda && <p className={`${styles.gris} text-body-2-book`}>{tienda.direccion}</p>}
-          {tienda && <p className={`${styles.gris} text-body-2-book`}>{tienda.horario}</p>}
-        </div>
-        <button type="button" className={`${styles.cambiar} text-body-1-book`} onClick={onCambiarTienda} aria-label="Cambiar tienda">
-          Cambiar
-        </button>
-      </div>
       <div className={styles.fila}>
         <Icon name="location_on" color="var(--color-secondary-500)" />
         <div className={styles.filaTexto}>
           <p className="text-body-1-book">
             <strong>{zona}</strong> y sus alrededores
           </p>
-          <p className={`${styles.gris} text-body-2-book`}>Entrega en C.P. {codigoPostal}</p>
+          <p className={`${styles.gris} text-body-2-book`}>Envío a domicilio · C.P. {codigoPostal}</p>
         </div>
-        <button type="button" className={`${styles.cambiar} text-body-1-book`} onClick={onCambiarZona} aria-label="Cambiar zona de entrega">
+        <button type="button" className={`${styles.cambiar} text-body-1-book`} onClick={onCambiar} aria-label="Cambiar zona de entrega">
+          Cambiar
+        </button>
+      </div>
+    </section>
+  );
+}
+
+type RecoleccionProps = {
+  tienda: { nombre: string; direccion: string; horario: string };
+  onCambiar: () => void;
+};
+
+/** D44: "Recoger en tienda" — sección aparte, solo cuando algún artículo se recoge: la tienda de recolección. */
+export function RecoleccionCarrito({ tienda, onCambiar }: RecoleccionProps) {
+  return (
+    <section className={styles.tarjeta} aria-label="Recoger en tienda">
+      <p className={`${styles.titulo} text-body-1-medium`}>Recoger en tienda</p>
+      <div className={styles.fila}>
+        <Icon name="store" color="var(--color-neutral-800)" />
+        <div className={styles.filaTexto}>
+          <p className="text-body-1-medium">{tienda.nombre}</p>
+          <p className={`${styles.gris} text-body-2-book`}>{tienda.direccion}</p>
+          <p className={`${styles.gris} text-body-2-book`}>{tienda.horario}</p>
+        </div>
+        <button type="button" className={`${styles.cambiar} text-body-1-book`} onClick={onCambiar} aria-label="Cambiar tienda">
           Cambiar
         </button>
       </div>

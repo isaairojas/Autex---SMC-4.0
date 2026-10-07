@@ -34,17 +34,18 @@ await p.getByRole('status', { name: 'Cargando productos…' }).waitFor({ state: 
 await agregar(INYECTOR, 40);
 await agregar(VENTILADOR, 2, true);
 await p.waitForURL('**/carrito');
-await p.getByText('Guadalajara', { exact: true }).waitFor();
-await p.getByText('y sus alrededores').first().waitFor();
+await p.getByRole('region', { name: 'Zona de entrega' }).getByText('Guadalajara', { exact: true }).waitFor();
+if (await p.getByRole('region', { name: 'Recoger en tienda' }).count()) throw new Error('Sin artículos para recoger no debe verse la sección "Recoger en tienda"');
 await p.screenshot({ path: `${OUT}/1-carrito.png`, fullPage: true });
-ok('Carrito: existencias en línea y en tienda por artículo, método de entrega y "Guadalajara y sus alrededores"');
+ok('Carrito (todo a domicilio): existencias en línea y en tienda por artículo; solo "Zona de entrega: Guadalajara y sus alrededores"');
 
-const tienda = (await p.getByRole('region', { name: 'Zona de entrega' }).locator('p').nth(1).innerText()).trim();
 await tarjeta(INYECTOR).getByRole('button', { name: 'Recoger en tienda' }).click();
 await carga('Calculando disponibilidad en tienda');
 await tarjeta(INYECTOR).getByText(/Ajustamos la cantidad a \d+ piezas disponibles en/).waitFor();
 const aviso = (await tarjeta(INYECTOR).getByRole('status').innerText()).replace(/^info\s*/, '');
-ok(`Recoger el inyector (40 pzs) en ${tienda}: ${aviso}`);
+const tienda = (await p.getByRole('region', { name: 'Recoger en tienda' }).locator('p').nth(1).innerText()).trim();
+await p.getByRole('region', { name: 'Zona de entrega' }).waitFor();
+ok(`Recoger el inyector (40 pzs) en ${tienda}: ${aviso} · pedido mixto: "Zona de entrega" y "Recoger en tienda" por separado`);
 if (await tarjeta(VENTILADOR).getByRole('button', { name: 'No disponible en tu tienda' }).isEnabled()) throw new Error('El ventilador no debe poder recogerse');
 ok('Motoventilador: "No disponible en tu tienda" (la tienda no lo tiene)');
 await p.getByRole('region', { name: 'Método de entrega' }).getByRole('button', { name: /Enviar todo a domicilio/ }).click();
@@ -74,7 +75,7 @@ await p.getByRole('button', { name: 'Cambiar tienda' }).click();
 const panel = p.getByRole('dialog', { name: 'Selecciona una tienda' });
 await panel.getByRole('button', { name: 'Seleccionar tienda' }).first().click();
 await carga('Cambiando tu tienda');
-const nueva = (await p.getByRole('region', { name: 'Zona de entrega' }).locator('p').nth(1).innerText()).trim();
+const nueva = await p.getByRole('button', { name: 'Mi tienda' }).innerText().then((t) => t.match(/Autex[^\n]*/)?.[0] ?? t);
 await p.screenshot({ path: `${OUT}/4-otra-tienda.png`, fullPage: true });
 ok(`Cambio de tienda a ${nueva}: lo que se recoge se recalcula con sus existencias`);
 
@@ -90,6 +91,41 @@ await lateral.getByRole('button', { name: 'Cambiar dirección' }).click();
 await p.getByRole('dialog', { name: /Ubicación de entrega|Entrega/ }).first().waitFor();
 await p.screenshot({ path: `${OUT}/6-cambiar-direccion.png` });
 ok('"Cambiar dirección" abre la ubicación de entrega');
+
+/* D44: bajo pedido por sucursal foránea (sesión nueva, invitado, C.P. 45138). */
+const q = await browser.newPage({ viewport: { width: 1920, height: 1100 } });
+q.on('pageerror', (e) => errores.push(e.message));
+await q.goto(B + '/busqueda');
+await q.getByRole('button', { name: 'No permitir nunca' }).click();
+await q.getByRole('status', { name: 'Cargando productos…' }).waitFor({ state: 'detached' });
+const MARCHA = 'Motor de arranque (marcha) Tecnofuel';
+const CLUTCH = 'Kit de clutch Sachs 3000 990 492';
+const tarjetaCatalogo = (nombre) => q.getByLabel(`Cantidad de ${nombre}`).locator('xpath=ancestor::*[.//button[normalize-space()="Agregar al carrito"]][1]');
+await q.getByLabel(`Cantidad de ${MARCHA}`).locator('xpath=ancestor::*[contains(., "Disponible bajo pedido")][1]').waitFor();
+ok('Catálogo: la marcha (solo en León, sucursal foránea) aparece "Disponible bajo pedido · 2 a 4 días"');
+for (const [nombre, n] of [[MARCHA, 1], [CLUTCH, 9]]) {
+  const c = q.getByLabel(`Cantidad de ${nombre}`);
+  await c.fill(String(n));
+  await c.press('Enter');
+  await tarjetaCatalogo(nombre).getByRole('button', { name: 'Agregar al carrito' }).click();
+  await q.getByRole('dialog', { name: 'Mi carrito' }).getByRole('button', { name: nombre === CLUTCH ? 'Ver todos los productos' : 'Cerrar' }).click();
+}
+await q.waitForURL('**/carrito');
+await q.getByText('Productos bajo pedido (2)').waitFor();
+if ((await q.getByText(/sucursal foránea, por lo que podría demorar/).count()) !== 2) throw new Error('Falta la leyenda de sucursal foránea');
+await q.screenshot({ path: `${OUT}/7-carrito-foranea.png`, fullPage: true });
+ok('Carrito: marcha y 9 kits de clutch (la mayoría sale de León) separados en "Productos bajo pedido" con la leyenda');
+await q.getByRole('button', { name: 'Proceder al pago' }).first().click();
+await q.getByRole('radio', { name: 'Tengo una cuenta Autex' }).click();
+await q.getByRole('button', { name: 'Aceptar' }).click();
+await q.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa.com.mx');
+await q.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
+await q.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
+await q.waitForURL('**/checkout/envio');
+await q.getByRole('button', { name: /Envío 1/ }).click();
+await q.getByText(/\(sucursal foránea\)/).first().waitFor();
+await q.screenshot({ path: `${OUT}/8-envio-foranea.png`, fullPage: true });
+ok('Paso 2: el envío bajo pedido sale de la sucursal foránea (León) con la leyenda');
 
 await browser.close();
 if (errores.length) console.log('ERRORES', errores);

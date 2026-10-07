@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Icon } from '../atoms/Icon';
 import { ProductThumb } from '../atoms/ProductThumb';
 import type { Envio } from '../../../mocks/envios';
+import { LEYENDA_FORANEA } from '../organisms/EntregaCarrito';
 import styles from './EnviosMultiples.module.css';
 
 export function EnviosMultiples({ envios, total }: { envios: Envio[]; total: number }) {
@@ -40,8 +41,9 @@ export function EnviosMultiples({ envios, total }: { envios: Envio[]; total: num
                   <span>
                     <span>
                       Sale de <strong>{e.sucursal}</strong>
-                      {e.bajoPedido && ' (la sucursal lo solicita y te lo envía)'}
+                      {e.bajoPedido && (e.foranea ? ' (sucursal foránea)' : ' (la sucursal lo solicita y te lo envía)')}
                     </span>
+                    {e.foranea && e.bajoPedido && <span className={`${styles.foranea} text-body-2-book`}>{LEYENDA_FORANEA}</span>}
                     {e.direccion && <span className={`${styles.gris} text-body-2-book`}>{e.direccion}</span>}
                   </span>
                 </p>

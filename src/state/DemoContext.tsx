@@ -6,7 +6,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { CARRITO_2026, formatoMXN, type EstadoExistencia, type LineaCarrito, type ModoEntrega, type Producto } from '../mocks/productos';
 import { type Totales } from '../design-system/components/organisms/Resumen';
 import type { DatosTarjeta, FormaSeleccionada } from '../design-system/components/organisms/FormaDePago';
-import { estadoExistencia, existenciaEnTienda, maximoVenta } from '../mocks/existencias';
+import { estadoExistencia, existenciaEnTienda, maximoVenta, origenBajoPedido } from '../mocks/existencias';
 import { costoEnvio } from '../mocks/logistica';
 import { CLIENTE_INVITADO, CLIENTES, DIRECCIONES_ENTREGA, UBICACION_FIGMA, type Cliente, type DireccionEntrega, type Ubicacion } from '../mocks/clientes';
 import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, type TiendaCercana } from '../mocks/tiendas';
@@ -65,7 +65,8 @@ type DemoState = {
   cerrarMini: () => void;
   abrirMini: () => void;
   /** Disponibilidad simulada de un producto según el C.P. elegido. */
-  disponibilidad: (productoId: string) => { ok: boolean; texto: string; estado: EstadoExistencia };
+  /** foranea (D44): bajo pedido porque la mayoría de las piezas sale de sucursales foráneas (puede demorar más). */
+  disponibilidad: (productoId: string) => { ok: boolean; texto: string; estado: EstadoExistencia; foranea?: boolean };
   setCliente: (c: Cliente) => void;
   ingresar: (id: keyof typeof CLIENTES) => void;
   salir: () => void;
@@ -265,7 +266,8 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
           ? linea?.producto.estadoFigma ?? 'disponible'
           : estadoExistencia(id, ubicacion.codigoPostal, linea?.cantidad ?? 1);
         if (estado === 'disponible') return { ok: true, texto: 'Disponible', estado };
-        if (estado === 'bajo-pedido') return { ok: true, texto: 'Disponible bajo pedido', estado };
+        if (estado === 'bajo-pedido')
+          return { ok: true, texto: 'Disponible bajo pedido', estado, foranea: !modoFigma && !!ubicacion && origenBajoPedido(id, ubicacion.codigoPostal, linea?.cantidad ?? 1) === 'foranea' };
         return { ok: false, texto: 'Sin existencia en tu zona', estado };
       },
       setCliente,
