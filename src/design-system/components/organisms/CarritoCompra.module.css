@@ -1,0 +1,449 @@
+/* figma: Pricing 145:3514 */
+.precio {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+/* figma: Motion 590:2371 — padding 3, gap 10 */
+.motion {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 3px;
+  color: var(--color-green-700);
+}
+
+.motionSin {
+  color: var(--color-secondary-500);
+}
+
+/* figma: Motion 673:20446 */
+.motionBajo {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--color-naranja-bajo-pedido);
+}
+
+.motionTexto {
+  display: flex;
+  flex-direction: column;
+}
+
+.motionDetalle {
+  font: var(--font-weight-book) 12px/24px var(--font-family-book); /* figma: I673:20391;673:20446;602:8029 */
+  letter-spacing: 0.2px;
+}
+
+/* figma: Chip 673:20474 — 92 de ancho, píldora naranja */
+.chip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 92px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 33554400px;
+  background: var(--color-naranja-bajo-pedido);
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1)); /* figma: 673:20474 */
+}
+
+.chipIcono {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: center;
+}
+
+.chipTexto {
+  font: 600 10px/15px var(--font-family-inter); /* figma: 620:9362 */
+  color: var(--color-nativo-blanco);
+  white-space: nowrap;
+}
+
+/* figma: Chip 677:18415 — versión del resumen de productos */
+.chipChico {
+  left: 3px;
+  top: 4px;
+  width: 56px;
+  height: 12px;
+  padding: 4px;
+  gap: 0;
+  border-radius: 6px;
+  justify-content: space-between;
+}
+
+.chipChico .chipTexto {
+  font-size: 6px;
+}
+
+/* figma: Card producto carrito 673:18933 — 1250, padding 20/40, gap 167 */
+.card {
+  display: flex;
+  gap: 167px;
+  align-items: flex-start;
+  padding: 20px 40px;
+  border-radius: 16px;
+  background: var(--color-nativo-blanco);
+  border-bottom: 1px solid var(--color-neutral-300);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.cardBajo {
+  background: var(--color-naranja-bajo-pedido-fondo);
+}
+
+.cardContenido {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.cardImagen {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardImagen > img {
+  object-fit: cover;
+}
+
+.cardInfo {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.cardDesc {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cardMain {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nombre {
+  margin: 0;
+  color: var(--color-neutral-900);
+}
+
+.sku {
+  display: flex;
+  gap: 20px;
+  color: var(--color-texto-sku);
+  white-space: nowrap;
+}
+
+.cardAcciones {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* figma: Quantity 668:18868 — 200×40 */
+.qty {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  overflow: hidden;
+}
+
+.qtyBtn {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 32px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  background: var(--color-neutral-100);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qtyBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Sitio (D39): aviso al llegar al tope de piezas para compra en línea */
+.avisoTope {
+  margin: 0;
+  color: var(--color-secondary-500);
+}
+
+.qtyDer {
+  left: auto;
+  right: -1px;
+}
+
+.qtyValor {
+  position: absolute;
+  left: 31px;
+  right: 31px;
+  top: 0;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 16px/24px var(--font-family-inter);
+  color: var(--color-texto-cantidad);
+}
+
+.links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.link {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-primary-500);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* figma: 668:18876 — línea vertical de 18 */
+.divisor {
+  width: 1px;
+  height: 18px;
+  background: var(--color-neutral-200);
+}
+
+/* figma: 742:20360 / 742:20356 */
+.grupo {
+  width: 1270px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  color: var(--color-green-700);
+}
+
+.grupo p {
+  margin: 0;
+}
+
+.grupoBajo {
+  color: var(--color-naranja-bajo-pedido);
+}
+
+/* figma: Subtotal carrito 673:20358 */
+.subtotal {
+  width: 100%;
+  border-radius: 16px;
+  background: var(--color-nativo-blanco);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.subtotalFila,
+.subtotalAcciones {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.subtotalFila {
+  gap: 32px;
+}
+
+.subtotalAcciones {
+  gap: 20px;
+}
+
+.subtotalTexto {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.subtotalEtiqueta {
+  font: 400 20px/28px var(--font-family-open-sans); /* figma: I673:20358;673:20340 */
+  color: var(--color-neutral-900);
+}
+
+.subtotalPiezas {
+  color: var(--color-neutral-600);
+}
+
+/* figma: Resumen 898:15870 — 428, borde Neutral/300, radio 12 */
+.resumen {
+  width: 428px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  background: var(--color-nativo-blanco);
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  overflow: hidden;
+}
+
+.resumenHead {
+  padding: 20px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  color: var(--color-primary-500);
+}
+
+.resumenHead p,
+.resumenItem p {
+  margin: 0;
+}
+
+.resumenItem {
+  padding: 20px;
+  color: var(--color-nativo-negro);
+}
+
+/* figma: Content_Saved items 668:18472 — 1920, padding 10/96 */
+.guardados {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 96px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  background: var(--color-nativo-blanco);
+}
+
+.guardadosTop {
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--color-neutral-300);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--color-neutral-900);
+}
+
+.guardadosTop p {
+  margin: 0;
+}
+
+.tabs {
+  display: flex;
+  padding: 0 40px;
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+.tab {
+  padding: 16px;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.tabActiva {
+  color: var(--color-primary-600);
+  border-bottom: 2px solid var(--color-primary-600);
+  margin-bottom: -1px;
+}
+
+.guardadosAcciones {
+  padding: 24px 40px;
+  display: flex;
+  gap: 120px;
+  align-items: flex-start;
+}
+
+.buscar {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+}
+
+.buscarTexto {
+  flex: 1 1 0;
+  color: var(--color-neutral-500);
+}
+
+.orden {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.select {
+  width: 198px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  color: var(--color-neutral-800);
+}
+
+.vistas {
+  display: flex;
+  gap: 18px;
+}
+
+.vista {
+  display: flex;
+  padding: 8px;
+  border-radius: 99px;
+}
+
+.vistaActiva {
+  background: var(--color-neutral-100);
+  border-radius: 2px;
+}
+
+/* figma: Container_items saved 668:18478 — alto 305 */
+.guardadosLista {
+  min-height: 305px;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.vacio {
+  margin: 0;
+  color: var(--color-neutral-700);
+}
+
+.guardado {
+  width: 100%;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.guardado > span {
+  flex: 1 1 0;
+}

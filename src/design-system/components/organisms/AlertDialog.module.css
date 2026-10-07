@@ -1,0 +1,117 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: var(--color-alpha-back-300);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* figma: 2599:99468 */
+.alert {
+  margin-top: 424px;
+  width: 560px;
+  background: var(--color-nativo-blanco);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 2px var(--color-secondary-500), -5px 13px 16px 0 #eaeaeb; /* figma: sombra sin variable */
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 24px 16px;
+  background: var(--color-neutral-50);
+}
+
+.title {
+  flex: 1 1 0;
+  color: var(--color-neutral-900);
+}
+
+.close,
+.closeRound {
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+}
+
+.closeRound {
+  padding: 4px;
+  border-radius: 99px;
+}
+
+.desc {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--color-neutral-900);
+}
+
+.detail {
+  color: var(--color-neutral-800);
+}
+
+.buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  padding: 24px 16px;
+}
+
+.danger {
+  background: var(--color-secondary-600);
+}
+
+/* figma: 2599:98962 — 718×280 */
+.loading {
+  margin-top: 424px;
+  width: 718px;
+  height: 280px;
+  background: var(--color-nativo-blanco);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loadingHead {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+  background: var(--color-neutral-50);
+}
+
+.loadingBody {
+  position: absolute;
+  left: 24px;
+  right: 28px;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.loadingText {
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--color-neutral-900);
+}
+
+.spin {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

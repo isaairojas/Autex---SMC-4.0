@@ -1,0 +1,89 @@
+Marca
+Acura
+Ag-Chem
+Alfa Romeo
+Audi
+BAJAJ
+Bei
+Bentley
+BMW
+Bobcat
+Buick
+Cadillac
+California Tomato Machinery
+Case
+Case New Holland
+Caterpillar
+Challenger
+Chevrolet
+Chrysler
+Cummins
+Dina
+Dodge
+FAW HD
+Ferrari
+Fiat
+Ford
+Ford HD
+Freightliner
+Giant Motors
+Gleaner
+GMC
+Gvm
+Hagie
+HINO
+Honda
+Honda Motos
+Hyundai
+Infiniti
+International
+Isuzu
+Isuzu HD
+Italika
+Iveco Fiat
+J.I. Case & Case Ih
+Jaguar
+Jeep
+John Deere
+Kenworth
+Kia
+Land Rover
+Lexus
+Lincoln
+Mack
+MASA
+Maserati
+Massey Ferguson
+Mazda
+Mercedes-Benz
+Mercedes-Benz HD
+Mini
+Mitsubishi
+New Holland
+Nissan
+Novacapre
+Perkins
+Peterbilt
+Peugeot
+Pontiac
+Porsche
+Ram
+Renault
+Scion
+Seat
+Smart
+SRT
+Steiger Tractor
+Subaru
+Suzuki
+Suzuki Motos
+Tesla
+Thomas
+Toyota
+Toyota HD
+Vento
+Versatile
+Volkswagen
+Volvo
+Volvo HD
+Yamaha

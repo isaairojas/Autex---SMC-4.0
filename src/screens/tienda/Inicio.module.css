@@ -1,0 +1,226 @@
+/* figma: Busqueda 657:14084 — y=245 (20 bajo el Head), px 96, py 10 */
+.busqueda {
+  margin-top: 20px;
+  padding: 10px 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.busquedaTitulo {
+  margin: 0;
+  text-align: center;
+  color: var(--color-neutral-900);
+}
+
+/* figma: SearchVehicle 221:14849 — fondo Neutral/50, borde 1.5 Primary/400, p32, gap 20 */
+.vehiculo {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 32px;
+  border-radius: 8px;
+  background: var(--color-neutral-50);
+  box-shadow: inset 0 0 0 1.5px var(--color-primary-400);
+}
+
+.select {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-800);
+}
+
+.buscar {
+  display: flex;
+  padding: 8px;
+  border: none;
+  border-radius: 99px;
+  background: var(--color-primary-500);
+  cursor: pointer;
+}
+
+/* figma: Body Resulta search 657:14086 — y=461; Filtros x=80, resultados x=458 (1382) */
+.cuerpo {
+  margin-top: 20px;
+  padding: 5px 80px 0;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.resultados {
+  width: 1382px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* figma: Frame 4534540 — 56 de alto, controles a la derecha */
+.barra {
+  height: 56px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.porPagina,
+.orden {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-800);
+  box-sizing: border-box;
+}
+
+.porPagina {
+  width: 105px;
+}
+
+.orden {
+  width: 186px;
+}
+
+.total {
+  width: 36px;
+  height: 36px;
+  margin: 0 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-500);
+  color: var(--color-neutral-900);
+}
+
+.vista {
+  display: flex;
+  padding: 8px;
+  border-radius: 2px;
+}
+
+.vistaOn {
+  background: var(--color-neutral-100);
+}
+
+/* figma: Frame 4534541 657:14098 — 4 columnas de 335, gap 14 */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.vacio {
+  width: 100%;
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  color: var(--color-neutral-900);
+}
+
+.vacio p {
+  margin: 0;
+}
+
+.vacio ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vacio li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.criterios {
+  flex: 1 1 0;
+  margin: 0;
+  color: var(--color-neutral-700);
+}
+
+.paginado {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 32px 0;
+}
+
+.pages {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+}
+
+.nums {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  padding-right: 71px; /* figma: "14" en x=265 dentro de la cuadrícula */
+}
+
+.num {
+  width: 40px;
+  height: 40px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-50);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-500);
+  color: var(--color-neutral-600);
+}
+
+.nums .num:last-child {
+  position: absolute;
+  left: 265px;
+}
+
+.numOn {
+  background: var(--color-primary-500);
+  box-shadow: none;
+  color: var(--color-nativo-blanco);
+}
+
+.dots {
+  position: absolute;
+  left: 234px;
+  top: 34px;
+}
+
+.conteo {
+  line-height: 26px;
+  color: var(--color-neutral-600);
+}
+
+/* figma: Row 657:14099 — 74 de alto, 32 bajo la cuadrícula (gap de .resultados) */
+.resultados .paginado {
+  padding: 0;
+}
+
+/* Sitio (D34): filtros de Figma + "Disponibilidad" al final */
+.columnaFiltros {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

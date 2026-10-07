@@ -1,0 +1,378 @@
+/* SIN RESPALDO EN FIGMA: aviso simulado del navegador, paneles "Ubicación de entrega" / "Selecciona una tienda" y aviso. */
+
+.verde {
+  color: var(--color-green-700);
+}
+
+.rojo {
+  color: var(--color-red-600);
+}
+
+.gris {
+  color: var(--color-neutral-700);
+}
+
+.azul {
+  color: var(--color-primary-500);
+}
+
+.subrayado {
+  text-decoration: underline;
+}
+
+/* Capa transparente para cerrar el panel al hacer clic fuera. */
+.capa {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+}
+
+.panel {
+  position: absolute;
+  z-index: 9;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-nativo-blanco);
+  border-radius: 4px;
+  box-shadow: var(--shadow-modal-login);
+  color: var(--color-neutral-900);
+}
+
+.panel p {
+  margin: 0;
+}
+
+.panelEntrega {
+  width: 400px;
+}
+
+/* Vista de cliente registrado: direcciones guardadas (OpcionSeleccionable, Figma 2596:100531) */
+.panelDirecciones {
+  width: 460px;
+  max-height: 780px;
+}
+
+.cuerpoDesplazable {
+  overflow-y: auto;
+}
+
+.direcciones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.separadorTexto {
+  padding-top: 16px;
+  box-shadow: inset 0 1px 0 var(--color-neutral-200);
+}
+
+.panelTienda {
+  width: 440px;
+  max-height: 760px;
+}
+
+.panelCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  box-shadow: inset 0 -1px 0 var(--color-neutral-200);
+}
+
+.cerrar {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.panelCuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 20px 20px;
+}
+
+.tarjetaCp {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+}
+
+.etiqueta {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+}
+
+.enlace {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+.enlaceTexto {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary-500);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.campo {
+  background: var(--color-nativo-blanco);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+}
+
+.campo input {
+  flex: 1 1 0;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--color-neutral-900);
+}
+
+.lupa {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.anchoCompleto {
+  width: 100%;
+  justify-content: center;
+}
+
+.sesion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 4px;
+  background: var(--color-neutral-50);
+}
+
+.sesionBotones {
+  display: flex;
+  gap: 12px;
+}
+
+.sesionBotones > * {
+  flex: 1 1 0;
+  justify-content: center;
+}
+
+.filaEstado {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  padding: 4px 4px 4px 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+}
+
+.selector select {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+.listaTiendas {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 20px 20px;
+}
+
+.tienda {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+  box-shadow: inset 0 -1px 0 var(--color-neutral-200);
+}
+
+.tiendaMia {
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-primary-500);
+}
+
+.tiendaCabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.servicio {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: var(--color-primary-50);
+}
+
+.horario {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 8px;
+  box-shadow: inset 0 1px 0 var(--color-neutral-200);
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aviso {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--color-neutral-900);
+}
+
+.aviso p,
+.aviso ul {
+  margin: 0;
+}
+
+.aviso ul {
+  padding-left: 24px;
+}
+
+/* Aviso de ubicación de Chrome (simulado, 355×253 como el ejemplo del usuario; colores en tokens "navegador") */
+.navegador {
+  position: fixed;
+  top: 8px;
+  left: 96px;
+  z-index: 50;
+  width: 355px;
+  height: 253px;
+  box-sizing: border-box;
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 12px;
+  background: var(--color-navegador-fondo);
+  box-shadow: var(--shadow-modal-login);
+  color: var(--color-navegador-texto);
+  font-family: var(--font-family-navegador);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.navegador p {
+  margin: 0;
+}
+
+.navegadorCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.navegadorCerrar {
+  display: flex;
+  padding: 2px;
+  border: none;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+
+.navegadorPermiso {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navegadorBotones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.navegadorBotones button {
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  background: var(--color-navegador-boton);
+  color: var(--color-navegador-texto-boton);
+  font-family: var(--font-family-navegador);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.navegadorBotones button:hover {
+  filter: brightness(1.15);
+}
+
+/* Menú de la cuenta con sesión (autex.com.mx: Mi perfil, Mis pedidos, Salir) */
+.menuCuenta {
+  position: absolute;
+  z-index: 9;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: var(--shadow-blur-base-00);
+}
+
+.menuCuenta button {
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  color: var(--color-neutral-900);
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuCuenta button:hover {
+  background: var(--color-neutral-50);
+}

@@ -1,0 +1,205 @@
+/* figma: Filtros 657:14087 — gap 24, pb 40 */
+.filtros {
+  width: 348px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+.paneles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* figma: Fil — p12, borde 1 Neutral/200, radio 8 */
+.panel,
+.precio {
+  width: 348px;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 16px 0;
+  border: none;
+  background: none;
+  color: var(--color-neutral-900);
+  text-align: left;
+  cursor: pointer;
+}
+
+.head > span:first-child {
+  flex: 1 1 0;
+}
+
+.buscar {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-500);
+}
+
+/* figma: 83:2752 — buscador de Especialidad con borde Neutral/900 */
+.buscarActivo {
+  box-shadow: inset 0 0 0 1px var(--color-neutral-900);
+}
+
+.lista {
+  width: 324px;
+  display: flex;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.items {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.items::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 8px 16px;
+  color: var(--color-neutral-900);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 2px solid var(--color-neutral-400);
+  border-radius: 2px;
+  background: var(--color-nativo-blanco);
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  border-color: var(--color-primary-500);
+  background: var(--color-primary-500);
+}
+
+/* figma: Scrollbar 48:1017 — 12 de ancho, thumb de 160 */
+.scroll {
+  width: 12px;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: var(--color-neutral-50);
+  overflow: hidden;
+}
+
+.thumb {
+  display: block;
+  height: 160px;
+  background: var(--color-neutral-200);
+}
+
+/* figma: Precio 83:2847 — gap 16 */
+.precio {
+  gap: 16px;
+}
+
+.precioTitulo {
+  margin: 0;
+  padding: 16px 0;
+  color: var(--color-neutral-900);
+}
+
+.barraWrap {
+  position: relative;
+  margin: -16px 0 0;
+  padding: 16px;
+}
+
+.barra {
+  display: block;
+  width: 292px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--color-neutral-200);
+}
+
+.rango {
+  position: absolute;
+  left: 10px;
+  top: 14px;
+  width: 108px;
+  height: 12px;
+}
+
+.rangoBar {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 2px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--color-primary-500);
+}
+
+.dot {
+  position: absolute;
+  top: -2px;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: 99px;
+  border: 1.5px solid var(--color-nativo-blanco);
+  background: var(--color-primary-500);
+}
+
+.montos {
+  display: flex;
+  gap: 16px;
+}
+
+.montos > span {
+  flex: 1 1 0;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-800);
+}
+
+.limpiarWrap {
+  padding: 0 50px;
+}
+
+.limpiar {
+  width: 100%;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-neutral-900);
+  color: var(--color-nativo-blanco);
+  cursor: pointer;
+}

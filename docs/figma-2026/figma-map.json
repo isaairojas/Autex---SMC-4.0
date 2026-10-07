@@ -1,0 +1,332 @@
+{
+  "fileKey": "UKrGgTeW6ld3CpGOFErLXX",
+  "fileName": "Autex_2026_Frames",
+  "page": "111:8 Carrito y Pasarela de pago",
+  "lastSync": "2026-10-05",
+  "reemplaza": "qp14Mbl7khZF2xWAwaocfP (docs/figma/figma-map.json)",
+  "nodes": {
+    "657:14082": {
+      "name": "Autex_Catalogo_Stock_Cliente Registrado - 1",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/tienda/Inicio.tsx",
+      "ruta": "/figma/657-14082",
+      "screenshot": "docs/figma-2026/cache/657-14082.png",
+      "diffPct": 2.94,
+      "status": "verificado"
+    },
+    "657:14102": {
+      "name": "Carrito/Default (mini-carrito)",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/design-system/components/organisms/Carrito.tsx",
+      "ruta": "/figma/657-14102",
+      "screenshot": "docs/figma-2026/cache/657-14102.png",
+      "diffPct": 13.39,
+      "status": "verificado con discrepancia registrada (D26)"
+    },
+    "673:18974": {
+      "name": "Autex_Carrito- 1",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/tienda/CarritoPagina.tsx",
+      "ruta": "/figma/673-18974",
+      "screenshot": "docs/figma-2026/cache/673-18974.png",
+      "diffPct": 2.88,
+      "status": "verificado"
+    },
+    "742:19087": {
+      "name": "Modal login (vacío)",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/design-system/components/organisms/ModalLogin.tsx",
+      "ruta": "/figma/742-19087",
+      "screenshot": "docs/figma-2026/cache/742-19087.png",
+      "diffPct": 7.83,
+      "status": "verificado con discrepancia registrada (D26)"
+    },
+    "742:19208": {
+      "name": "Modal login (con datos)",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/design-system/components/organisms/ModalLogin.tsx",
+      "ruta": "/figma/742-19208",
+      "screenshot": "docs/figma-2026/cache/742-19208.png",
+      "diffPct": 12.35,
+      "status": "verificado con discrepancia registrada (D26)"
+    },
+    "677:18887": {
+      "name": "Autex - Checkout - 1",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/677-18887",
+      "screenshot": "docs/figma-2026/cache/677-18887.png",
+      "diffPct": 1.79,
+      "status": "verificado"
+    },
+    "719:22355": {
+      "name": "Autex - Checkout - 2",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "ruta": "/figma/719-22355",
+      "screenshot": "docs/figma-2026/cache/719-22355.png",
+      "diffPct": 2.27,
+      "status": "verificado"
+    },
+    "723:23455": {
+      "name": "Autex - Checkout - 3",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/723-23455",
+      "screenshot": "docs/figma-2026/cache/723-23455.png",
+      "diffPct": 2.04,
+      "status": "verificado"
+    },
+    "738:17646": {
+      "name": "Autex - Checkout - 4",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/738-17646",
+      "screenshot": "docs/figma-2026/cache/738-17646.png",
+      "diffPct": 2.2,
+      "status": "verificado"
+    },
+    "904:34705": {
+      "name": "Content (gracias)",
+      "flujo": "EF-46271 · Carrito y pasarela (cliente registrado)",
+      "code": "src/screens/checkout/Gracias.tsx",
+      "ruta": "/figma/904-34705",
+      "screenshot": "docs/figma-2026/cache/904-34705.png",
+      "diffPct": 2.18,
+      "status": "verificado"
+    },
+    "893:10681": {
+      "name": "Checkout - 1 (sin costo)",
+      "flujo": "EF-42837 · Ejemplo de envío sin costo",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/893-10681",
+      "screenshot": "docs/figma-2026/cache/893-10681.png",
+      "diffPct": 2.13,
+      "status": "verificado"
+    },
+    "893:10938": {
+      "name": "Checkout - 2 (sin costo)",
+      "flujo": "EF-42837 · Ejemplo de envío sin costo",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "ruta": "/figma/893-10938",
+      "screenshot": "docs/figma-2026/cache/893-10938.png",
+      "diffPct": 2.37,
+      "status": "verificado"
+    },
+    "893:11011": {
+      "name": "Checkout - 3 (sin costo)",
+      "flujo": "EF-42837 · Ejemplo de envío sin costo",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/893-11011",
+      "screenshot": "docs/figma-2026/cache/893-11011.png",
+      "diffPct": 2.03,
+      "status": "verificado"
+    },
+    "893:11077": {
+      "name": "Checkout - 4 (sin costo)",
+      "flujo": "EF-42837 · Ejemplo de envío sin costo",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/893-11077",
+      "screenshot": "docs/figma-2026/cache/893-11077.png",
+      "diffPct": 2.45,
+      "status": "verificado"
+    },
+    "901:33560": {
+      "name": "Checkout - 1 (con costo)",
+      "flujo": "EF-42837 · Ejemplo de envío con costo",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/901-33560",
+      "screenshot": "docs/figma-2026/cache/901-33560.png",
+      "diffPct": 2.41,
+      "status": "verificado"
+    },
+    "901:32141": {
+      "name": "Checkout - 2 (con costo)",
+      "flujo": "EF-42837 · Ejemplo de envío con costo",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "ruta": "/figma/901-32141",
+      "screenshot": "docs/figma-2026/cache/901-32141.png",
+      "diffPct": 2.13,
+      "status": "verificado"
+    },
+    "901:32200": {
+      "name": "Checkout - 3 (con costo)",
+      "flujo": "EF-42837 · Ejemplo de envío con costo",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/901-32200",
+      "screenshot": "docs/figma-2026/cache/901-32200.png",
+      "diffPct": 2.01,
+      "status": "verificado"
+    },
+    "901:32266": {
+      "name": "Checkout - 4 (con costo)",
+      "flujo": "EF-42837 · Ejemplo de envío con costo",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/901-32266",
+      "screenshot": "docs/figma-2026/cache/901-32266.png",
+      "diffPct": 2.44,
+      "status": "verificado"
+    },
+    "902:34618": {
+      "name": "Content (gracias, con costo)",
+      "flujo": "EF-42837 · Ejemplo de envío con costo",
+      "code": "src/screens/checkout/Gracias.tsx",
+      "ruta": "/figma/902-34618",
+      "screenshot": "docs/figma-2026/cache/902-34618.png",
+      "diffPct": 2.18,
+      "status": "verificado"
+    }
+  },
+  "sinRespaldoEnFigma": {
+    "/producto/:id": {
+      "pantalla": "src/screens/tienda/DetalleProducto.tsx",
+      "nota": "Sin frame en Autex_2026_Frames; se conserva el detalle del archivo anterior (12849:113500) con el Navbar clásico."
+    },
+    "Ubicación (C.P.)": {
+      "pantalla": "src/design-system/components/organisms/Ubicacion.tsx",
+      "nota": "Sin respaldo en Figma (D5). Solo en la galería; la demo usa UbicacionTienda."
+    },
+    "Formulario de invitado (paso 1)": {
+      "pantalla": "src/screens/checkout/DatosUsuario.tsx",
+      "nota": "Sin respaldo en 2026; formulario 1324:96827 del archivo anterior dentro del Container 2026."
+    },
+    "Tarjeta nueva / Otras formas de pago (paso 3)": {
+      "pantalla": "src/screens/checkout/MetodoPago.tsx",
+      "nota": "Sin respaldo en 2026; campos 2599:97130 y modal 2599:104102 del archivo anterior."
+    },
+    "OpenPay / Verificando / Tarjeta declinada": {
+      "pantalla": "src/screens/checkout/Confirmacion.tsx",
+      "nota": "Sin respaldo en 2026; diálogos 2599:105017, 2599:98962, 2599:99468 del archivo anterior."
+    },
+    "Productos guardados (con elementos)": {
+      "pantalla": "src/design-system/components/organisms/CarritoCompra.tsx",
+      "nota": "Figma solo muestra el estado vacío (668:18478)."
+    },
+    "Estado \"Sin existencia\" en el carrito": {
+      "pantalla": "src/design-system/components/organisms/CarritoCompra.tsx",
+      "nota": "Figma no lo muestra en el carrito; se usa el mismo Motion con ícono cancel (caja gris, spec 001)."
+    },
+    "/ (inicio del sitio)": {
+      "pantalla": "src/screens/sitio/Home.tsx",
+      "nota": "Réplica de autex.com.mx (la página Home 0:1 de Figma quedó fuera por decisión del usuario). Carrusel con el Hero banner 12849:114234."
+    },
+    "/catalogo": {
+      "pantalla": "src/screens/sitio/CatalogoEspecialidades.tsx",
+      "nota": "Réplica de autex.com.mx/catalogo; imágenes de producto de Figma o íconos."
+    },
+    "/marcas": {
+      "pantalla": "src/screens/sitio/Marcas.tsx",
+      "nota": "Réplica de autex.com.mx/busqueda-marca (186 marcas, src/mocks/sitio.ts)."
+    },
+    "/ofertas": {
+      "pantalla": "src/screens/sitio/Ofertas.tsx",
+      "nota": "Réplica de autex.com.mx/ofertas; productos en oferta simulados y estado vacío del sitio."
+    },
+    "/sucursales": {
+      "pantalla": "src/screens/sitio/Sucursales.tsx",
+      "nota": "Réplica de autex.com.mx/sucursales (46 sucursales + 5 de configuracion-servicios-smc.json); ordenadas por distancia a la entrega, con nivel de servicio, \"Mi tienda\" y mapa esquemático acercado a la zona (sin Google Maps)."
+    },
+    "/como-comprar": {
+      "pantalla": "src/screens/sitio/ComoComprar.tsx",
+      "nota": "Réplica de autex.com.mx/como-comprar; fotos sustituidas por íconos."
+    },
+    "Búsqueda sin resultados y filtros por parámetros": {
+      "pantalla": "src/screens/tienda/Inicio.tsx",
+      "nota": "Estado \"Tu búsqueda no coincidió con ningún producto\" de autex.com.mx; ruta /busqueda."
+    },
+    "Buscador y menú de especialidades del navbar": {
+      "pantalla": "src/design-system/components/organisms/Navbar2026.tsx",
+      "nota": "Funcional según autex.com.mx; el diseño es el de Figma 606:13283."
+    },
+    "Ubicación de entrega y Mi tienda": {
+      "pantalla": "src/design-system/components/organisms/UbicacionTienda.tsx",
+      "nota": "Aviso simulado del navegador \"www.autex.com.mx quiere · Conocer tu ubicación\" (cada vez que se entra), aviso de Autex \"Elige una tienda\" al cerrarlo o con \"No permitir nunca\", chips \"Mi tienda\" y \"Entrega en C.P.\" en el navbar y paneles \"Ubicación de entrega\" y \"Selecciona una tienda\" (tiendas del estado del C.P.). C.P. predeterminado 45138 / tienda Tesistán; niveles de configuracion-servicios-smc.json (D31)."
+    },
+    "Navbar 2026 en modo sitio": {
+      "pantalla": "src/design-system/components/organisms/Navbar2026.tsx",
+      "nota": "Prop sitio: \"Ofertas\", \"Hola / nombre\" y campana con sesión iniciada (captura del usuario); el chip de ubicación muestra \"Mi tienda\" y su horario. La galería conserva los textos de Figma."
+    },
+    "Mis vehículos": {
+      "pantalla": "src/design-system/components/organisms/MisVehiculos.tsx",
+      "nota": "Réplica del modal de autex.com.mx (docs/autex-real/vehiculos). La demo empieza sin vehículo (chip \"Mis vehículos\"); el buscador del inicio o \"Agregar vehículo a la lista\" lo activan (\"Buscando para …\"). D32."
+    },
+    "Direcciones de entrega (cliente registrado)": {
+      "pantalla": "src/design-system/components/organisms/UbicacionTienda.tsx",
+      "nota": "Panel \"Ubicación de entrega\" con dos vistas: invitado (C.P. + iniciar sesión) y registrado (\"Mis direcciones\" con OpcionSeleccionable 2596:100531, \"Administrar direcciones\", \"Agregar nueva dirección\" y otro C.P.). Al iniciar sesión la entrega pasa a la dirección predeterminada; elegir una dirección muestra las tiendas de su estado. D33."
+    },
+    "/configuracion/:seccion": {
+      "pantalla": "src/screens/sitio/Configuracion.tsx",
+      "nota": "Réplica de autex.com.mx/configuracion con sesión (captura 2026-10-06): menú Mi perfil / Dirección de envío / Método de pago, lista de direcciones con estado vacío y formulario \"Nueva dirección\" (/configuracion/direcciones/nueva: colonia por C.P., ciudad y estado automáticos, predeterminada). Menú de la cuenta: Mi perfil, Mis pedidos, Salir. D33."
+    },
+    "Existencias en resultados y detalle": {
+      "pantalla": "src/screens/tienda/Inicio.tsx, src/screens/sitio/Ofertas.tsx, src/screens/tienda/DetalleProducto.tsx",
+      "nota": "Se ocultan los productos sin existencia en la zona (filtro \"Disponibilidad · Mostrar productos no disponibles\" y aviso al pie), etiqueta de existencia por rangos (\"+100 pzs\") y tarjeta \"Disponibilidad\" en el detalle (en línea y físicas en Mi tienda, \"Buscar en otra tienda\"; sin pasillo ni bahía). La galería conserva los frames de Figma. D34."
+    },
+    "Paso 2 en el sitio (registrado)": {
+      "pantalla": "src/screens/checkout/MetodoEnvio.tsx",
+      "nota": "El cliente registrado pasa del carrito directo al paso 2. Sin costos de envío (opciones y fila \"Envío\" del resumen), \"Dirección de entrega\" visible, envíos múltiples por sucursal desplegables (EnviosMultiples) y \"Cambiar dirección de entrega\" con tooltip y modal de direcciones guardadas. La galería conserva 719:22355 / 901:32141. D35."
+    },
+    "Ventanas de carga del sitio": {
+      "pantalla": "src/design-system/components/molecules/CargaPagina.tsx",
+      "nota": "Carga a página completa (página en gris + spinner de 2599:98962 + motivo) en checkout, cambios de tienda/C.P./dirección y carga de productos. D36."
+    },
+    "Catálogo del sitio": {
+      "pantalla": "src/mocks/catalogo.ts (CATALOGO_SITIO)",
+      "nota": "12 productos de Figma + 19 nuevos en las 5 especialidades de autex.com.mx (baterías, alternadores, cinta aislante, etc.). Solo imágenes de Figma; sin imagen, logo de Autex en gris. La galería sigue con los 12 de Figma. D38."
+    },
+    "Cliente no registrado: ¿Cómo deseas continuar? y formulario de invitado": {
+      "pantalla": "src/design-system/components/organisms/ComoContinuar.tsx, src/screens/checkout/FormularioInvitado.tsx",
+      "nota": "Réplica de autex.com.mx (captura 2026-10-06): en el carrito, \"Proceder al pago\" sin sesión abre \"¿Cómo deseas continuar?\" (Usuario invitado / Tengo una cuenta Autex). Invitado → paso 1 con el formulario del sitio (cliente, datos fiscales, dirección con colonia por C.P.) y \"Usuario Invitado · Regístrate\"; con cuenta → inicio de sesión y paso 2. La galería conserva el Modal login (742:19087) y el formulario de Figma. D40."
+    }
+  },
+  "componentes": {
+    "Navbar2026": {
+      "node": "606:13261",
+      "code": "src/design-system/components/organisms/Navbar2026.tsx"
+    },
+    "Navbar (registrado, pasos 2–4)": {
+      "node": "719:22711",
+      "code": "src/design-system/components/organisms/Navbar.tsx"
+    },
+    "Footer (version2026)": {
+      "node": "677:18917",
+      "code": "src/design-system/components/organisms/Footer.tsx"
+    },
+    "CheckoutCard": {
+      "node": "901:31850",
+      "code": "src/design-system/components/organisms/CheckoutCard.tsx"
+    },
+    "Resumen": {
+      "node": "677:19623",
+      "code": "src/design-system/components/organisms/Resumen.tsx"
+    },
+    "CarritoCompra (Card, Grupo, Subtotal, ResumenCarrito, ProductosGuardados, ChipBajoPedido, EstadoExistencia)": {
+      "node": "673:20283 / 668:18472",
+      "code": "src/design-system/components/organisms/CarritoCompra.tsx"
+    },
+    "MiniCarrito": {
+      "node": "657:14102",
+      "code": "src/design-system/components/organisms/Carrito.tsx"
+    },
+    "ModalLogin": {
+      "node": "742:19087",
+      "code": "src/design-system/components/organisms/ModalLogin.tsx"
+    },
+    "EnvioPaqueteria": {
+      "node": "898:31778 / 904:34781",
+      "code": "src/design-system/components/molecules/EnvioPaqueteria.tsx"
+    },
+    "FormasDePago2026 / TarjetaGuardada": {
+      "node": "725:24122 / 725:24099",
+      "code": "src/design-system/components/organisms/Pago2026.tsx"
+    },
+    "TarjetaProducto": {
+      "node": "I657:14098;606:11951",
+      "code": "src/design-system/components/organisms/TarjetaProducto.tsx"
+    },
+    "Filtros2026": {
+      "node": "657:14087",
+      "code": "src/design-system/components/organisms/Filtros2026.tsx"
+    }
+  }
+}

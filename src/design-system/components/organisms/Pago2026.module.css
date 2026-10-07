@@ -1,0 +1,78 @@
+/* figma: Formas de pago 725:24122 — gap 20 */
+.formas {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.opciones {
+  height: 48px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* figma: Paymet options 725:23872 — borde 1 Neutral/200; activa 725:23867 borde 2 Primary/400 */
+.opcion {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  cursor: pointer;
+}
+
+.activa {
+  box-shadow: inset 0 0 0 2px var(--color-primary-400);
+}
+
+.opcionTexto {
+  opacity: 0.8;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.logos {
+  display: block;
+}
+
+/* figma: Tarjeta 725:24099 — p16, gap 32, radio 8 */
+.tarjeta {
+  width: 100%;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  cursor: pointer;
+  text-align: left;
+}
+
+.tarjetaActiva {
+  box-shadow: inset 0 0 0 2px var(--color-primary-500);
+}
+
+.tarjetaInfo {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* figma: Badge 62.5×40 con inset −2.5% / −1.6% (sombra incluida en el SVG) */
+.badge {
+  margin: -1px -1px;
+}
+
+.tarjetaTexto {
+  font: 400 20px/28px var(--font-family-open-sans); /* figma: 725:24104 */
+  color: var(--color-neutral-800);
+  white-space: nowrap;
+}

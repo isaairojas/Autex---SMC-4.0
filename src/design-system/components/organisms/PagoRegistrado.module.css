@@ -1,0 +1,136 @@
+/* figma: 2600:106506 — y=242, gap 16 */
+.registradas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.subtitulo {
+  color: var(--color-primary-500);
+}
+
+.tarjetas {
+  width: 1083px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* figma: Tarjeta / Off — borde 1 Neutral/100; seleccionada borde 2 Primary/400 */
+.tarjeta {
+  width: 100%;
+  display: flex;
+  gap: 56px;
+  align-items: center;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-100);
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-neutral-900);
+}
+
+.sel {
+  box-shadow: inset 0 0 0 2px var(--color-primary-400);
+}
+
+.tarjetaMain {
+  flex: 1 1 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.tarjetaInfo {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* figma: "Nueva tarjeta" en y=468 — 226 + 2*(72) + 20 → 24 px bajo la lista */
+.nueva {
+  margin-top: 8px;
+}
+
+/* figma: 2600:119037 — padding 12, borde 2 Primary/400 seleccionada */
+.credito {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: none;
+  border-radius: 2.8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  cursor: pointer;
+}
+
+.credito.sel {
+  box-shadow: inset 0 0 0 2px var(--color-primary-400);
+}
+
+.creditoLabel {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+/* figma: 2600:144207 — gap 24 */
+.balanceWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.balance {
+  width: 1051px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: 0;
+  color: var(--color-neutral-900);
+}
+
+.item {
+  display: flex;
+  gap: 32px;
+  padding: 24px 4px;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.itemLabel {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.verde {
+  color: var(--color-green-700);
+}
+
+.rojo {
+  color: var(--color-secondary-500);
+}
+
+/* figma: 2605:98026 — Secondary/500 con sombra Blur/Base 00 */
+.pagarSaldo {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-secondary-500);
+  color: var(--color-nativo-blanco);
+  filter: drop-shadow(0 4px 4px rgba(175, 175, 175, 0.3));
+  cursor: pointer;
+}

@@ -1,0 +1,302 @@
+/* figma: ItemKart 3527:121767 — padding 20 40, borde inferior Neutral/300, gap 167 */
+.item {
+  width: 1340px;
+  display: flex;
+  gap: 167px;
+  align-items: flex-start;
+  padding: 20px 40px;
+  background: var(--color-nativo-blanco);
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+.product {
+  width: 956px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.img {
+  width: 198px;
+  height: 198px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.img img {
+  width: 182px;
+  height: 182px;
+  object-fit: contain;
+}
+
+.info {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mainDesc {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-neutral-900);
+}
+
+.sku {
+  display: flex;
+  gap: 20px;
+  color: var(--color-neutral-600);
+  white-space: nowrap;
+}
+
+.disp {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  color: var(--color-neutral-900);
+}
+
+.actions {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.qty {
+  position: relative;
+  width: 200px;
+  height: 40px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.qtyBtn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  background: var(--color-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.right {
+  left: auto;
+  right: 0;
+}
+
+.qtyValue {
+  position: absolute;
+  left: 31px;
+  right: 31px;
+  top: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 16px/24px 'Inter', sans-serif;
+  color: #1a202c; /* D21 */
+}
+
+.links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.link {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-primary-500);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.divider {
+  width: 1px;
+  height: 18px;
+  background: var(--color-neutral-200);
+}
+
+.price {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.small {
+  font: 400 16px/24px 'Inter', sans-serif;
+}
+
+.big {
+  font: var(--font-weight-book) 32px/40px var(--font-family-book);
+}
+
+/* figma: Carrito items-notificacion 1029:30142 */
+.mini {
+  position: absolute;
+  right: 80px;
+  top: 133px; /* bajo el ícono del carrito (y=85…125) */
+  z-index: 20;
+  width: 450px; /* figma 657:14102: 430 de contenido + px 10 */
+  box-sizing: border-box;
+  padding: 0 10px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+  filter: drop-shadow(0 8px 4px rgba(100, 106, 115, 0.16));
+  display: flex;
+  flex-direction: column;
+}
+
+.miniHead {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 16px;
+  border-bottom: 1px solid var(--color-neutral-200);
+  color: var(--color-neutral-900);
+}
+
+.miniHead p {
+  flex: 1 1 0;
+}
+
+.close,
+.trash {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+}
+
+.trash {
+  padding: 8px;
+  border-radius: 99px;
+  background: var(--color-neutral-100);
+}
+
+.miniList {
+  height: 585px; /* figma: List items I657:14102;635:9109 */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* figma: Card Carrito/Default 645:10288 — 208 de alto, fila de 420 en y=10 */
+.miniItem {
+  height: 208px;
+  box-sizing: border-box;
+  width: 420px;
+  padding-top: 10px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.miniImg {
+  width: 99px;
+  height: 188px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.miniImg > img {
+  width: 99px;
+  aspect-ratio: 400 / 328;
+  object-fit: cover;
+}
+
+/* El chip chico es absoluto en el resumen; aquí ocupa su lugar en la columna (718:21910). */
+.miniChip {
+  position: relative;
+  width: 56px;
+  height: 12px;
+}
+
+.miniChip > span {
+  left: 0;
+  top: 0;
+}
+
+.miniInfo {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--color-neutral-900);
+}
+
+.miniSku {
+  color: var(--color-neutral-700);
+}
+
+.miniPrice {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.miniMonto {
+  flex: 1 1 0;
+  color: var(--color-primary-500);
+}
+
+.miniSubtotal {
+  width: 428px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 1px solid var(--color-neutral-200);
+  color: var(--color-nativo-negro);
+}
+
+.miniAction {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.verTodos {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  cursor: pointer;
+}
+
+/* Galería: el mini-carrito en flujo normal (sin posición absoluta). */
+.miniIncrustado {
+  position: relative;
+  right: auto;
+  top: auto;
+}

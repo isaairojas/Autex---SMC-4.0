@@ -1,0 +1,424 @@
+{
+  "version": 1,
+  "generadoEn": "2026-10-06T17:31:54.005Z",
+  "ambito": "MX",
+  "niveles": [
+    {
+      "id": "tipo-local",
+      "nombre": "Local",
+      "orden": 1
+    },
+    {
+      "id": "tipo-local-ext",
+      "nombre": "Local Extendido",
+      "orden": 2
+    },
+    {
+      "id": "tipo-foraneo",
+      "nombre": "Foraneo",
+      "orden": 3
+    }
+  ],
+  "sucursales": [
+    {
+      "id": "acapulco",
+      "nombre": "Acapulco",
+      "estado": "Guerrero",
+      "municipio": "Acapulco de Juárez",
+      "lat": 16.9573,
+      "lng": -99.7143,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "acapulco-constituyentes",
+      "nombre": "Acapulco Constituyentes",
+      "estado": "Guerrero",
+      "municipio": "Acapulco de Juárez",
+      "lat": 16.8062,
+      "lng": -99.761,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "cancun-talleres",
+      "nombre": "Cancun Talleres",
+      "estado": "Quintana Roo",
+      "municipio": "Benito Juárez",
+      "lat": 21.0542,
+      "lng": -86.8486,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "ciudad-del-carmen",
+      "nombre": "Ciudad del Carmen",
+      "estado": "Campeche",
+      "municipio": "Carmen",
+      "lat": 18.524,
+      "lng": -91.4833,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "comitan",
+      "nombre": "Comitan",
+      "estado": "Chiapas",
+      "municipio": "Comitán de Domínguez",
+      "lat": 16.2469,
+      "lng": -92.1378,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "irapuato",
+      "nombre": "Irapuato",
+      "estado": "Guanajuato",
+      "municipio": "Irapuato",
+      "lat": 20.5042,
+      "lng": -101.4772,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "leon-torres-landa",
+      "nombre": "Leon Torres Landa",
+      "estado": "Guanajuato",
+      "municipio": "León",
+      "lat": 21.0862,
+      "lng": -101.6338,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "rojo-gomez",
+      "nombre": "Rojo Gómez",
+      "estado": "Distrito Federal",
+      "municipio": "Iztapalapa",
+      "lat": 19.3429,
+      "lng": -98.9888,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "salamanca",
+      "nombre": "Salamanca",
+      "estado": "Guanajuato",
+      "municipio": "Salamanca",
+      "lat": 20.6251,
+      "lng": -101.1651,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    },
+    {
+      "id": "vallejo",
+      "nombre": "Vallejo",
+      "estado": "Distrito Federal",
+      "municipio": "Gustavo A. Madero",
+      "lat": 19.5041,
+      "lng": -99.1159,
+      "servicios": [
+        {
+          "servicioId": "svc-local-leon",
+          "nombre": "Local General",
+          "nivel": "Local",
+          "orden": 1,
+          "distanciaMaximaKm": 15,
+          "tiempoEntrega": "Mismo dia",
+          "costoLogistico": 90,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-local-ext-leon",
+          "nombre": "Local Extendido General",
+          "nivel": "Local Extendido",
+          "orden": 2,
+          "distanciaMaximaKm": 30,
+          "tiempoEntrega": "24 horas",
+          "costoLogistico": 160,
+          "activo": true
+        },
+        {
+          "servicioId": "svc-foraneo-bajio",
+          "nombre": "Foráneo General",
+          "nivel": "Foraneo",
+          "orden": 3,
+          "distanciaMaximaKm": 350,
+          "tiempoEntrega": "48 a 72 horas",
+          "costoLogistico": 320,
+          "activo": true
+        }
+      ]
+    }
+  ]
+}

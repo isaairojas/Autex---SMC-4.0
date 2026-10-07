@@ -1,0 +1,249 @@
+/* SIN RESPALDO EN FIGMA (D33): réplica de autex.com.mx/configuracion */
+
+.pagina {
+  width: 1460px;
+  margin: 0 auto;
+  padding: 48px 0 112px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.pagina p {
+  margin: 0;
+}
+
+.tarjeta {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-100);
+}
+
+/* Franja azul con el corte rojo del sitio */
+.franja {
+  position: relative;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding-left: 112px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+}
+
+.franja h2 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+.corte {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  background: var(--color-secondary-500);
+  clip-path: polygon(0 0, 70% 0, 100% 50%, 70% 100%, 0 100%);
+}
+
+.cuerpo {
+  padding: 24px 20px;
+  color: var(--color-neutral-900);
+}
+
+.menuTitulo {
+  padding: 16px 0 24px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--color-neutral-900);
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem > span:nth-child(2) {
+  flex: 1 1 0;
+}
+
+.menuActivo {
+  background: var(--color-neutral-50);
+}
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0 16px;
+  text-align: center;
+}
+
+.gris {
+  color: var(--color-neutral-600);
+}
+
+.rojo {
+  color: var(--color-secondary-500);
+}
+
+.datos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.listaCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+}
+
+.itemPred {
+  box-shadow: inset 0 0 0 2px var(--color-primary-400);
+}
+
+.itemTexto {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itemAcciones {
+  display: flex;
+  gap: 16px;
+}
+
+.etiqueta {
+  margin-left: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  vertical-align: middle;
+}
+
+.enlace {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary-500);
+  text-decoration: underline;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.asterisco {
+  color: var(--color-secondary-500);
+}
+
+.campo input,
+.selector {
+  height: 56px;
+  box-sizing: border-box;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-900);
+}
+
+.campo input:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+}
+
+.campo input:disabled,
+.deshabilitado {
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-500);
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.selector select {
+  flex: 1 1 0;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.selector select:disabled {
+  cursor: not-allowed;
+}
+
+.pie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+}
+
+.casilla {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.botones {
+  display: flex;
+  gap: 20px;
+}

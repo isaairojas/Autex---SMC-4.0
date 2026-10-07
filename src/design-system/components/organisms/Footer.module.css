@@ -1,0 +1,134 @@
+/* figma: 38:98638 — 1920×531 */
+.footer {
+  width: 100%;
+  background: var(--color-nativo-blanco);
+  border-top: 1px solid var(--color-neutral-200);
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  padding: 72px 96px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+.brand {
+  width: 222px;
+  height: 33px;
+  display: flex;
+}
+
+.brand img {
+  width: 220.8px; /* figma: inset 0 0.55% → 222 × 0.9945 */
+  height: 32.85px;
+}
+
+.content {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.column {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.columnFixed {
+  width: 176px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  color: var(--color-neutral-900);
+  margin: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.link {
+  padding: 4px;
+  border-radius: 4px;
+  color: var(--color-neutral-800);
+  text-decoration: none;
+}
+
+.legal {
+  border-top: 1px solid var(--color-neutral-100);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 96px;
+  color: var(--color-neutral-800);
+}
+
+.legalText {
+  width: 497px;
+  margin: 0;
+}
+
+.payment {
+  width: 497px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.payments {
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.pay {
+  width: 35px;
+  height: 24px;
+}
+
+.payMaster {
+  position: relative;
+  width: 35px;
+  height: 24px;
+  background: var(--color-nativo-blanco);
+  border: 1px solid var(--color-neutral-100);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.payMaster img {
+  position: absolute;
+  inset: 20.83% 17.14% 21.64% 18.57%;
+  width: calc(100% - 35.71%);
+  height: calc(100% - 42.47%);
+}
+
+.social {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.socialButtons {
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+/* figma: 677:18917 (Autex_2026_Frames) — 1920×491 */
+.main2026 {
+  padding: 40px 80px;
+}

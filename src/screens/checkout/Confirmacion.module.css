@@ -1,0 +1,85 @@
+/* figma: 2599:98425 — bloques con gap 16; sin texto de introducción empiezan en y=129 */
+.blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalFields > div {
+  width: 792px;
+}
+
+/* figma: Modal 2599:101250 — formulario de domicilio */
+.modalForm {
+  width: 792px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.groupTitle {
+  color: var(--color-primary-400);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pair {
+  display: flex;
+  gap: 20px;
+}
+
+/* figma: 2599:101603 — botón de texto subrayado Primary/800 */
+.link {
+  align-self: flex-start;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-primary-800);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* figma: 2599:101032 — padding 8 16 8 20, gap 8 */
+.toggle {
+  padding: 8px 16px 8px 20px;
+  gap: 8px;
+}
+
+/* figma: Modal 2599:105017 — imagen en x=562, y=424 */
+.openpayBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: var(--color-alpha-back-300);
+}
+
+.openpay {
+  position: absolute;
+  left: 562px;
+  top: 424px;
+  width: 796px;
+  height: 590px;
+}
+
+/* Zona del botón "Pagar" dentro de la imagen (medida sobre el PNG de 796×590) */
+.pagar {
+  position: absolute;
+  right: 26px;
+  bottom: 30px;
+  width: 88px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}

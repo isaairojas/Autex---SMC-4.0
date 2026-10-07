@@ -1,0 +1,265 @@
+/* figma: Product — 335 × 547 mín., p12, borde 1 Neutral/200 (inside), radio 4 */
+.card {
+  position: relative;
+  width: 335px;
+  min-height: 547px;
+  box-sizing: border-box;
+  display: flex;
+  padding: 12px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.contenido {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.imagen {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.imagen img {
+  object-fit: cover;
+}
+
+.principal {
+  min-height: 201px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skuMarca {
+  min-height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sku {
+  color: var(--color-neutral-700);
+}
+
+.descripcion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nombre {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  line-height: 20px; /* figma: Description — 16/20 */
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+.precio {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--color-primary-500);
+  white-space: nowrap;
+}
+
+.entero {
+  font: var(--font-weight-book) 24px/32px var(--font-family-book);
+}
+
+.motion,
+.motionBajo,
+.motionNo {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  white-space: nowrap;
+}
+
+.motion {
+  padding: 3px;
+  color: var(--color-green-700);
+}
+
+/* figma: "104 pzs" — píldora con borde Green/700, HeadingNow-75Medium 10 */
+.piezas {
+  padding: 0 5px;
+  border-radius: 50px;
+  box-shadow: inset 0 0 0 1px var(--color-green-700);
+  font: var(--font-weight-medium) 10px/24px var(--font-family-medium);
+  letter-spacing: 0.2px;
+}
+
+.motionBajo {
+  color: var(--color-naranja-bajo-pedido);
+}
+
+.motionTexto {
+  display: flex;
+  flex-direction: column;
+}
+
+.entrega {
+  font: var(--font-weight-book) 12px/24px var(--font-family-book);
+  letter-spacing: 0.2px;
+}
+
+.entrega b {
+  font-family: var(--font-family-medium);
+  font-weight: var(--font-weight-medium);
+}
+
+.motionNo {
+  color: var(--color-rojo-no-disponible);
+}
+
+.acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* figma: Quantity — 147.5 × 32 */
+.qty {
+  position: relative;
+  width: 147.5px;
+  height: 32px;
+  box-sizing: border-box;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.qtyBtn {
+  position: absolute;
+  left: -1px;
+  top: -1px;
+  width: 24px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: var(--color-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.qtyDer {
+  left: auto;
+  right: -1.5px;
+}
+
+.qtyValor {
+  position: absolute;
+  left: 23px;
+  right: 22.5px;
+  top: 0;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-texto-cantidad);
+}
+
+.lista,
+.carrito,
+.avisar {
+  padding: 4px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lista {
+  flex: 1 1 0;
+  min-width: 147.5px;
+  background: var(--color-neutral-900);
+  color: var(--color-nativo-blanco);
+}
+
+.lista:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carrito {
+  width: 100%;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+}
+
+.avisar {
+  width: 100%;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-naranja-bajo-pedido);
+  color: var(--color-naranja-bajo-pedido);
+}
+
+.compat {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 12px 2px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-500);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Sitio (D38): producto sin imagen en Figma — logo de Autex en gris, como autex.com.mx */
+.imagen img.pendiente {
+  object-fit: contain;
+  padding: 60px 30px;
+  filter: grayscale(1);
+  opacity: 0.25;
+}
+
+/* Sitio (D39): cantidad editable con tope de existencia para venta en línea */
+.qtyInput {
+  width: auto;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+  font-family: inherit;
+}
+
+.qtyInput:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+}
+
+.avisoCantidad {
+  margin: 0;
+  color: var(--color-secondary-500);
+}
+
+.carrito:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

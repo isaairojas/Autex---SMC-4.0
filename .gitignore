@@ -1,0 +1,5 @@
+node_modules
+dist
+# Artefactos generados por las pruebas y el compilador
+tests/visual/__diff__/
+*.tsbuildinfo

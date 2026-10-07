@@ -1,0 +1,16 @@
+import { chromium } from 'playwright';
+const OUT = process.argv[2];
+const browser = await chromium.launch({ channel: process.env.CANAL || undefined, headless: process.env.VISIBLE ? false : true });
+const ctx = await browser.newContext({ viewport: { width: 1920, height: 1080 }, locale: 'es-MX', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36' });
+const p = await ctx.newPage();
+await p.goto('https://www.autex.com.mx/', { waitUntil: 'networkidle', timeout: 60000 }).catch((e) => console.log('goto', e.message));
+await p.waitForTimeout(3000);
+console.log('TITLE', await p.title(), p.url());
+await p.screenshot({ path: OUT + '/home.png', fullPage: true });
+const links = await p.$$eval('a', (as) => as.map((a) => [a.innerText.trim().replace(/\s+/g, ' '), a.getAttribute('href')]).filter(([t, h]) => h));
+const uniq = [...new Map(links.map((l) => [l[1], l])).values()];
+console.log('LINKS', uniq.length);
+for (const [t, h] of uniq) console.log(' ', JSON.stringify(t).slice(0, 60), h);
+const buttons = await p.$$eval('button', (bs) => bs.map((b) => b.innerText.trim().replace(/\s+/g, ' ')).filter(Boolean));
+console.log('BUTTONS', [...new Set(buttons)].join(' | '));
+await browser.close();

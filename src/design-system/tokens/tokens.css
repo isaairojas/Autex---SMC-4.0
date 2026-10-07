@@ -1,0 +1,121 @@
+/**
+ * Tokens de diseño — réplica de Figma FE_Autex_B2C_Editable (qp14Mbl7khZF2xWAwaocfP)
+ * Generado desde tokens.json · Última sincronización: 2026-10-02
+ * Fuente sustituta: Archivo en lugar de HeadingNow (docs/figma/discrepancias.md, D1)
+ */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Open+Sans:wdth,wght@100,400;100,600&family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+:root {
+  /* Color · Primary */
+  --color-primary-50: #E6F9FE;
+  --color-primary-300: #5C8CDC;
+  --color-primary-400: #2055C1;
+  --color-primary-500: #1226AA;
+  --color-primary-600: #0A189D;
+  --color-primary-700: #030C8F;
+  --color-primary-800: #00027F;
+
+  /* Color · Secondary */
+  --color-secondary-500: #EA0029;
+  --color-secondary-600: #CC0015;
+
+  /* Color · Neutral */
+  --color-neutral-50: #F8F9FA;
+  --color-neutral-100: #F1F3F4;
+  --color-neutral-200: #E8EAED;
+  --color-neutral-300: #DADCE0;
+  --color-neutral-400: #BDC1C6;
+  --color-neutral-500: #9AA0A6;
+  --color-neutral-600: #80868B;
+  --color-neutral-700: #5F6368;
+  --color-neutral-800: #3C4043;
+  --color-neutral-900: #202124;
+
+  /* Color · Otros */
+  --color-green-50: #E8F8E7;
+  --color-green-700: #03A00D;
+  --color-red-900: #C80018;
+  --color-blue-500: #212945;            /* Blue/Blue_500 */
+  --color-red-50: #FFEBEF;              /* Red/50 */
+  --color-secondary-700: #AB0006;       /* Secondary/700 */
+  --color-gray-200: #E2E8F0;            /* gray/200 */
+  --color-red-600: #F71E32;             /* Red/600 */
+  --color-nativo-negro: #000000;        /* Nativo/Negro */
+  --color-accent-1c6fff: #1C6FFF;       /* figma: 136:70632 sin variable */
+  --color-nativo-blanco: #FFFFFF;       /* Nativo/Blanco */
+  --color-primitive-white: #FFFFFF;     /* Primitive / White */
+  --color-icons-color: #292929;         /* Icons Color/Icons Color */
+  --color-alpha-back-300: rgba(0, 0, 0, 0.16); /* Alpha/Back Alpha 300 — figma: 2599:98961 */
+  /* Autex_2026_Frames (UKrGgTeW6ld3CpGOFErLXX) — valores sin variable en Figma */
+  --color-naranja-bajo-pedido: #EE6300;            /* figma: 742:20355 "Productos bajo pedido" */
+  --color-naranja-bajo-pedido-fondo: rgba(238, 148, 0, 0.1); /* figma: 673:20391 tarjeta bajo pedido */
+  --color-fondo-2026: #F2F2F2;                     /* figma: 673:20283 fondo de carrito/checkout */
+  --color-texto-sku: #6E7176;                      /* figma: I673:18933;668:18861 SKU */
+  --color-rojo-no-disponible: #E4092C;             /* figma: Motion "No dsponible" (catálogo 2026) */
+  --color-facebook: #1877F2;                       /* figma: I742:19087;742:18828 botón de Facebook */
+  --color-texto-cantidad: #1A202C;                 /* figma: I673:18933;668:18873 (Neutral/800 en la librería 2026) */
+  /* Aviso de ubicación de Chrome simulado (sin variable en Figma; tomado del ejemplo del usuario, D31) */
+  --color-navegador-fondo: #2b2b2b;
+  --color-navegador-texto: #e3e3e3;
+  --color-navegador-boton: #0b4f7d;
+  --color-navegador-texto-boton: #d3e3fd;
+  --font-family-navegador: 'Segoe UI', system-ui, sans-serif;
+
+  /* Tipografía · Familias y pesos */
+  --font-family-book: 'Archivo', sans-serif;     /* HeadingNow-73Book */
+  --font-family-regular: 'Archivo', sans-serif;  /* HeadingNow-74Regular */
+  --font-family-medium: 'Archivo', sans-serif;   /* HeadingNow-75Medium */
+  --font-family-open-sans: 'Open Sans', sans-serif; /* Open Sans (usado directo en Figma, sin variable) */
+  --font-family-inter: 'Inter', sans-serif;         /* Inter (precios y chips, sin variable) */
+  --font-weight-book: 400;
+  --font-weight-regular: 500;
+  --font-weight-medium: 600;
+
+  /* Tipografía · Estilos (size / line-height / letter-spacing) */
+  --font-heading-1-size: 32px;      --font-heading-1-line: 40px;      --font-heading-1-tracking: 0px;
+  --font-heading-3-size: 24px;      --font-heading-3-line: 32px;      --font-heading-3-tracking: 0px;
+  --font-headline-size: 20px;       --font-headline-line: 28px;       --font-headline-tracking: 0px;
+  --font-subheadline-size: 18px;    --font-subheadline-line: 26px;    --font-subheadline-tracking: 0px;
+  --font-body-1-size: 16px;         --font-body-1-line: 24px;         --font-body-1-tracking: 0.2px;
+  --font-body-2-size: 14px;         --font-body-2-line: 20px;         --font-body-2-tracking: 0.1px;
+  --font-caption-size: 12px;        --font-caption-line: 16px;        --font-caption-tracking: 0px;
+
+  /* Sombra */
+  --shadow-blur-base-00: 0 4px 8px 0 #AFAFAF4D;  /* Blur/Base 00 */
+  --shadow-modal-login: 0 13px 16px 0 #ADADB1;   /* figma: 742:19087 (sin variable) */
+  --shadow-input-foco: 0 2px 6px #EAF1FF;         /* figma: I742:19087;742:18815;27:710 (sin variable) */
+
+  /* Layout */
+  --breakpoint-desktop: 1920px;
+  --layout-content-width: 1178px;
+}
+
+/* Clases de estilo de texto: una por estilo de Figma */
+.text-heading-1-book     { font: var(--font-weight-book) var(--font-heading-1-size)/var(--font-heading-1-line) var(--font-family-book); letter-spacing: var(--font-heading-1-tracking); }
+.text-heading-3-book     { font: var(--font-weight-book) var(--font-heading-3-size)/var(--font-heading-3-line) var(--font-family-book); letter-spacing: var(--font-heading-3-tracking); }
+.text-heading-3-medium   { font: var(--font-weight-regular) var(--font-heading-3-size)/var(--font-heading-3-line) var(--font-family-regular); letter-spacing: var(--font-heading-3-tracking); }
+.text-headline-book      { font: var(--font-weight-book) var(--font-headline-size)/var(--font-headline-line) var(--font-family-book); letter-spacing: var(--font-headline-tracking); }
+.text-subheadline-book   { font: var(--font-weight-book) var(--font-subheadline-size)/var(--font-subheadline-line) var(--font-family-book); letter-spacing: var(--font-subheadline-tracking); }
+.text-subheadline-medium { font: var(--font-weight-regular) var(--font-subheadline-size)/var(--font-subheadline-line) var(--font-family-regular); letter-spacing: var(--font-subheadline-tracking); }
+.text-body-1-book        { font: var(--font-weight-book) var(--font-body-1-size)/var(--font-body-1-line) var(--font-family-book); letter-spacing: var(--font-body-1-tracking); }
+.text-body-1-book-link   { font: var(--font-weight-book) var(--font-body-1-size)/var(--font-body-1-line) var(--font-family-book); letter-spacing: var(--font-body-1-tracking); }
+.text-body-1-medium      { font: var(--font-weight-regular) var(--font-body-1-size)/var(--font-body-1-line) var(--font-family-regular); letter-spacing: var(--font-body-1-tracking); }
+.text-body-2-book        { font: var(--font-weight-book) var(--font-body-2-size)/var(--font-body-2-line) var(--font-family-book); letter-spacing: var(--font-body-2-tracking); }
+.text-body-2-medium      { font: var(--font-weight-regular) var(--font-body-2-size)/var(--font-body-2-line) var(--font-family-regular); letter-spacing: var(--font-body-2-tracking); }
+.text-caption-book       { font: var(--font-weight-book) var(--font-caption-size)/var(--font-caption-line) var(--font-family-book); letter-spacing: var(--font-caption-tracking); }
+
+/* Texto con valores sueltos de Figma (sin variable): HeadingNow-75Medium y Open Sans */
+.text-heading-3-strong { font: var(--font-weight-medium) var(--font-heading-3-size)/var(--font-heading-3-line) var(--font-family-medium); }
+.text-os-subheadline   { font: 400 var(--font-subheadline-size)/var(--font-subheadline-line) var(--font-family-open-sans); }
+.text-os-body-1        { font: 400 var(--font-body-1-size)/var(--font-body-1-line) var(--font-family-open-sans); letter-spacing: var(--font-body-1-tracking); }
+.text-os-body-2        { font: 400 var(--font-body-2-size)/var(--font-body-2-line) var(--font-family-open-sans); letter-spacing: var(--font-body-2-tracking); }
+.text-headline-medium  { font: var(--font-weight-regular) var(--font-headline-size)/var(--font-headline-line) var(--font-family-regular); } /* HeadingNow-74Regular 20/28, sin variable */
+
+/* Autex_2026_Frames — estilos sin variable en Figma */
+.text-os-titulo-28 { font: 600 28px/40px var(--font-family-open-sans); }  /* figma: 742:20363 */
+.text-os-titulo-32 { font: 600 32px/40px var(--font-family-open-sans); }  /* figma: 668:18475 */
+.text-inter-body-1 { font: 400 16px/24px var(--font-family-inter); }      /* figma: I673:18933;668:18879;145:3515 */
+.text-precio-32    { font: var(--font-weight-book) 32px/40px var(--font-family-book); }    /* figma: I673:18933;668:18879;145:3516 */
+.text-precio-32-medium { font: var(--font-weight-regular) 32px/40px var(--font-family-regular); } /* figma: I673:20358;673:20344 */
+.text-total-30     { font: var(--font-weight-regular) 30px/24px var(--font-family-regular); } /* figma: 898:15863 */

@@ -1,0 +1,58 @@
+/* figma: 901:31850 — 1270 de ancho, radio 16 */
+.card {
+  position: relative;
+  width: 1270px;
+  flex-shrink: 0;
+  background: var(--color-nativo-blanco);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.head {
+  position: relative;
+  height: 96px;
+  background: var(--color-primary-500);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.decore {
+  position: absolute;
+  left: -115px;
+  top: -50px;
+}
+
+.title {
+  position: absolute;
+  left: 94px;
+  top: 48px;
+  transform: translateY(-50%);
+  margin: 0;
+  color: var(--color-nativo-blanco);
+  white-space: nowrap;
+}
+
+.contenido {
+  display: flex;
+  flex-direction: column;
+  padding: 0 40px 20px;
+}
+
+.intro {
+  margin: 0;
+  color: var(--color-neutral-900);
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.actionsInset {
+  padding: 0 20px;
+}

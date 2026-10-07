@@ -1,0 +1,269 @@
+/* figma: 2617:106675 — 1920×225 */
+.navbar {
+  width: 100%;
+  background: var(--color-nativo-blanco);
+  display: flex;
+  flex-direction: column;
+}
+
+.banner {
+  position: relative;
+  height: 57px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  overflow: hidden;
+}
+
+.bannerText {
+  position: absolute;
+  left: 80px;
+  top: 16px;
+  display: flex;
+  gap: 24px;
+  white-space: nowrap;
+}
+
+.bannerButtons {
+  position: absolute;
+  right: 80px;
+  top: 16px;
+  display: flex;
+  gap: 32px;
+}
+
+.bannerItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.main {
+  position: relative;
+  height: 96px;
+}
+
+.left {
+  position: absolute;
+  left: 80px;
+  top: 28px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.brand {
+  display: flex;
+  height: 40px;
+  padding: 4px 0;
+  align-items: center;
+  width: 166px;
+}
+
+.action {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  height: 40px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--color-neutral-50);
+  width: 219px;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.location {
+  width: 218px;
+}
+
+.actionDesc {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.actionText {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  overflow: hidden;
+  font-family: var(--font-family-book);
+  font-weight: var(--font-weight-book);
+}
+
+.line1 {
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-book);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line2Primary {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-primary-500);
+}
+
+.line2Green {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-green-700);
+}
+
+.searchbar {
+  position: absolute;
+  left: 549px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 646px;
+  display: flex;
+  isolation: isolate;
+}
+
+.categories {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 12px;
+  margin-right: -1px;
+  background: var(--color-primary-50);
+  border: 1px solid var(--color-primary-300);
+  border-radius: 4px 0 0 4px;
+  color: var(--color-neutral-800);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.search {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 16px;
+  background: var(--color-nativo-blanco);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 0 4px 4px 0;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.searchPlaceholder {
+  flex: 1 1 0;
+  color: var(--color-neutral-500);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.right {
+  position: absolute;
+  right: 80px;
+  top: 28px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.user {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 219px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.actionsRight {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.bell {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.badge {
+  background: var(--color-secondary-500);
+  color: var(--color-nativo-blanco);
+  padding: 4px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  padding: 20px 96px;
+  border-bottom: 1px solid var(--color-neutral-100);
+  overflow: hidden;
+}
+
+.linksRow {
+  width: 1280px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  padding: 4px 16px;
+  color: var(--color-neutral-900);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Variante B2B — 2617:102447 */
+.bannerB2b {
+  background: var(--color-secondary-600);
+}
+
+.line2Gray {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--color-neutral-600);
+}
+
+.bellB2b {
+  position: relative;
+  border-radius: 8px;
+  background: var(--color-neutral-50);
+}
+
+.punto {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+}

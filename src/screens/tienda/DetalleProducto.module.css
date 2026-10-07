@@ -1,0 +1,709 @@
+/* figma: Section 12849:113507 — 1920×528, hijos en posición absoluta */
+.section {
+  position: relative;
+  height: 528px;
+}
+
+/* Gallery_of_detail 12849:113528 — x=80 y=32, 703×408 */
+.gallery {
+  position: absolute;
+  left: 80px;
+  top: 32px;
+  display: flex;
+  gap: 8px;
+}
+
+.thumbs {
+  height: 408px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thumb {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  padding: 0;
+  border: none;
+  border-radius: 2px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-100);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.thumbOn {
+  box-shadow: inset 0 0 0 2px var(--color-primary-700), 0 4px 20px 0 rgba(0, 0, 0, 0.08);
+}
+
+.thumbImg {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + 0.5px);
+  width: 70px;
+  height: 57px;
+  transform: translate(-50%, -50%);
+  background: var(--color-nativo-blanco);
+}
+
+.thumbImg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.play {
+  position: absolute;
+  left: 28px;
+  top: 28px;
+}
+
+.viewer {
+  position: relative;
+  width: 599px;
+  height: 408px;
+  background: var(--color-nativo-blanco);
+  overflow: hidden;
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+  width: 56px;
+  height: 408px;
+  background: var(--color-nativo-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+.arrowBtn {
+  display: flex;
+  padding: 2.4px;
+  border-radius: 59.4px;
+  background: var(--color-neutral-100);
+}
+
+.main {
+  position: absolute;
+  left: calc(50% - 0.5px);
+  top: 50%;
+  width: 400px;
+  height: 328px;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+}
+
+.indicators {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 599px;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.oferta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.descuento {
+  padding: 4px;
+  border-radius: 4px;
+  background: var(--color-red-900);
+  color: var(--color-nativo-blanco);
+}
+
+.ofertaTxt {
+  color: var(--color-red-900);
+  letter-spacing: 0.1px;
+}
+
+/* Description on detail 12849:113531 — x=815 y=32 w=677 */
+.desc {
+  position: absolute;
+  left: 815px;
+  top: 32px;
+  width: 677px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mainDesc {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-family-book);
+  font-weight: var(--font-weight-book);
+}
+
+.sku {
+  display: flex;
+  gap: 31px;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--color-neutral-600);
+  white-space: nowrap;
+}
+
+.nombre {
+  font-size: 28px;
+  line-height: 36px;
+  color: var(--color-neutral-900);
+}
+
+.pricing {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  font: 400 32px/40px var(--font-family-open-sans);
+  white-space: nowrap;
+}
+
+.precioOferta {
+  color: var(--color-red-900);
+}
+
+.precioAntes {
+  color: var(--color-neutral-500);
+  text-decoration: line-through;
+}
+
+.disp {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.dispTxt {
+  font: var(--font-weight-regular) 20px/32px var(--font-family-regular);
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.divider {
+  position: absolute;
+  left: 815px;
+  top: 336px; /* figma: Divider y=320 con padding 16 */
+  width: 677px;
+  height: 1px;
+  background: var(--color-neutral-300);
+}
+
+.marca {
+  position: absolute;
+  left: 815px;
+  top: 377px;
+  width: 134.667px;
+  height: 32px;
+  object-fit: cover;
+  background: var(--color-nativo-blanco);
+}
+
+/* SideCards 12849:113508 — x=1532 y=32 */
+.side {
+  position: absolute;
+  left: 1532px;
+  top: 32px;
+  width: 308px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cost {
+  position: relative;
+  height: 252px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+}
+
+.enOferta {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0;
+  color: var(--color-neutral-900);
+}
+
+.precio {
+  position: absolute;
+  left: 15px;
+  top: 43px;
+  width: 276px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cost2 {
+  display: flex;
+  gap: 4px;
+  align-items: flex-end;
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-book);
+  white-space: nowrap;
+}
+
+.small {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  padding-bottom: 4px;
+}
+
+.big {
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.descTxt {
+  font: 400 12px/16px var(--font-family-open-sans);
+  color: var(--color-neutral-600);
+}
+
+.addToCart {
+  position: absolute;
+  left: 15px;
+  top: 123px;
+  width: 276px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qty {
+  position: relative;
+  height: 40px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.qtyBtn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 40px;
+  border: none;
+  padding: 0;
+  background: var(--color-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.qtyRight {
+  left: auto;
+  right: 0;
+}
+
+.qtyValue {
+  position: absolute;
+  left: 31px;
+  right: 31px;
+  top: 0;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 400 16px/24px 'Inter', sans-serif;
+  color: #1a202c; /* D21 */
+}
+
+.anadir {
+  width: 100%;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  cursor: pointer;
+}
+
+.anadir:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lista {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-800);
+}
+
+.politica {
+  padding: 12px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  font: 400 12px/16px var(--font-family-open-sans);
+  color: var(--color-neutral-600);
+  white-space: pre-wrap;
+}
+
+/* Comprados juntos 12849:113532 — padding 24 80 */
+.juntos {
+  padding: 24px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.juntosTitle {
+  color: var(--color-neutral-900);
+}
+
+.juntosMain {
+  width: 1020px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.photos {
+  display: flex;
+  gap: 23.014px;
+  align-items: center;
+}
+
+.photoWrap {
+  display: flex;
+  gap: 23.014px;
+  align-items: center;
+}
+
+.photo {
+  position: relative;
+  width: 163.973px;
+  height: 163.973px;
+  border-radius: 5.753px;
+  background: var(--color-nativo-blanco);
+  overflow: hidden;
+}
+
+.photo img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 115.068px;
+  height: 140.959px;
+  transform: translate(-50%, -50%);
+}
+
+.juntosAction {
+  width: 302px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.total {
+  font-family: var(--font-family-regular);
+  font-weight: var(--font-weight-regular);
+  text-align: center;
+  color: #000; /* figma: 12849:113549 negro sin variable */
+}
+
+.totalMonto {
+  color: var(--color-primary-500);
+}
+
+.checks {
+  width: 1020px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.check {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.checkLabel {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 8px 16px;
+  color: var(--color-blue-500);
+}
+
+.checkbox {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  background: var(--color-primary-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkPrecio {
+  color: var(--color-primary-500);
+  white-space: nowrap;
+}
+
+/* Tabs - Especificaciones 12849:113561 — 320 de alto */
+.especificaciones {
+  height: 320px;
+}
+
+.tabsMenu {
+  padding: 16px 80px 0;
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+.tabsMenu > div {
+  border-bottom: none;
+}
+
+.bullets {
+  padding: 32px 80px;
+  display: flex;
+  gap: 16px;
+}
+
+.bulletCol {
+  width: 576px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.bulletCol:first-child .bullet:last-child {
+  margin-top: -12px; /* figma: el 4.º bullet está fuera del grupo (gap 20 en lugar de 32) */
+}
+
+.bullet {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: var(--color-neutral-900);
+}
+
+/* Sustitutos / Relacionados — padding 56 80, 478 de alto */
+.carrusel {
+  height: 478px;
+  padding: 56px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.carruselTitle {
+  font-family: var(--font-family-regular);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-neutral-900);
+}
+
+.carruselRow {
+  width: 1760px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.navBtn {
+  width: 40px;
+  display: flex;
+  padding: 4px;
+  border-radius: 99px;
+  background: var(--color-neutral-100);
+}
+
+.carruselItems {
+  flex: 1 1 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.promo {
+  width: 198px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  color: var(--color-neutral-900);
+}
+
+.promoImg {
+  position: relative;
+  height: 198px;
+  overflow: hidden;
+}
+
+.promoImg > span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 182px;
+  height: 182px;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: multiply; /* figma: image paste (contenedor) */
+}
+
+.promoImg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* figma: Otros productos 12849:113604 — 1020 de alto, fondo Neutral/50 */
+.otros {
+  height: 1020px;
+  background: var(--color-neutral-50);
+}
+
+.promoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+}
+
+.small12 {
+  font-size: 12px;
+  line-height: 16px;
+  padding-bottom: 8px;
+}
+
+.big24 {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+/* Disponibilidad (sitio, sin respaldo en Figma, D34) */
+.disponibilidad {
+  width: 860px;
+  margin: 0 0 32px 80px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: var(--shadow-blur-base-00);
+  color: var(--color-neutral-900);
+}
+
+.disponibilidad p {
+  margin: 0;
+}
+
+.dispColumnas {
+  display: flex;
+}
+
+.dispColumna {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 24px;
+}
+
+.dispColumna + .dispColumna {
+  padding: 0 0 0 24px;
+  box-shadow: inset 1px 0 0 var(--color-neutral-200);
+}
+
+.dispFila {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.dispVerde {
+  color: var(--color-green-700);
+}
+
+.dispRojo {
+  color: var(--color-secondary-500);
+}
+
+.dispGris {
+  color: var(--color-neutral-600);
+}
+
+.dispEnlace {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary-500);
+  cursor: pointer;
+}
+
+/* Sitio (D38): imagen del producto elegido */
+.mainSitio {
+  object-fit: contain;
+}
+
+.pendiente {
+  filter: grayscale(1);
+  opacity: 0.25;
+  padding: 80px;
+  box-sizing: border-box;
+}
+
+.marcaTexto {
+  width: auto;
+  height: auto;
+  margin: 0;
+  color: var(--color-primary-500);
+  white-space: nowrap;
+}
+
+/* Sitio (D39): tope de piezas para compra en línea */
+.qtyBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.costAviso {
+  height: 296px;
+}
+
+.avisoTope {
+  margin: -8px 0 0;
+  color: var(--color-secondary-500);
+}

@@ -1,0 +1,73 @@
+/* Sitio (sin respaldo en Figma, D35): dirección de entrega, tooltip de cambio y modal de direcciones */
+
+.direccion {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 4px;
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-900);
+}
+
+.direccion p {
+  margin: 0;
+}
+
+.gris {
+  color: var(--color-neutral-600);
+}
+
+/* Tooltip: aparece al pasar el cursor o enfocar "Cambiar dirección de entrega" */
+.conAyuda {
+  position: relative;
+  display: inline-flex;
+}
+
+.ayuda {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  z-index: 5;
+  width: 320px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--color-neutral-900);
+  color: var(--color-nativo-blanco);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+.ayuda::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 32px;
+  border: 6px solid transparent;
+  border-top-color: var(--color-neutral-900);
+}
+
+.conAyuda:hover .ayuda,
+.conAyuda:focus-within .ayuda {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nota {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 12px;
+  border-radius: 4px;
+  background: var(--color-primary-50);
+  color: var(--color-neutral-900);
+}

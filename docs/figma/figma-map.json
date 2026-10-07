@@ -1,0 +1,606 @@
+{
+  "estado": "Reemplazado el 2026-10-05 por Autex_2026_Frames (docs/figma-2026/figma-map.json). Se conserva como historial.",
+  "fileKey": "qp14Mbl7khZF2xWAwaocfP",
+  "lastSync": "2026-10-05",
+  "nodes": {
+    "12849:114186": {
+      "name": "New Home Autex - Cuadricula",
+      "type": "FRAME",
+      "flujo": "Tienda",
+      "code": "src/screens/tienda/Inicio.tsx",
+      "ruta": "/figma/12849-114186",
+      "screenshot": "docs/figma/cache/12849-114186.png",
+      "diffPct": 4.23,
+      "status": "verificado con discrepancia registrada"
+    },
+    "12849:113500": {
+      "name": "Producto - Detalle - Expecificaciones del producto",
+      "type": "FRAME",
+      "flujo": "Tienda",
+      "code": "src/screens/tienda/DetalleProducto.tsx",
+      "ruta": "/figma/12849-113500",
+      "screenshot": "docs/figma/cache/12849-113500.png",
+      "diffPct": 2.26,
+      "status": "verificado"
+    },
+    "397:35700": {
+      "name": "Checkout - Invitado - Direccion",
+      "type": "FRAME",
+      "flujo": "F1 Invitado · Sucursal",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/397-35700",
+      "screenshot": "docs/figma/cache/397-35700.png",
+      "diffPct": 4.45,
+      "status": "verificado con discrepancia registrada"
+    },
+    "128:64284": {
+      "name": "Checkout - Invitado - Seleccionar sucursal",
+      "type": "FRAME",
+      "flujo": "F1 Invitado · Sucursal",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"opciones\"",
+      "ruta": "/figma/128-64284",
+      "screenshot": "docs/figma/cache/128-64284.png",
+      "diffPct": 1.61,
+      "status": "verificado"
+    },
+    "2596:99063": {
+      "name": "… Sucursales - Estados",
+      "type": "FRAME",
+      "flujo": "F1 Invitado · Sucursal",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"estados\"",
+      "ruta": "/figma/2596-99063",
+      "screenshot": "docs/figma/cache/2596-99063.png",
+      "diffPct": 2.07,
+      "status": "verificado"
+    },
+    "2596:99874": {
+      "name": "… Edo seleccionado y tiendas",
+      "type": "FRAME",
+      "flujo": "F1 Invitado · Sucursal",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"tiendas\"",
+      "ruta": "/figma/2596-99874",
+      "screenshot": "docs/figma/cache/2596-99874.png",
+      "diffPct": 2.11,
+      "status": "verificado"
+    },
+    "129:66134": {
+      "name": "Checkout - Invitado - Sucursal Metodo de pago",
+      "type": "FRAME",
+      "flujo": "F1 Invitado · Sucursal",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/129-66134",
+      "screenshot": "docs/figma/cache/129-66134.png",
+      "diffPct": 1.61,
+      "status": "verificado"
+    },
+    "130:65540": {
+      "name": "Checkout - Invitado - Sucursal Confirmacion",
+      "type": "FRAME",
+      "flujo": "F1 Invitado · Sucursal",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "sinIntro",
+      "ruta": "/figma/130-65540",
+      "screenshot": "docs/figma/cache/130-65540.png",
+      "diffPct": 2.02,
+      "status": "verificado"
+    },
+    "2599:98491": {
+      "name": "Checkout - Invitado - Confirmacion tarjeta",
+      "type": "FRAME",
+      "flujo": "F2 Confirmación tarjetas",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"verificando\"",
+      "ruta": "/figma/2599-98491",
+      "screenshot": "docs/figma/cache/2599-98491.png",
+      "diffPct": 2.16,
+      "status": "verificado"
+    },
+    "2599:98979": {
+      "name": "Checkout - Invitado - Confirmacion tarjeta - Error",
+      "type": "FRAME",
+      "flujo": "F2 Confirmación tarjetas",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"declinada\"",
+      "ruta": "/figma/2599-98979",
+      "screenshot": "docs/figma/cache/2599-98979.png",
+      "diffPct": 2.61,
+      "status": "verificado"
+    },
+    "2599:99538": {
+      "name": "Checkout - Invitado - Editar metodo de envio",
+      "type": "FRAME",
+      "flujo": "F3 Editar envío",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"editarEnvio\"",
+      "ruta": "/figma/2599-99538",
+      "screenshot": "docs/figma/cache/2599-99538.png",
+      "diffPct": 2.6,
+      "status": "verificado"
+    },
+    "2599:99708": {
+      "name": "Checkout - Invitado - Confirmacion tarjeta - Error (domicilio)",
+      "type": "FRAME",
+      "flujo": "F3 Editar envío",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"editarEnvio\"",
+      "ruta": "/figma/2599-99708",
+      "screenshot": "docs/figma/cache/2599-99708.png",
+      "diffPct": 2.57,
+      "status": "verificado"
+    },
+    "2599:101632": {
+      "name": "Checkout - Invitado - Editar metodo de pago",
+      "type": "FRAME",
+      "flujo": "F4 Editar pago",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"editarPago\"",
+      "ruta": "/figma/2599-101632",
+      "screenshot": "docs/figma/cache/2599-101632.png",
+      "diffPct": 2.53,
+      "status": "verificado"
+    },
+    "1324:96920": {
+      "name": "Checkout - Invitado - A domicilio",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/1324-96920",
+      "screenshot": "docs/figma/cache/1324-96920.png",
+      "diffPct": 1.92,
+      "status": "verificado"
+    },
+    "135:67668": {
+      "name": "Checkout - A domiciolio - 02",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"domicilio\"",
+      "ruta": "/figma/135-67668",
+      "screenshot": "docs/figma/cache/135-67668.png",
+      "diffPct": 1.91,
+      "status": "verificado"
+    },
+    "136:68850": {
+      "name": "Checkout - A domiciolio - 03",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/136-68850",
+      "screenshot": "docs/figma/cache/136-68850.png",
+      "diffPct": 1.52,
+      "status": "verificado"
+    },
+    "2599:103603": {
+      "name": "Checkout - A domiciolio - 9",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "props": "modalTiendas",
+      "ruta": "/figma/2599-103603",
+      "screenshot": "docs/figma/cache/2599-103603.png",
+      "diffPct": 2.54,
+      "status": "verificado"
+    },
+    "136:70130": {
+      "name": "Checkout - A domiciolio - Confirmacion",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/136-70130",
+      "screenshot": "docs/figma/cache/136-70130.png",
+      "diffPct": 2.04,
+      "status": "verificado"
+    },
+    "2599:104540": {
+      "name": "Checkout - A domiciolio - Confirmacion (OpenPay)",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"openpay\"",
+      "ruta": "/figma/2599-104540",
+      "screenshot": "docs/figma/cache/2599-104540.png",
+      "diffPct": 1.87,
+      "status": "verificado"
+    },
+    "136:70626": {
+      "name": "Checkout - A domiciolio - 06",
+      "type": "FRAME",
+      "flujo": "F5 Invitado · Domicilio",
+      "code": "src/screens/checkout/Gracias.tsx",
+      "ruta": "/figma/136-70626",
+      "screenshot": "docs/figma/cache/136-70626.png",
+      "status": "sin captura comparable"
+    },
+    "949:84894": {
+      "name": "Ticket Tiendad",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/TicketTienda.tsx",
+      "status": "implementado"
+    },
+    "463:119933": {
+      "name": "Checkout - B2C - Sucursal (datos)",
+      "type": "FRAME",
+      "flujo": "F6 B2C · Sucursal",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "props": "direcciones=\"b2cUna\"",
+      "ruta": "/figma/463-119933",
+      "screenshot": "docs/figma/cache/463-119933.png",
+      "diffPct": 1.63,
+      "status": "verificado"
+    },
+    "463:120909": {
+      "name": "Checkout - B2C - Sucursal (envío)",
+      "type": "FRAME",
+      "flujo": "F6 B2C · Sucursal",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"opciones\"",
+      "ruta": "/figma/463-120909",
+      "screenshot": "docs/figma/cache/463-120909.png",
+      "diffPct": 1.65,
+      "status": "verificado"
+    },
+    "463:121566": {
+      "name": "Checkout - B2C - Sucursal (tiendas)",
+      "type": "FRAME",
+      "flujo": "F6 B2C · Sucursal",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"tiendas\"",
+      "ruta": "/figma/463-121566",
+      "screenshot": "docs/figma/cache/463-121566.png",
+      "diffPct": 2.16,
+      "status": "verificado"
+    },
+    "463:122330": {
+      "name": "Checkout - B2C - Sucursal (pago)",
+      "type": "FRAME",
+      "flujo": "F6 B2C · Sucursal",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/463-122330",
+      "screenshot": "docs/figma/cache/463-122330.png",
+      "diffPct": 1.71,
+      "status": "verificado"
+    },
+    "482:87878": {
+      "name": "Checkout - Invitado - Sucursal Confirmacion (B2C)",
+      "type": "FRAME",
+      "flujo": "F6 B2C · Sucursal",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/482-87878",
+      "screenshot": "docs/figma/cache/482-87878.png",
+      "diffPct": 2.04,
+      "status": "verificado"
+    },
+    "482:82975": {
+      "name": "Autex - Checkout - Domicilio (datos)",
+      "type": "FRAME",
+      "flujo": "F7 B2C · Domicilio",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "props": "direcciones=\"b2c\"",
+      "ruta": "/figma/482-82975",
+      "screenshot": "docs/figma/cache/482-82975.png",
+      "diffPct": 4.72,
+      "status": "verificado con discrepancia registrada"
+    },
+    "482:83129": {
+      "name": "Autex - Checkout - Domicilio (envío)",
+      "type": "FRAME",
+      "flujo": "F7 B2C · Domicilio",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"domicilio\"",
+      "ruta": "/figma/482-83129",
+      "screenshot": "docs/figma/cache/482-83129.png",
+      "diffPct": 2,
+      "status": "verificado",
+      "porConfirmar": true
+    },
+    "2600:108075": {
+      "name": "Checkout - B2C - Sucursal (pago, domicilio)",
+      "type": "FRAME",
+      "flujo": "F7 B2C · Domicilio",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "ruta": "/figma/2600-108075",
+      "screenshot": "docs/figma/cache/2600-108075.png",
+      "diffPct": 1.71,
+      "status": "verificado"
+    },
+    "2600:108667": {
+      "name": "Checkout - Invitado - Sucursal Confirmacion (B2C domicilio)",
+      "type": "FRAME",
+      "flujo": "F7 B2C · Domicilio",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/2600-108667",
+      "screenshot": "docs/figma/cache/2600-108667.png",
+      "diffPct": 2.12,
+      "status": "verificado",
+      "porConfirmar": true
+    },
+    "1324:97509": {
+      "name": "Checkout - Nuevo usuario",
+      "type": "FRAME",
+      "flujo": "F8 Nuevo usuario",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/1324-97509",
+      "screenshot": "docs/figma/cache/1324-97509.png",
+      "diffPct": 1.96,
+      "status": "verificado"
+    },
+    "2600:113324": {
+      "name": "Confirmacion + editar envío",
+      "type": "FRAME",
+      "flujo": "F9 Edición de envío",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"editarEnvio\"",
+      "ruta": "/figma/2600-113324",
+      "screenshot": "docs/figma/cache/2600-113324.png",
+      "diffPct": 2.59,
+      "status": "verificado"
+    },
+    "2600:113845": {
+      "name": "Confirmacion + editar envío (oculto)",
+      "type": "FRAME",
+      "flujo": "F9 Edición de envío",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/2600-113845",
+      "screenshot": "docs/figma/cache/2600-113845.png",
+      "diffPct": 2.13,
+      "status": "verificado",
+      "porConfirmar": true
+    },
+    "2600:114582": {
+      "name": "Confirmacion + editar pago",
+      "type": "FRAME",
+      "flujo": "F10 Edición de pago",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"editarPago\"",
+      "ruta": "/figma/2600-114582",
+      "screenshot": "docs/figma/cache/2600-114582.png",
+      "diffPct": 2.44,
+      "status": "verificado"
+    },
+    "2600:114910": {
+      "name": "Confirmacion + editar pago (tarjeta nueva)",
+      "type": "FRAME",
+      "flujo": "F10 Edición de pago",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "props": "overlayInicial=\"editarPago\" tarjetaNuevaInicial",
+      "ruta": "/figma/2600-114910",
+      "screenshot": "docs/figma/cache/2600-114910.png",
+      "diffPct": 2.44,
+      "status": "verificado"
+    },
+    "2600:116100": {
+      "name": "Checkout - B2B - Sucursal (datos)",
+      "type": "FRAME",
+      "flujo": "F11 B2B · Crédito",
+      "code": "src/screens/checkout/DatosUsuario.tsx",
+      "ruta": "/figma/2600-116100",
+      "screenshot": "docs/figma/cache/2600-116100.png",
+      "diffPct": 2.27,
+      "status": "verificado"
+    },
+    "2600:116276": {
+      "name": "Checkout - B2B - Sucursal (envío)",
+      "type": "FRAME",
+      "flujo": "F11 B2B · Crédito",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"opciones\"",
+      "ruta": "/figma/2600-116276",
+      "screenshot": "docs/figma/cache/2600-116276.png",
+      "diffPct": 2.12,
+      "status": "verificado",
+      "porConfirmar": true
+    },
+    "2600:116409": {
+      "name": "Checkout - B2B - Sucursal (tiendas)",
+      "type": "FRAME",
+      "flujo": "F11 B2B · Crédito",
+      "code": "src/screens/checkout/MetodoEnvio.tsx",
+      "props": "inicial=\"tiendas\"",
+      "ruta": "/figma/2600-116409",
+      "screenshot": "docs/figma/cache/2600-116409.png",
+      "diffPct": 2.68,
+      "status": "verificado",
+      "porConfirmar": true
+    },
+    "2600:116683": {
+      "name": "Checkout - B2B -Credito apymsa",
+      "type": "FRAME",
+      "flujo": "F11 B2B · Crédito",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "props": "saldoCredito={45000}",
+      "ruta": "/figma/2600-116683",
+      "screenshot": "docs/figma/cache/2600-116683.png",
+      "diffPct": 2.25,
+      "status": "verificado"
+    },
+    "2605:97855": {
+      "name": "Checkout - B2B -Credito apymsa (sin saldo)",
+      "type": "FRAME",
+      "flujo": "F11 B2B · Crédito",
+      "code": "src/screens/checkout/MetodoPago.tsx",
+      "props": "saldoCredito={5000}",
+      "ruta": "/figma/2605-97855",
+      "screenshot": "docs/figma/cache/2605-97855.png",
+      "diffPct": 2.34,
+      "status": "verificado"
+    },
+    "2600:116869": {
+      "name": "Checkout - Invitado - Sucursal Confirmacion (B2B)",
+      "type": "FRAME",
+      "flujo": "F11 B2B · Crédito",
+      "code": "src/screens/checkout/Confirmacion.tsx",
+      "ruta": "/figma/2600-116869",
+      "screenshot": "docs/figma/cache/2600-116869.png",
+      "diffPct": 2.75,
+      "status": "verificado"
+    },
+    "2617:106675": {
+      "name": "Navbar / Completed",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Navbar.tsx",
+      "status": "implementado"
+    },
+    "2617:102447": {
+      "name": "Navbar Desktop (B2B)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Navbar.tsx",
+      "status": "implementado"
+    },
+    "38:98638": {
+      "name": "Footer",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Footer.tsx",
+      "status": "implementado"
+    },
+    "111:36109": {
+      "name": "Content (breadcrumbs)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/Breadcrumbs.tsx",
+      "status": "implementado"
+    },
+    "3795:63969": {
+      "name": "Step",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/Stepper.tsx",
+      "status": "implementado"
+    },
+    "599:48146": {
+      "name": "Container (tarjeta checkout)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/CheckoutCard.tsx",
+      "status": "implementado"
+    },
+    "2596:98511": {
+      "name": "Resumen",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Resumen.tsx",
+      "status": "implementado"
+    },
+    "27:710": {
+      "name": "Input form / Field Label",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/atoms/TextField.tsx",
+      "status": "implementado"
+    },
+    "4973:32818": {
+      "name": "Radio",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/atoms/Radio.tsx",
+      "status": "implementado"
+    },
+    "2596:100531": {
+      "name": "Option Sucursal",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/OpcionSeleccionable.tsx",
+      "status": "implementado"
+    },
+    "2596:99046": {
+      "name": "Método de envío (fila)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/MetodoEnvioRow.tsx",
+      "status": "implementado"
+    },
+    "2596:99607": {
+      "name": "Tab",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/Tabs.tsx",
+      "status": "implementado"
+    },
+    "2596:99563": {
+      "name": "Toast",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/Toast.tsx",
+      "status": "implementado"
+    },
+    "2599:100517": {
+      "name": "Modal de edicion",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Modal.tsx",
+      "status": "implementado"
+    },
+    "2599:99468": {
+      "name": "Alert Dialog",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/AlertDialog.tsx",
+      "status": "implementado"
+    },
+    "2599:97065": {
+      "name": "Formas de pago",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/FormaDePago.tsx",
+      "status": "implementado"
+    },
+    "2599:98351": {
+      "name": "Bloques de confirmación",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/molecules/ConfirmacionBloque.tsx",
+      "status": "implementado"
+    },
+    "2599:104115": {
+      "name": "Grid tiendas",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/TiendasAutoservicio.tsx",
+      "status": "implementado"
+    },
+    "4269:126070": {
+      "name": "Tarjeta (registradas)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/PagoRegistrado.tsx",
+      "status": "implementado"
+    },
+    "2600:119037": {
+      "name": "Crédito Apymsa / Mi balance",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/PagoRegistrado.tsx",
+      "status": "implementado"
+    },
+    "12849:114195": {
+      "name": "Product (tarjeta)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/ProductCard.tsx",
+      "status": "implementado"
+    },
+    "12849:114191": {
+      "name": "Sidebar (filtros)",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Filtros.tsx",
+      "status": "implementado"
+    },
+    "12849:114189": {
+      "name": "SearchByCar",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/BuscadorVehiculo.tsx",
+      "status": "implementado"
+    },
+    "3527:121767": {
+      "name": "ItemKart Tipo=Full",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Carrito.tsx",
+      "status": "implementado"
+    },
+    "1029:30142": {
+      "name": "Carrito items-notificacion",
+      "type": "COMPONENT/INSTANCIA",
+      "code": "src/design-system/components/organisms/Carrito.tsx",
+      "status": "implementado"
+    },
+    "sin-respaldo:ubicacion": {
+      "name": "Selección de ubicación / C.P.",
+      "code": "src/design-system/components/organisms/Ubicacion.tsx",
+      "status": "sin respaldo en Figma (D5)"
+    },
+    "sin-respaldo:carrito": {
+      "name": "Página de carrito",
+      "code": "src/screens/tienda/CarritoPagina.tsx",
+      "status": "sin respaldo en Figma (D5)"
+    },
+    "sin-respaldo:ingresar": {
+      "name": "Ingresar (sesión simulada)",
+      "code": "src/screens/tienda/Ingresar.tsx",
+      "status": "sin respaldo en Figma"
+    }
+  }
+}

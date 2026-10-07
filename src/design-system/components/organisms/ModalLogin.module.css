@@ -1,0 +1,286 @@
+.fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-alpha-back-300);
+}
+
+/* figma: 742:19087 — 840 de ancho (contenido 792 + 2×24 de padding visual), radio 16 */
+.modal {
+  width: 840px;
+  background: var(--color-nativo-blanco);
+  border-radius: 16px;
+  box-shadow: var(--shadow-modal-login);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.head {
+  height: 50px;
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: var(--color-neutral-50);
+}
+
+.cerrar {
+  display: flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.cuerpo {
+  padding: 0 50px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.bienvenida {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bienvenida p {
+  margin: 0;
+}
+
+.titulo {
+  font: var(--font-weight-regular) 28px/36px var(--font-family-regular); /* figma: I742:19087;742:18811 */
+  color: var(--color-neutral-900);
+}
+
+.subtitulo {
+  color: var(--color-neutral-800);
+}
+
+.formulario {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.campos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.etiqueta {
+  display: flex;
+  gap: 8px;
+  color: var(--color-neutral-900);
+}
+
+.requerido {
+  font: 400 14px/20px var(--font-family-open-sans);
+  color: var(--color-secondary-500);
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-900);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-neutral-400);
+}
+
+/* figma: Input form enfocado — borde Primary/400 + sombra */
+.input:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400), var(--shadow-input-foco);
+}
+
+.inputIcono {
+  position: relative;
+  display: flex;
+}
+
+.inputIcono .input {
+  padding-right: 44px;
+}
+
+.ojo {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.extras {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.mantener {
+  flex: 1 1 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 8px 16px;
+  color: var(--color-blue-500);
+  cursor: pointer;
+}
+
+/* figma: Checkbox 48:769 — 24, borde 2 Neutral/400, radio 2 */
+.checkbox {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 2px solid var(--color-neutral-400);
+  border-radius: 2px;
+  background: var(--color-nativo-blanco);
+  cursor: pointer;
+}
+
+.checkbox:checked {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+}
+
+.olvido {
+  flex: 1 1 0;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-primary-800);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* figma: Actions I742:19087;742:18820 — px 50, gap 32 */
+.acciones {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.iniciar {
+  width: 100%;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  cursor: pointer;
+}
+
+.iniciar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.separador {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  color: var(--color-neutral-900);
+}
+
+.separador span {
+  flex: 1 1 0;
+  height: 1px;
+  background: var(--color-neutral-200);
+}
+
+.separador p {
+  flex: 1 1 0;
+  margin: 0;
+  text-align: center;
+}
+
+.boton {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.boton + .boton {
+  margin-top: 4px; /* figma: Social buttons gap 20 (16 + 4) */
+}
+
+.facebook {
+  background: var(--color-facebook);
+  color: var(--color-nativo-blanco);
+}
+
+.google {
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-800);
+}
+
+.invitado {
+  background: var(--color-neutral-700);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-nativo-blanco);
+}
+
+.registro {
+  width: 100%;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-neutral-900);
+}
+
+.registrate {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-primary-800);
+  text-decoration: underline;
+  cursor: pointer;
+}

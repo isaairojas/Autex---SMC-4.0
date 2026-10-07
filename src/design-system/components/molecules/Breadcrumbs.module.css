@@ -1,0 +1,32 @@
+/* figma: 728:89726 — 1920×52 */
+.content {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 16px 80px;
+  height: 52px;
+  box-sizing: border-box;
+  background: var(--color-nativo-blanco);
+}
+
+.back {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-neutral-900);
+}
+
+.sep {
+  width: 16px;
+  text-align: center;
+  color: var(--color-neutral-900);
+}
+
+.item {
+  color: var(--color-primary-500);
+  white-space: nowrap;
+}

@@ -1,0 +1,31 @@
+/* figma: 2596:99046 */
+.row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+}
+
+.left {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  color: var(--color-neutral-900);
+}
+
+.fecha {
+  color: var(--color-neutral-600);
+  white-space: nowrap;
+}

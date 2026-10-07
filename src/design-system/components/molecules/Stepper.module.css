@@ -1,0 +1,48 @@
+.stepper {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+}
+
+.number {
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-nativo-blanco);
+  border: 1px solid var(--color-neutral-200);
+}
+
+.label {
+  white-space: nowrap;
+}
+
+.done .number {
+  background: var(--color-primary-500);
+  border-color: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+}
+
+.done .label {
+  color: var(--color-primary-500);
+}
+
+.active .number,
+.active .label {
+  color: var(--color-primary-400);
+}
+
+.pending .number,
+.pending .label {
+  color: var(--color-neutral-700);
+}

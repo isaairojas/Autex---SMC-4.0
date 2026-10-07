@@ -1,0 +1,92 @@
+/* figma: 898:31778 — borde 1 Neutral/200 (inside), p20, radio 4 */
+.fila {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+}
+
+.izquierda {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.descripcion {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.descripcion p {
+  margin: 0;
+}
+
+.titulo {
+  color: var(--color-neutral-900);
+  font-family: var(--font-family-regular);
+  font-weight: var(--font-weight-regular);
+}
+
+.tituloGrande {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.tituloChico {
+  font-size: 14px;
+  line-height: 28px;
+}
+
+.naranja {
+  color: var(--color-naranja-bajo-pedido);
+}
+
+.tiempo {
+  color: var(--color-neutral-600);
+  white-space: nowrap;
+}
+
+.costo {
+  margin: 0;
+  color: var(--color-primary-500);
+  white-space: nowrap;
+}
+
+/* figma: 901:32141 — "Envío +249.00 MXN" y leyenda en Primary/400 */
+.conCosto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.monto {
+  margin-left: 16px;
+  color: var(--color-secondary-500);
+}
+
+.agrega {
+  margin: 0;
+  color: var(--color-primary-400);
+  white-space: nowrap;
+}
+
+.agrega strong {
+  font-weight: 600;
+  color: var(--color-primary-500);
+}
+
+/* Sitio (D35): envíos múltiples a todo el ancho, alineados con el texto */
+.extra {
+  width: 100%;
+  padding-left: 52px;
+  box-sizing: border-box;
+}

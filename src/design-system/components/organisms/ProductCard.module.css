@@ -1,0 +1,187 @@
+/* figma: 12849:114195 — padding 12, borde 1 Neutral/200 */
+.card {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  padding: 12px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.content {
+  flex: 1 1 0;
+  min-width: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.img {
+  height: 188px;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.img img {
+  width: 100%;
+  height: 188px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skuBrand {
+  display: flex;
+  gap: 21px;
+  align-items: center;
+  min-height: 18px;
+}
+
+.sku {
+  flex: 1 1 0;
+  color: var(--color-neutral-700);
+}
+
+.brand {
+  width: 75.75px;
+  height: 18px;
+  object-fit: cover;
+  background: var(--color-nativo-blanco);
+}
+
+.desc {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nombre {
+  border: none;
+  padding: 0;
+  background: none;
+  text-align: left;
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+.price {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  color: var(--color-primary-500);
+  font-family: var(--font-family-book);
+  white-space: nowrap;
+}
+
+.small {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.big {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.disp {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.addRow {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+/* figma: Quantity — 32 de alto, botones laterales Neutral/100 de 24 */
+.qty {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 1px;
+  height: 32px;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  overflow: hidden;
+}
+
+.qtyBtn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 32px;
+  border: none;
+  padding: 0;
+  background: var(--color-neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.right {
+  left: auto;
+  right: 0;
+}
+
+.qtyValue {
+  position: absolute;
+  left: 23px;
+  right: 23px;
+  top: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a202c; /* figma: 12849:114195 Neutral/800 = #1A202C (D21) */
+}
+
+.agregar {
+  padding: 2px 16px;
+  border: none;
+  border-radius: 2px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.agregar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.compat {
+  width: 100%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 12px 2px 16px;
+  border: none;
+  border-radius: 2px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-500);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}

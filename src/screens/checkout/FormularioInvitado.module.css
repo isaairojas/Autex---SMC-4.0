@@ -1,0 +1,96 @@
+/* SIN RESPALDO EN FIGMA (D40): formulario del cliente invitado (autex.com.mx) */
+.formulario {
+  width: 1190px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--color-neutral-900);
+}
+
+.formulario p {
+  margin: 0;
+}
+
+.seccion {
+  color: var(--color-primary-400);
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.asterisco {
+  color: var(--color-secondary-500);
+}
+
+.campo input,
+.selector {
+  height: 52px;
+  box-sizing: border-box;
+  padding: 0 16px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+  color: var(--color-neutral-900);
+}
+
+.campo input:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+}
+
+.campo input:disabled,
+.deshabilitado {
+  background: var(--color-neutral-50);
+  color: var(--color-neutral-500);
+}
+
+.selector {
+  display: flex;
+  align-items: center;
+  padding-right: 8px;
+}
+
+.selector select {
+  flex: 1 1 0;
+  appearance: none;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.selector select:disabled {
+  cursor: not-allowed;
+}
+
+.error {
+  color: var(--color-secondary-500);
+}
+
+/* "Usuario Invitado · Regístrate" sobre la tarjeta */
+.modo {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  color: var(--color-neutral-900);
+}
+
+.modo button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-neutral-900);
+  text-decoration: underline;
+  cursor: pointer;
+}

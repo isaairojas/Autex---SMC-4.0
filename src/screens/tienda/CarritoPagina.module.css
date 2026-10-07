@@ -1,0 +1,44 @@
+/* figma: Frame 4534607 (673:20283) — y=245, padding 50/96, gap 30, fondo #F2F2F2 */
+.seccion {
+  margin-top: 20px;
+  min-height: 910px;
+  box-sizing: border-box;
+  padding: 50px 96px;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  background: var(--color-fondo-2026);
+}
+
+/* figma: Frame 4534608 (673:20390) — 1270, padding horizontal 10, gap 20 */
+.lista {
+  flex: 1 1 0;
+  min-width: 1px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  color: var(--color-neutral-900);
+}
+
+.vacio p,
+.sinExistencia {
+  margin: 0;
+}
+
+.sinExistencia {
+  color: var(--color-secondary-500);
+}
+
+/* figma: Content_Saved items (668:18472) — y=1175; Footer en y=1794 */
+.guardados {
+  margin: 20px 0;
+}

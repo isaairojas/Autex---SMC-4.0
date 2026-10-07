@@ -1,0 +1,39 @@
+/* figma: Content Form 1324:96827 — 1099 de ancho, gap 20 entre grupos */
+.form {
+  width: 1190px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* figma: "Datos del cliente" 127:64448 / 127:64449 — título + filas, gap 16 */
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.groupTitle {
+  margin: 0;
+  color: var(--color-primary-400);
+}
+
+/* figma: Form 127:64447 — filas de 84 con gap 20 */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.full,
+.pair {
+  display: flex;
+  gap: 20px;
+  width: 1190px;
+}
+
+/* figma: Button 901:32051 — "Añadir dirección +" ocupa todo el ancho */
+.anadir {
+  width: 100%;
+  display: flex;
+}

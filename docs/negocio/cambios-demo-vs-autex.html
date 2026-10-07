@@ -1,0 +1,238 @@
+<title>Demo Autex SMC 4.0 · Cambios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: encabezado sobrio con la franja azul/roja de las tarjetas de Autex, filtros por tema y una tabla agrupada. */
+:root {
+  --azul: #1428a0;
+  --azul-suave: #e9ecfa;
+  --rojo: #e4002b;
+  --tinta: #141a33;
+  --gris: #5a6078;
+  --linea: #dde1ef;
+  --fondo: #f6f7fb;
+  --papel: #ffffff;
+  --chip: #eef0f8;
+  --nuevo: #0f7a3d;
+  --nuevo-fondo: #e3f4ea;
+  --ajuste: #8a5a00;
+  --ajuste-fondo: #fbf0d9;
+  --correccion: #a3122f;
+  --correccion-fondo: #fbe6ea;
+  --display: "Barlow Semi Condensed", "Arial Narrow", system-ui, sans-serif;
+  --texto: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --azul: #8fa0ff; --azul-suave: #1d2350; --rojo: #ff5a75; --tinta: #e8eaf5; --gris: #a3a8c3;
+    --linea: #2c3256; --fondo: #0f1226; --papel: #161a33; --chip: #222849;
+    --nuevo: #6fd69b; --nuevo-fondo: #133525; --ajuste: #f0c46a; --ajuste-fondo: #3a2e12;
+    --correccion: #ff8da0; --correccion-fondo: #3d1720; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --azul: #8fa0ff; --azul-suave: #1d2350; --rojo: #ff5a75; --tinta: #e8eaf5; --gris: #a3a8c3;
+  --linea: #2c3256; --fondo: #0f1226; --papel: #161a33; --chip: #222849;
+  --nuevo: #6fd69b; --nuevo-fondo: #133525; --ajuste: #f0c46a; --ajuste-fondo: #3a2e12;
+  --correccion: #ff8da0; --correccion-fondo: #3d1720; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--fondo); color: var(--tinta); font: 400 15px/1.55 var(--texto); }
+.pagina { max-width: 1180px; margin: 0 auto; padding: 32px 20px 64px; display: flex; flex-direction: column; gap: 28px; }
+header { display: flex; flex-direction: column; gap: 14px; }
+.franja { display: flex; align-items: stretch; height: 10px; width: 132px; }
+.franja i { flex: 0 0 34px; background: var(--rojo); clip-path: polygon(0 0, 100% 0, 70% 100%, 0 100%); }
+.franja b { flex: 1; background: var(--azul); margin-left: -6px; }
+h1 { margin: 0; font: 700 clamp(30px, 4.4vw, 44px)/1.05 var(--display); letter-spacing: 0.01em; text-wrap: balance; }
+.intro { margin: 0; max-width: 70ch; color: var(--gris); }
+.datos { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--gris); }
+.datos strong { color: var(--tinta); font-weight: 600; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; font-size: 13px; color: var(--gris); }
+.tipo { display: inline-block; padding: 2px 9px; border-radius: 999px; font: 600 11px/18px var(--texto); letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+.tipo.nuevo { background: var(--nuevo-fondo); color: var(--nuevo); }
+.tipo.ajuste { background: var(--ajuste-fondo); color: var(--ajuste); }
+.tipo.correccion { background: var(--correccion-fondo); color: var(--correccion); }
+.controles { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--fondo); padding-block: 10px; }
+.temas { display: flex; flex-wrap: wrap; gap: 8px; }
+.temas button { border: 1px solid var(--linea); background: var(--papel); color: var(--tinta); border-radius: 999px; padding: 6px 14px; font: 500 13px/1.2 var(--texto); cursor: pointer; }
+.temas button span { color: var(--gris); font-variant-numeric: tabular-nums; margin-left: 4px; }
+.temas button[aria-pressed="true"] { background: var(--azul); border-color: var(--azul); color: var(--papel); }
+.temas button[aria-pressed="true"] span { color: inherit; opacity: 0.8; }
+.temas button:focus-visible, #buscar:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+#buscar { flex: 0 1 280px; min-width: 0; width: 100%; border: 1px solid var(--linea); background: var(--papel); color: var(--tinta); border-radius: 6px; padding: 8px 12px; font: 400 14px var(--texto); }
+.tabla { overflow-x: auto; background: var(--papel); border: 1px solid var(--linea); border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; min-width: 720px; }
+thead th { text-align: left; font: 600 12px/1.2 var(--texto); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gris); padding: 14px 18px; border-bottom: 1px solid var(--linea); background: var(--papel); }
+tbody td { padding: 14px 18px; border-bottom: 1px solid var(--linea); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tr.grupo td { background: var(--azul-suave); color: var(--azul); font: 600 17px/1.2 var(--display); letter-spacing: 0.02em; padding-block: 10px; }
+td.cambio { font-weight: 600; width: 30%; }
+td.cambio .tipo { margin-top: 6px; display: table; }
+td.tema { width: 15%; color: var(--gris); font-size: 13px; }
+td.desc { color: var(--tinta); }
+.vacio { padding: 28px 18px; color: var(--gris); text-align: center; }
+.notas { background: var(--papel); border: 1px solid var(--linea); border-left: 4px solid var(--rojo); border-radius: 8px; padding: 18px 22px; display: flex; flex-direction: column; gap: 8px; }
+.notas h2 { margin: 0; font: 600 20px/1.2 var(--display); }
+.notas ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; color: var(--gris); }
+@media (max-width: 640px) {
+  .controles { position: static; }
+  #buscar { flex-basis: 100%; }
+}
+</style>
+
+<div class="pagina">
+  <header>
+    <div class="franja" aria-hidden="true"><i></i><b></b></div>
+    <h1>Demo Autex.com.mx con SMC 4.0: cambios frente al sitio actual</h1>
+    <p class="intro">Lista de lo que la demo hace distinto a autex.com.mx hoy: lo que se agregó, lo que se ajustó y lo que se corrigió en la revisión del flujo completo. Cada cambio está agrupado por tema para revisarlo con negocio.</p>
+    <ul class="datos">
+      <li>Corte: <strong>6 de octubre de 2026</strong></li>
+      <li>Sitio de referencia: <strong>autex.com.mx</strong> (consulta de solo lectura)</li>
+      <li>Diseño: <strong>Figma Autex 2026</strong></li>
+    </ul>
+    <div class="leyenda">
+      <span><span class="tipo nuevo">Nuevo</span> no existe en el sitio actual</span>
+      <span><span class="tipo ajuste">Ajuste</span> existe, pero funciona distinto</span>
+      <span><span class="tipo correccion">Corrección</span> resuelto en la revisión del flujo</span>
+    </div>
+  </header>
+
+  <div class="controles">
+    <div class="temas" id="temas" role="group" aria-label="Filtrar por tema"></div>
+    <input id="buscar" type="search" placeholder="Buscar un cambio…" aria-label="Buscar un cambio">
+  </div>
+
+  <div class="tabla">
+    <table>
+      <thead><tr><th scope="col">Tema</th><th scope="col">Cambio</th><th scope="col">Descripción</th></tr></thead>
+      <tbody id="filas"></tbody>
+    </table>
+  </div>
+
+  <section class="notas" aria-labelledby="notas-titulo">
+    <h2 id="notas-titulo">Qué tener en cuenta al presentarla</h2>
+    <ul>
+      <li>Todos los datos son simulados: existencias por tienda, clientes, direcciones, tarjetas y pedidos. La demo no se conecta a SMC 4.0 ni a autex.com.mx.</li>
+      <li>Los pedidos, direcciones y vehículos que se capturen se borran al recargar la página.</li>
+      <li>Los niveles de servicio (Local, Local Extendido y Foráneo) salen del archivo de configuración de SMC 4.0; todas las tiendas usan los valores de Acapulco.</li>
+      <li>Siguen como en Figma, sin funcionalidad: "Comprados juntos", especificaciones, productos sustitutos y relacionados del detalle, "Agregar a mi lista", orden y productos por página del catálogo.</li>
+      <li>No incluidos todavía: cupón de descuento, página completa de inicio de sesión (en la demo es una ventana) y "Mis listas".</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const T = {
+  ubicacion: 'Ubicación y tienda',
+  vehiculos: 'Vehículos',
+  catalogo: 'Catálogo y existencias',
+  cuenta: 'Cuenta y direcciones',
+  carrito: 'Carrito',
+  checkout: 'Checkout',
+  pedidos: 'Pedidos',
+  general: 'Experiencia general',
+};
+const CAMBIOS = [
+  ['ubicacion', 'nuevo', 'Aviso de ubicación al entrar', 'Cada vez que se entra, el navegador pregunta si puede conocer la ubicación. Si el cliente lo permite, la página se recarga con su tienda más cercana. Si cierra el aviso, Autex muestra "Elige una tienda". Si elige "No permitir nunca", el aviso solo se cierra y no se vuelve a preguntar.'],
+  ['ubicacion', 'nuevo', '"Mi tienda" en la barra superior', 'Muestra la tienda elegida y si está abierta o a qué hora abre. Al abrirla aparece la lista de tiendas del estado, ordenadas por distancia, con su nivel de servicio y tiempo de entrega. Ya no se muestra el costo logístico.'],
+  ['ubicacion', 'nuevo', '"Entrega en" (código postal)', 'Nuevo botón junto a "Mi tienda" con el C.P. de entrega. Al cambiar el C.P. se recalculan las tiendas, las existencias y los tiempos de entrega.'],
+  ['ubicacion', 'ajuste', 'Ubicación inicial', 'Mientras el cliente no elige otra, la entrega es el C.P. 45138 y la tienda es Tesistán (Zapopan).'],
+  ['ubicacion', 'nuevo', 'Niveles de servicio por distancia', 'Local hasta 15 km: entrega el mismo día si se compra antes de las 2:00 p.m. (si no, al día siguiente). Local Extendido hasta 30 km: 24 horas. Foráneo hasta 350 km: 48 a 72 horas.'],
+  ['ubicacion', 'ajuste', 'Página de sucursales', 'Las tiendas se ordenan por distancia a la entrega, con kilómetros, nivel de servicio, tiempo de entrega y el botón "Hacer mi tienda".'],
+  ['vehiculos', 'ajuste', 'Navegación sin vehículo', 'La demo empieza sin vehículo y el botón dice "Mis vehículos". Al buscar desde el inicio, el vehículo se agrega y se activa.'],
+  ['vehiculos', 'ajuste', 'Ventana "Mis vehículos"', 'Igual a la del sitio: agregar un vehículo (año, marca, modelo y motor), activarlo o navegar sin vehículo.'],
+  ['catalogo', 'nuevo', 'Catálogo ampliado', '19 productos nuevos en las 5 especialidades (Automotriz, Ferretería, Herramientas y equipos, Motocicletas y Seguridad), entre ellos 2 baterías, 2 alternadores y cinta aislante.'],
+  ['catalogo', 'nuevo', 'Ocultar productos sin existencia', 'Los resultados solo muestran lo que se puede comprar en la zona del cliente. El filtro "Mostrar productos no disponibles" los muestra, con el botón "Avisar disponibilidad".'],
+  ['catalogo', 'ajuste', 'Existencia por rangos', 'En lugar del número exacto de piezas se muestran rangos: +100, +50, +30, +10, o la cantidad exacta si hay menos de 10.'],
+  ['catalogo', 'nuevo', 'Cantidad desde la tarjeta del producto', 'El cliente escribe cuántas piezas quiere. Si pide más de las disponibles para compra en línea, la cantidad se ajusta al máximo y aparece "Solo hay N piezas disponibles para compra en línea".'],
+  ['catalogo', 'nuevo', 'Regla de baterías', 'Las baterías solo se venden con existencias de tiendas Local o Local Extendido (hasta 30 km). Nunca se venden bajo pedido ni salen de CEDIS. Fuera de ese alcance, por ejemplo en Zacatecas, aparecen sin existencia.'],
+  ['catalogo', 'nuevo', 'Disponibilidad en el detalle', 'Nueva sección con las piezas para compra en línea y las piezas físicas en "Mi tienda", más "Buscar en otra tienda". No se muestran pasillo ni bahía.'],
+  ['catalogo', 'ajuste', 'Productos bajo pedido', 'Si ninguna tienda tiene el producto pero CEDIS sí, se vende como "bajo pedido" con entrega de 2 a 4 días hábiles. Lo surte la tienda más cercana a la entrega.'],
+  ['catalogo', 'correccion', 'Existencias coherentes en toda la demo', 'Antes las existencias salían de solo 3 tiendas de Guadalajara, aunque "Mi tienda" podía ser cualquiera del país. Ahora cada tienda tiene sus piezas, y "Mi tienda", la compra en línea y los envíos usan la misma información. Monterrey o la Ciudad de México ya muestran existencias.'],
+  ['catalogo', 'correccion', 'Tope de piezas en detalle y carrito', 'El tope de compra en línea ya se respeta también en el detalle del producto y en el carrito: el botón "+" se desactiva al llegar al máximo, con aviso.'],
+  ['catalogo', 'correccion', 'Resultados y navegación', 'El total de resultados y el paginado muestran los datos reales de la búsqueda. Las migas de pan del detalle muestran la especialidad y la categoría del producto.'],
+  ['catalogo', 'ajuste', 'Imágenes de productos', 'Se usan las imágenes del diseño; 4 productos sin imagen en el diseño (cinta aislante, juego de llaves, chaleco y guantes) usan la foto de autex.com.mx.'],
+  ['cuenta', 'nuevo', '"Entrega en" para invitado y registrado', 'El invitado escribe su C.P. o inicia sesión. El registrado elige entre sus direcciones guardadas, las administra o agrega una nueva.'],
+  ['cuenta', 'nuevo', 'Dirección predeterminada al iniciar sesión', 'Al iniciar sesión, la entrega cambia a la dirección predeterminada del cliente y se recalculan tiendas y existencias.'],
+  ['cuenta', 'ajuste', 'Mi perfil', 'Réplica de la configuración del sitio: Mi perfil, Dirección de envío, Método de pago y Mis pedidos. La nueva dirección elige la colonia según el C.P. y llena ciudad y estado solos. Se agregan "Usar como predeterminada" y "Eliminar".'],
+  ['cuenta', 'ajuste', 'Menú de la cuenta', 'Mi perfil, Mis pedidos y Salir. Al salir se regresa al inicio.'],
+  ['cuenta', 'correccion', 'Eliminar la dirección de entrega activa', 'Si se elimina la dirección que se está usando, la entrega pasa a la predeterminada; sin direcciones, regresa al C.P. inicial.'],
+  ['carrito', 'nuevo', '"¿Cómo deseas continuar?"', 'Si el cliente no ha iniciado sesión, "Proceder al pago" pregunta si quiere continuar como invitado o con su cuenta Autex.'],
+  ['carrito', 'ajuste', 'Cliente registrado directo a envío', 'El cliente registrado con dirección pasa del carrito directo al paso 2, "Método de envío". Sin direcciones, va al paso 1 para agregar una.'],
+  ['carrito', 'ajuste', 'Carrito agrupado por disponibilidad', 'Los productos se agrupan en "Productos disponibles" y "Productos bajo pedido". Los que no tienen existencia en la zona bloquean el pago hasta eliminarlos o guardarlos.'],
+  ['carrito', 'correccion', 'Conteo de productos y guardados', 'El subtotal cuenta las mismas piezas en todo el carrito. Si un producto guardado para más tarde vuelve al carrito, sus piezas se suman en lugar de duplicarse.'],
+  ['checkout', 'ajuste', 'Formulario del invitado', 'Datos del cliente, datos fiscales y dirección de envío, igual que el sitio. La colonia se elige según el C.P. y ciudad y estado se llenan solos. "Continuar" se habilita al completar los datos obligatorios.'],
+  ['checkout', 'correccion', 'Datos del invitado al regresar', 'Si el invitado regresa del paso 2 al paso 1, el formulario conserva lo que ya había capturado.'],
+  ['checkout', 'correccion', 'Direcciones reales del cliente registrado', 'El paso 1 muestra las direcciones guardadas del cliente (antes mostraba direcciones de ejemplo del diseño). "Añadir dirección" abre Mi perfil y regresa al checkout con esa dirección como entrega.'],
+  ['checkout', 'nuevo', 'Dirección de entrega en el paso 2', 'El paso 2 muestra a quién y a dónde se entrega. "Cambiar dirección de entrega" avisa que la fecha de entrega y el envío pueden cambiar y permite elegir otra dirección guardada.'],
+  ['checkout', 'ajuste', 'Sin costo de envío', 'No se muestra costo de envío en ningún paso, ni en el total del pedido.'],
+  ['checkout', 'nuevo', 'Envíos múltiples', 'Si el pedido sale de varias tiendas, se avisa "Tu pedido llegará en N envíos". Cada "Envío 1, 2, 3…" se despliega y muestra la tienda de origen, su dirección, los artículos y el tiempo de entrega. CEDIS nunca es origen de envío.'],
+  ['checkout', 'correccion', 'Reglas para dividir el pedido', 'Cada artículo sale de la tienda más cercana que lo tenga, y los de una misma tienda viajan juntos. Si ninguna tienda completa las piezas, se juntan de las más cercanas y lo que falte va bajo pedido. Antes el pedido se repartía entre tiendas distintas aunque una sola tuviera todo.'],
+  ['checkout', 'correccion', 'Tarjeta del invitado', 'La tarjeta empieza vacía, con el nombre del cliente como titular, y valida el número, la vigencia (MM/AA) y el CVV. Antes aparecía con datos de ejemplo del diseño.'],
+  ['checkout', 'correccion', '"Cambiar" en la confirmación', 'Desde la confirmación, el cliente registrado regresa al paso 2 para cambiar la dirección; el invitado regresa a su formulario.'],
+  ['pedidos', 'correccion', 'Número y fecha del pedido', 'Cada compra toma el siguiente número de pedido (desde #0001087 - 24) y la fecha de solicitud es la del día. Antes eran textos fijos de 2023.'],
+  ['pedidos', 'nuevo', 'Mis pedidos', 'Al pagar, el pedido queda en "Mis pedidos" con fecha, piezas, total, artículos, dirección y estado ("En preparación" o "Pago pendiente en tienda"). El carrito queda vacío.'],
+  ['pedidos', 'correccion', 'Después de comprar', '"Seguir comprando" ya no cierra la sesión del cliente registrado. El pago en tienda de autoservicio muestra un plazo de 3 días a partir de hoy.'],
+  ['general', 'nuevo', 'Pantallas de carga', 'La página se pone en gris con un indicador de carga en cada paso del checkout, al cambiar de tienda, C.P. o dirección, al buscar o filtrar productos y al cerrar sesión.'],
+  ['general', 'nuevo', 'Ajuste al tamaño de la ventana', 'La página se adapta al acercar o alejar el zoom del navegador y cabe completa sin desplazamiento horizontal.'],
+  ['general', 'ajuste', 'Diseño Autex 2026', 'Barra superior, catálogo, carrito, mini carrito y checkout de 4 pasos (datos, envío, pago y confirmación) siguen el diseño nuevo de Figma.'],
+];
+
+const filas = document.getElementById('filas');
+const temasEl = document.getElementById('temas');
+const buscar = document.getElementById('buscar');
+const TIPO = { nuevo: 'Nuevo', ajuste: 'Ajuste', correccion: 'Corrección' };
+let tema = 'todos';
+try { tema = localStorage.getItem('tema') || 'todos'; } catch (e) {}
+if (tema !== 'todos' && !T[tema]) tema = 'todos';
+
+const sinAcentos = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+const el = (tag, attrs, ...hijos) => {
+  const n = document.createElement(tag);
+  Object.entries(attrs || {}).forEach(([k, v]) => (k === 'class' ? (n.className = v) : n.setAttribute(k, v)));
+  hijos.forEach((h) => n.append(h));
+  return n;
+};
+
+function botones() {
+  temasEl.replaceChildren();
+  const opciones = [['todos', 'Todos', CAMBIOS.length], ...Object.entries(T).map(([k, v]) => [k, v, CAMBIOS.filter((c) => c[0] === k).length])];
+  for (const [k, nombre, n] of opciones) {
+    const b = el('button', { type: 'button', 'aria-pressed': String(k === tema) }, nombre, el('span', {}, String(n)));
+    b.addEventListener('click', () => {
+      tema = k;
+      try { localStorage.setItem('tema', k); } catch (e) {}
+      botones();
+      pintar();
+    });
+    temasEl.append(b);
+  }
+}
+
+function pintar() {
+  const q = sinAcentos(buscar.value.trim());
+  filas.replaceChildren();
+  let total = 0;
+  for (const [k, nombre] of Object.entries(T)) {
+    if (tema !== 'todos' && tema !== k) continue;
+    const lista = CAMBIOS.filter((c) => c[0] === k && (!q || sinAcentos(`${nombre} ${c[2]} ${c[3]} ${TIPO[c[1]]}`).includes(q)));
+    if (!lista.length) continue;
+    total += lista.length;
+    filas.append(el('tr', { class: 'grupo' }, el('td', { colspan: '3' }, `${nombre} · ${lista.length}`)));
+    for (const [, tipo, cambio, desc] of lista) {
+      filas.append(
+        el('tr', {},
+          el('td', { class: 'tema' }, nombre),
+          el('td', { class: 'cambio' }, cambio, el('span', { class: `tipo ${tipo}` }, TIPO[tipo])),
+          el('td', { class: 'desc' }, desc)),
+      );
+    }
+  }
+  if (!total) filas.append(el('tr', {}, el('td', { colspan: '3', class: 'vacio' }, 'Ningún cambio coincide con la búsqueda. Prueba con otra palabra o elige "Todos".')));
+}
+
+buscar.addEventListener('input', pintar);
+botones();
+pintar();
+</script>

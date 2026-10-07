@@ -1,0 +1,142 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: var(--color-alpha-back-300);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 240px;
+}
+
+/* figma: 949:84894 — 600×792, todo en posiciones absolutas */
+.ticket {
+  position: relative;
+  width: 600px;
+  height: 792px;
+  background: var(--color-nativo-blanco);
+  color: var(--color-neutral-900);
+}
+
+.top {
+  position: absolute;
+  left: 33px;
+  top: 0;
+  width: 534px;
+  padding: 12px 8px;
+  background: var(--color-nativo-negro);
+  color: var(--color-nativo-blanco);
+  font: 400 12px/16px var(--font-family-open-sans);
+  text-align: center;
+}
+
+.logo {
+  position: absolute;
+  left: 32px;
+  top: 75.94px;
+  width: 167px;
+  height: 41.126px;
+  object-fit: cover;
+}
+
+.montoLabel {
+  position: absolute;
+  left: 254px;
+  top: 75px;
+  width: 312px;
+}
+
+.monto {
+  position: absolute;
+  left: 254px;
+  top: 102px;
+  width: 314px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.montoValor {
+  font: var(--font-weight-medium) 24px/32px var(--font-family-medium);
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+
+.comision {
+  font: 400 12px/16px var(--font-family-open-sans);
+  color: var(--color-neutral-600);
+}
+
+.referencia {
+  position: absolute;
+  left: 32px;
+  top: 202px;
+  width: 536px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.refBox {
+  padding: 16px 24px;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--color-neutral-300);
+  font: var(--font-weight-medium) 24px/32px var(--font-family-medium);
+  letter-spacing: 8px;
+  text-align: center;
+}
+
+.divider {
+  position: absolute;
+  left: 32px;
+  top: 322px;
+  width: 536px;
+  height: 1px;
+  background: var(--color-neutral-300);
+}
+
+.instrucciones {
+  position: absolute;
+  left: 32px;
+  top: 343px;
+  width: 536px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lista {
+  margin: 0;
+  padding-left: 21px;
+  text-align: justify;
+}
+
+.lista li + li {
+  margin-top: 20px;
+}
+
+.aviso {
+  position: absolute;
+  left: 32px;
+  top: 639px;
+  width: 536px;
+  padding: 16px;
+  border-radius: 7px;
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+  color: var(--color-primary-400);
+  font: 400 12px/16px var(--font-family-open-sans);
+  text-align: center;
+}
+
+.imprimir {
+  position: absolute;
+  left: 193px;
+  top: 711px;
+  width: 214px;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 8px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  cursor: pointer;
+}

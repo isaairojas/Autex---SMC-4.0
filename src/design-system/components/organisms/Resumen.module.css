@@ -1,0 +1,111 @@
+/* figma: Frame 4534609 (677:19623) — 428, gap 30 */
+.columna {
+  width: 428px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* figma: Resumen 742:20253 */
+.detalle {
+  background: var(--color-nativo-blanco);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.titulo {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: var(--color-neutral-900);
+}
+
+.filas {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+  color: var(--color-neutral-900);
+}
+
+.pad {
+  padding: 4px 0;
+}
+
+.monto {
+  width: 144px;
+  text-align: right;
+}
+
+.total {
+  color: var(--color-primary-600);
+}
+
+/* figma: Resumen compra/productos 677:18368 — fondo blanco sin radio */
+.productos {
+  background: var(--color-nativo-blanco);
+  display: flex;
+  flex-direction: column;
+}
+
+.productosTitulo {
+  margin: 0;
+  padding: 10px 0;
+  text-align: center;
+  color: var(--color-nativo-negro);
+}
+
+.lista {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.miniatura {
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.nombre {
+  flex: 1 1 0;
+  min-width: 1px;
+  color: var(--color-neutral-900);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.qty {
+  width: 28px;
+  text-align: center;
+  color: var(--color-neutral-900);
+  white-space: nowrap;
+}
+
+.precio {
+  width: 105px;
+  text-align: right;
+  color: var(--color-neutral-900);
+}

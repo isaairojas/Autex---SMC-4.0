@@ -1,0 +1,53 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: var(--color-alpha-back-300);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.modal {
+  background: var(--color-nativo-blanco);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.head {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+  background: var(--color-neutral-50);
+}
+
+.title {
+  flex: 1 1 0;
+  color: var(--color-neutral-900);
+}
+
+.close {
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+}
+
+.content {
+  padding: 24px 24px 0;
+}
+
+.footer {
+  display: flex;
+  align-items: flex-start;
+  padding: 24px;
+}
+
+.actions {
+  display: flex;
+  gap: 24px;
+}
