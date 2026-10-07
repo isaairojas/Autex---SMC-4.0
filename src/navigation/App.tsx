@@ -116,7 +116,8 @@ function IndiceGaleria() {
 
 export function App() {
   return (
-    <BrowserRouter>
+    /* En GitHub Pages la app vive en /Autex---SMC-4.0/ (BASE_URL); en local, en "/". */
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
       <Routes>
         <Route path="/figma" element={<IndiceGaleria />} />
         <Route path="/figma/:nodo/*" element={<FrameFigma />} />
