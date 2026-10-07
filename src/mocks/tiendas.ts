@@ -244,6 +244,48 @@ export function ubicacionDesdeCoordenadas(lat: number, lon: number): UbicacionEn
 }
 
 export const UBICACION_PREDETERMINADA = resolverCP(CP_PREDETERMINADO)!;
+
+/**
+ * C.P. predeterminado de cada estado con tiendas (D47): el de su ciudad principal o el de su primera tienda. Al elegir
+ * una tienda de otro estado, la entrega pasa a este C.P.
+ */
+const CP_POR_ESTADO: Record<string, string> = {
+  Jalisco: CP_PREDETERMINADO,
+  'Ciudad de México': '06920',
+  'Nuevo León': '64000',
+  'Baja California': '22234',
+  'Baja California Sur': '23407',
+  Campeche: '24150',
+  'Coahuila de Zaragoza': '25000',
+  Chiapas: '29090',
+  Chihuahua: '31120',
+  Guanajuato: '37530',
+  Guerrero: '39358',
+  Hidalgo: '43640',
+  'México': '50190',
+  'Michoacán de Ocampo': '60123',
+  Oaxaca: '68034',
+  'San Luis Potosí': '79040',
+  Sinaloa: '81040',
+  Sonora: '83174',
+  Tamaulipas: '89176',
+  'Veracruz de Ignacio de la Llave': '91918',
+  'Quintana Roo': '77500',
+};
+
+/** D47: aviso para una tienda de otro estado: "Al elegirla, tu entrega cambia a C.P. 64000, Monterrey". */
+export function avisoCambioEntrega(t: { estado: string }, estadoActual: string | null): string | null {
+  if (!estadoActual || t.estado === estadoActual) return null;
+  const u = ubicacionPredeterminadaDe(t.estado);
+  return u ? `Al elegirla, tu entrega cambia a C.P. ${u.codigoPostal}, ${u.ciudad}.` : null;
+}
+
+/** Ubicación de entrega predeterminada de un estado (su C.P. predeterminado); null si no se conoce. */
+export function ubicacionPredeterminadaDe(estado: string): UbicacionEntrega | null {
+  const cp = CP_POR_ESTADO[estado] ?? delSitio.find((t) => t.estado === estado && t.cp)?.cp;
+  const u = cp ? resolverCP(cp) : null;
+  return u && u.estado === estado ? u : null;
+}
 /** Ubicación de entrega a partir de una dirección guardada: etiqueta con su nombre y coordenadas de su C.P. */
 export function ubicacionDeDireccion(d: DireccionEntrega): UbicacionEntrega {
   const u = resolverCP(d.codigoPostal) ?? UBICACION_PREDETERMINADA;

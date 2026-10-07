@@ -26,7 +26,7 @@ const km = (n: number) => `${n.toLocaleString('en-US', { minimumFractionDigits: 
 const mapa = (s: TiendaCercana) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.cp ? `Autex ${s.direccion}` : `${s.lat},${s.lon}`)}`;
 
 export function Sucursales() {
-  const { ubicacion, tiendas, tienda, setTienda, conCarga } = useDemo();
+  const { ubicacion, tiendas, tienda, elegirTienda } = useDemo();
   const entrega = ubicacion && coordenadas(ubicacion);
   const origen: [number, number] | null = entrega ? [entrega.lat, entrega.lon] : null;
   const [q, setQ] = useState('');
@@ -97,7 +97,7 @@ export function Sucursales() {
                       Como llegar
                     </a>
                     {tienda?.id !== s.id && (
-                      <button type="button" className={`${styles.botonTexto} text-body-2-book`} onClick={() => conCarga('Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => setTienda(s.id))}>
+                      <button type="button" className={`${styles.botonTexto} text-body-2-book`} onClick={() => elegirTienda(s.id)}>
                         Hacer mi tienda
                       </button>
                     )}

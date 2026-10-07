@@ -1,5 +1,8 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-07 — Tienda de otro estado cambia el C.P. de entrega (sin respaldo en Figma, D47)
+- Elegir una tienda de otro estado pasa la entrega al C.P. predeterminado de ese estado (también para el registrado), con aviso en la tienda y carga "Cambiando tu tienda y tu C.P. de entrega". Prueba `tests/referencia/otro-estado-demo.mjs`.
+
 ## 2026-10-07 — Inventario de lo bajo pedido (sin respaldo en Figma, D46)
 - Bajo pedido en cuanto la zona no completa la cantidad: los productos de ejemplo tienen 1 pieza en Tesistán (disponibles con 1, bajo pedido con 2); la marcha es el único sin piezas en la zona.
 - La tarjeta del catálogo cambia de estado con la cantidad escrita y muestra las piezas en línea también en bajo pedido.

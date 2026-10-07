@@ -10,7 +10,7 @@ import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import { OpcionSeleccionable } from '../molecules/OpcionSeleccionable';
 import { Modal } from './Modal';
-import { ALCANCE_MAXIMO_KM, ESTADOS_CON_TIENDA, estadoHorario, formatoKm, resolverCP, textoEntrega, type TiendaCercana, type UbicacionEntrega } from '../../../mocks/tiendas';
+import { ALCANCE_MAXIMO_KM, avisoCambioEntrega, ESTADOS_CON_TIENDA, estadoHorario, formatoKm, resolverCP, textoEntrega, type TiendaCercana, type UbicacionEntrega } from '../../../mocks/tiendas';
 import { lineaDireccion, type DireccionEntrega, type Ubicacion } from '../../../mocks/clientes';
 import styles from './UbicacionTienda.module.css';
 
@@ -306,6 +306,7 @@ export function PanelTienda({ posicion, tiendas, actual, estado, codigoPostal, o
                 <Icon name="directions" box={20} size={18} color="var(--color-primary-500)" />
                 Mostrar en Google Maps
               </a>
+              {!mia && avisoCambioEntrega(t, estado) && <p className={`${styles.cambioEntrega} text-body-2-book`}>{avisoCambioEntrega(t, estado)}</p>}
               {!mia && (
                 <Button variant="outline" className={styles.anchoCompleto} onClick={() => onSeleccionar(t.id)}>
                   Seleccionar tienda
@@ -382,6 +383,8 @@ type OtrasTiendasProps = {
   tiendas: (TiendaCercana & { piezas: number })[];
   actual: TiendaCercana | null;
   codigoPostal: string | null;
+  /** Estado de la entrega: las tiendas de otro estado avisan que la entrega cambia (D47). */
+  estado: string | null;
   producto: string;
   onSeleccionar: (id: string) => void;
   onCambiarDireccion: () => void;
@@ -393,7 +396,7 @@ type OtrasTiendasProps = {
  * tiendas con existencia del producto (abierto / cierra, piezas, dirección, teléfono, mapa, "Seleccionar tienda");
  * al pie, "Cambiar dirección" lleva al C.P. o la dirección de entrega.
  */
-export function BuscarOtraTienda({ tiendas, actual, codigoPostal, producto, onSeleccionar, onCambiarDireccion, onClose }: OtrasTiendasProps) {
+export function BuscarOtraTienda({ tiendas, actual, codigoPostal, estado, producto, onSeleccionar, onCambiarDireccion, onClose }: OtrasTiendasProps) {
   const lista = [...tiendas].sort((a, b) => Number(b.id === actual?.id) - Number(a.id === actual?.id));
   const otras = lista.filter((t) => t.id !== actual?.id).length;
   return (
@@ -443,6 +446,7 @@ export function BuscarOtraTienda({ tiendas, actual, codigoPostal, producto, onSe
                   <Icon name="directions" box={20} size={18} color="var(--color-primary-500)" />
                   Mostrar en Google Maps
                 </a>
+                {!mia && avisoCambioEntrega(t, estado) && <p className={`${styles.cambioEntrega} text-body-2-book`}>{avisoCambioEntrega(t, estado)}</p>}
                 {!mia && (
                   <Button variant="outline" className={styles.anchoCompleto} onClick={() => onSeleccionar(t.id)}>
                     Seleccionar tienda

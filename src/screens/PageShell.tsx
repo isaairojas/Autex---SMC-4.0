@@ -229,8 +229,7 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
           estado={ubicacion?.estado ?? null}
           codigoPostal={ubicacion?.codigoPostal ?? null}
           onSeleccionar={(id) => {
-            abrirPanel(null);
-            demo.conCarga('Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => demo.setTienda(id));
+            demo.elegirTienda(id);
           }}
           onCambiarEntrega={() => abrirPanel('entrega')}
           onClose={() => abrirPanel(null)}

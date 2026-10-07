@@ -9,7 +9,7 @@ import type { DatosTarjeta, FormaSeleccionada } from '../design-system/component
 import { esPedidoForaneo, estadoExistencia, existenciaEnTienda, maximoVenta } from '../mocks/existencias';
 import { costoEnvio } from '../mocks/logistica';
 import { CLIENTE_INVITADO, CLIENTES, DIRECCIONES_ENTREGA, UBICACION_FIGMA, type Cliente, type DireccionEntrega, type Ubicacion } from '../mocks/clientes';
-import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, type TiendaCercana } from '../mocks/tiendas';
+import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, ubicacionPredeterminadaDe, type TiendaCercana } from '../mocks/tiendas';
 import { idVehiculo, type Vehiculo } from '../mocks/vehiculos';
 
 export type MetodoEnvio = 'sucursal' | 'domicilio' | null;
@@ -73,11 +73,16 @@ type DemoState = {
   setUbicacion: (u: Ubicacion) => void;
   abrirUbicacion: () => void;
   cerrarUbicacion: () => void;
-  /** Tienda elegida ("Mi tienda"); sin elección es la más cercana a la ubicación de entrega. */
+  /**
+   * Tienda elegida ("Mi tienda"); sin elección es la más cercana a la ubicación de entrega. Elegir una de otro estado
+   * cambia la entrega al C.P. predeterminado de ese estado (también para el cliente registrado, D47).
+   */
   tienda: TiendaCercana | null;
   /** Tiendas ordenadas por distancia a la ubicación de entrega, con su nivel de servicio. */
   tiendas: TiendaCercana[];
   setTienda: (id: string) => void;
+  /** setTienda con la carga de página: "Cambiando tu tienda" (y "tu C.P. de entrega" si es de otro estado). */
+  elegirTienda: (id: string) => void;
   panel: PanelUbicacion;
   abrirPanel: (p: PanelUbicacion) => void;
   /** Aviso propio de Autex "Elige una tienda" (cuando el navegador no da la ubicación). */
@@ -295,8 +300,21 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
       tienda,
       tiendas,
       setTienda: (id) => {
+        const t = tiendas.find((x) => x.id === id);
+        /* D47: tienda de otro estado → la entrega pasa al C.P. predeterminado de ese estado (sin dirección guardada). */
+        const nueva = !modoFigma && t && ubicacion && t.estado !== ubicacion.estado ? ubicacionPredeterminadaDe(t.estado) : null;
+        if (nueva) {
+          setUbicacionState(nueva);
+          setDireccionId(null);
+        }
         setTiendaId(id);
         setPanel(null);
+      },
+      elegirTienda: (id) => {
+        const t = tiendas.find((x) => x.id === id);
+        const otroEstado = !!t && !!ubicacion && t.estado !== ubicacion.estado && !!ubicacionPredeterminadaDe(t.estado);
+        setPanel(null);
+        value.conCarga(otroEstado ? 'Cambiando tu tienda y tu C.P. de entrega' : 'Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => value.setTienda(id));
       },
       panel,
       abrirPanel: setPanel,

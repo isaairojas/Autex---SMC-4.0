@@ -76,7 +76,7 @@ const ESPECIFICACIONES = [
 export function DetalleProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { agregar, ubicacion, abrirUbicacion, disponibilidad, modoFigma, tienda, tiendas, abrirPanel, carrito, setTienda, conCarga } = useDemo();
+  const { agregar, ubicacion, abrirUbicacion, disponibilidad, modoFigma, tienda, tiendas, abrirPanel, carrito, elegirTienda } = useDemo();
   /* D43: barra lateral "Buscar en otras tiendas". */
   const [otrasTiendas, setOtrasTiendas] = useState(false);
   const producto = CATALOGO_SITIO.find((p) => p.id === id) ?? CATALOGO_SITIO[0];
@@ -268,10 +268,11 @@ export function DetalleProducto() {
             .filter((t) => t.piezas > 0 || t.id === tienda?.id)}
           actual={tienda}
           codigoPostal={ubicacion?.codigoPostal ?? null}
+          estado={ubicacion?.estado ?? null}
           producto={producto.nombre}
           onSeleccionar={(id) => {
             setOtrasTiendas(false);
-            conCarga('Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => setTienda(id));
+            elegirTienda(id);
           }}
           onCambiarDireccion={() => {
             setOtrasTiendas(false);
