@@ -3,7 +3,8 @@
  * Red de existencias (D41): las tiendas Autex de tiendas.ts más CEDIS 41. Adolf Horn y Colón (y la fila de Central
  * Camionera, que sirve de referencia) tienen existencias capturadas; el resto de las tiendas toma una fracción estable
  * de la referencia, de modo que "Mi tienda", la compra en línea y los envíos usan la misma fuente.
- * CEDIS 41 no es origen de envío (D35): solo completa lo "bajo pedido", que surte la sucursal más cercana.
+ * CEDIS 41 ya no cuenta para la venta en línea (D45, decisión del usuario): "bajo pedido" solo es lo que se consigue en
+ * sucursales foráneas; lo que únicamente tiene CEDIS queda sin existencia. Su fila se conserva como referencia.
  */
 import type { Ubicacion } from './clientes';
 import { haversine } from './geo';
@@ -50,8 +51,6 @@ export function existenciaEnTienda(productoId: string, tiendaId: string): number
   return Math.max(1, Math.round((base * (h - 15)) / 100));
 }
 
-const piezasCedis = (productoId: string) => EXISTENCIAS[CEDIS.id]?.[productoId] ?? 0;
-
 type CodigoPostal = Ubicacion & { lat: number; lon: number; cobertura: boolean };
 
 /** Códigos postales de ejemplo. */
@@ -91,19 +90,15 @@ export function existenciaLocal(productoId: string, cp: string | null): number {
 }
 
 /**
- * Origen de lo "bajo pedido" (D44):
- * - 'foranea': las tiendas que alcanzan el C.P. completan las piezas, pero la mayoría tiene que salir de sucursales
- *   foráneas (más de 30 km), así que puede demorar más de lo normal (2 a 4 días hábiles).
- * - 'cedis': las tiendas no completan las piezas y CEDIS 41 sí.
- * null: no es bajo pedido.
+ * Bajo pedido por sucursal foránea (D44/D45): las tiendas que alcanzan el C.P. completan las piezas, pero la mayoría
+ * tiene que salir de sucursales foráneas (más de 30 km): existencia en otra región, entrega de 2 a 4 días hábiles y
+ * puede demorar más de lo normal. CEDIS ya no cuenta.
  */
-export function origenBajoPedido(productoId: string, cp: string | null, cantidad = 1): 'foranea' | 'cedis' | null {
-  if (esSoloLocal(productoId) || !cobertura(cp)) return null;
+export function esPedidoForaneo(productoId: string, cp: string | null, cantidad = 1): boolean {
+  if (esSoloLocal(productoId) || !cobertura(cp)) return false;
   const local = existenciaLocal(productoId, cp);
-  if (local >= cantidad) return null;
-  const enLinea = existenciaEnLinea(productoId, cp);
-  if (enLinea >= cantidad) return cantidad - local > cantidad / 2 ? 'foranea' : null;
-  return enLinea + piezasCedis(productoId) >= cantidad ? 'cedis' : null;
+  if (local >= cantidad) return false;
+  return existenciaEnLinea(productoId, cp) >= cantidad && cantidad - local > cantidad / 2;
 }
 
 /** Piezas que se pueden comprar en línea para un C.P.: tiendas que lo alcanzan (baterías: solo locales); sin CEDIS. */
@@ -117,11 +112,11 @@ export const piezasEnTiendas = (productoId: string) => existenciaEnLinea(product
 /**
  * Estado de existencia que ve el cliente (Autex_2026_Frames): disponible si las tiendas que alcanzan su C.P. tienen
  * piezas suficientes y la mayoría sale de tiendas locales; bajo pedido (entrega de 2 a 4 días hábiles) si la mayoría
- * sale de sucursales foráneas o si solo CEDIS 41 las completa; sin existencia si nadie las tiene o el C.P. no tiene
- * cobertura (caja gris, spec 001). Baterías: nunca bajo pedido.
+ * sale de sucursales foráneas; sin existencia si las tiendas no las completan (CEDIS ya no cuenta, D45) o el C.P. no
+ * tiene cobertura (caja gris, spec 001). Baterías: nunca bajo pedido.
  */
 export function estadoExistencia(productoId: string, cp: string | null, cantidad = 1): 'disponible' | 'bajo-pedido' | 'sin-existencia' {
-  if (origenBajoPedido(productoId, cp, cantidad)) return 'bajo-pedido';
+  if (esPedidoForaneo(productoId, cp, cantidad)) return 'bajo-pedido';
   return existenciaEnLinea(productoId, cp) >= cantidad ? 'disponible' : 'sin-existencia';
 }
 
@@ -131,12 +126,5 @@ export function etiquetaExistencia(n: number): string {
   return rango ? `+${rango}` : String(n);
 }
 
-/**
- * Piezas que se pueden vender en línea (D39): las de las tiendas que alcanzan el C.P.; si no hay en tiendas (bajo
- * pedido), las de CEDIS. Baterías: solo las locales.
- */
-export function maximoVenta(productoId: string, cp: string | null): number {
-  const enLinea = existenciaEnLinea(productoId, cp);
-  if (enLinea > 0 || esSoloLocal(productoId) || !cobertura(cp)) return enLinea;
-  return piezasCedis(productoId);
-}
+/** Piezas que se pueden vender en línea (D39/D45): las de las tiendas que alcanzan el C.P. (locales y foráneas, sin CEDIS). */
+export const maximoVenta = (productoId: string, cp: string | null): number => existenciaEnLinea(productoId, cp);

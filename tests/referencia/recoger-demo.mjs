@@ -112,7 +112,7 @@ for (const [nombre, n] of [[MARCHA, 1], [CLUTCH, 9]]) {
 }
 await q.waitForURL('**/carrito');
 await q.getByText('Productos bajo pedido (2)').waitFor();
-if ((await q.getByText(/sucursal foránea, por lo que podría demorar/).count()) !== 2) throw new Error('Falta la leyenda de sucursal foránea');
+if ((await q.getByText(/Existencia en otra región: se envía como pedido foráneo/).count()) !== 2) throw new Error('Falta la leyenda de sucursal foránea');
 await q.screenshot({ path: `${OUT}/7-carrito-foranea.png`, fullPage: true });
 ok('Carrito: marcha y 9 kits de clutch (la mayoría sale de León) separados en "Productos bajo pedido" con la leyenda');
 await q.getByRole('button', { name: 'Proceder al pago' }).first().click();

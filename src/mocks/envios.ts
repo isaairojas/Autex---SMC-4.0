@@ -2,8 +2,7 @@
  * Envíos múltiples del pedido (sin respaldo en Figma, D35/D41). SMC 4.0 surte cada artículo desde la tienda más
  * cercana a la entrega que tenga las piezas; los artículos de una misma tienda viajan en el mismo envío, así que el
  * pedido se divide solo cuando la tienda más cercana no tiene todo.
- * Por regla general CEDIS 41 no es origen de envío (decisión del usuario, 2026-10-06): lo bajo pedido lo surte la
- * tienda más cercana a la entrega, que lo solicita y lo envía (2 a 4 días hábiles).
+ * CEDIS 41 no es origen de envío ni cuenta para la venta en línea (D35, D45).
  * D44: lo que es bajo pedido porque la mayoría de sus piezas está en sucursales foráneas (más de 30 km) sale de esas
  * tiendas en envíos aparte, marcados como foráneos (2 a 4 días hábiles; puede demorar más de lo normal).
  */
@@ -63,7 +62,7 @@ export function repartirEnvios(lineas: LineaCarrito[], entrega: { lat: number; l
         if (!faltan) break;
       }
     }
-    /* Lo que ninguna tienda completa: la más cercana lo solicita a CEDIS y lo envía. */
+    /* Respaldo (no debería ocurrir: el carrito solo deja vender lo que las tiendas completan). */
     if (faltan > 0) sumar(pedidos, sucursales[0].id, { ...l, cantidad: faltan });
   }
   const envio = (id: string, ls: LineaCarrito[], bajoPedido: boolean) => {

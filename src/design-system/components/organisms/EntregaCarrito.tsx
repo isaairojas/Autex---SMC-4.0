@@ -31,8 +31,8 @@ function Opcion({ activo, icono, children, deshabilitado, onClick }: { activo: b
   );
 }
 
-/** D44: leyenda de lo que se surte desde sucursales foráneas. */
-export const LEYENDA_FORANEA = 'Se surte desde una sucursal foránea, por lo que podría demorar más de lo normal.';
+/** D44/D45: leyenda de lo que se consigue en sucursales foráneas (existencia en otra región). */
+export const LEYENDA_FORANEA = 'Existencia en otra región: se envía como pedido foráneo y podría tardar más de lo normal.';
 
 type SelectorProps = {
   modo: ModoEntrega;
@@ -59,15 +59,18 @@ export function SelectorEntrega({ modo, enLinea, enTienda, tienda, aviso, forane
         <p className="text-body-2-book">
           <Icon name="devices" box={20} size={18} color="var(--color-neutral-700)" />
           <span>
-            <strong className={enLinea === '0' ? styles.rojo : styles.verde}>{enLinea}</strong> disponibles para compra en línea
+            <strong className={enLinea === '0' ? styles.rojo : styles.verde}>{enLinea}</strong> disponibles para compra en línea{foranea && ' (en otra región)'}
           </span>
         </p>
+        {/* D45: en un pedido foráneo solo se muestra la existencia en línea, sin las tiendas. */}
+        {!foranea && (
         <p className="text-body-2-book">
           <Icon name="store" box={20} size={18} color="var(--color-neutral-700)" />
           <span>
             <strong className={enTienda ? styles.verde : styles.rojo}>{enTienda}</strong> disponibles en {tienda}
           </span>
         </p>
+        )}
       </div>
       <div className={styles.opciones} role="group" aria-label="Entrega del artículo">
         <Opcion activo={modo === 'domicilio'} icono="local_shipping" onClick={() => onCambiar('domicilio')}>

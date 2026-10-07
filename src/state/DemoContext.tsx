@@ -6,7 +6,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { CARRITO_2026, formatoMXN, type EstadoExistencia, type LineaCarrito, type ModoEntrega, type Producto } from '../mocks/productos';
 import { type Totales } from '../design-system/components/organisms/Resumen';
 import type { DatosTarjeta, FormaSeleccionada } from '../design-system/components/organisms/FormaDePago';
-import { estadoExistencia, existenciaEnTienda, maximoVenta, origenBajoPedido } from '../mocks/existencias';
+import { esPedidoForaneo, estadoExistencia, existenciaEnTienda, maximoVenta } from '../mocks/existencias';
 import { costoEnvio } from '../mocks/logistica';
 import { CLIENTE_INVITADO, CLIENTES, DIRECCIONES_ENTREGA, UBICACION_FIGMA, type Cliente, type DireccionEntrega, type Ubicacion } from '../mocks/clientes';
 import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, type TiendaCercana } from '../mocks/tiendas';
@@ -267,7 +267,7 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
           : estadoExistencia(id, ubicacion.codigoPostal, linea?.cantidad ?? 1);
         if (estado === 'disponible') return { ok: true, texto: 'Disponible', estado };
         if (estado === 'bajo-pedido')
-          return { ok: true, texto: 'Disponible bajo pedido', estado, foranea: !modoFigma && !!ubicacion && origenBajoPedido(id, ubicacion.codigoPostal, linea?.cantidad ?? 1) === 'foranea' };
+          return { ok: true, texto: 'Disponible bajo pedido', estado, foranea: !modoFigma && !!ubicacion && esPedidoForaneo(id, ubicacion.codigoPostal, linea?.cantidad ?? 1) };
         return { ok: false, texto: 'Sin existencia en tu zona', estado };
       },
       setCliente,

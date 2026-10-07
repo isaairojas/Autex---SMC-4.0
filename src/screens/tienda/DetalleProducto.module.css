@@ -715,3 +715,11 @@
   color: var(--color-naranja-bajo-pedido);
 }
 
+/* D45: existencia en otra región (pedido foráneo) en lugar de "Mi tienda" */
+.dispRegion {
+  padding: 12px 16px;
+  border-radius: 4px;
+  background: var(--color-naranja-bajo-pedido-fondo);
+  color: var(--color-neutral-900);
+}
+

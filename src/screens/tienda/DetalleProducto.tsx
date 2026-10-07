@@ -36,7 +36,7 @@ import r3 from '../../assets/images/rel-3.png';
 import r4 from '../../assets/images/rel-4.png';
 import { CATALOGO_SITIO } from '../../mocks/catalogo';
 import { formatoMXN } from '../../mocks/productos';
-import { esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta, origenBajoPedido } from '../../mocks/existencias';
+import { esPedidoForaneo, esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta } from '../../mocks/existencias';
 import { LEYENDA_FORANEA } from '../../design-system/components/organisms/EntregaCarrito';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
@@ -93,7 +93,7 @@ export function DetalleProducto() {
   const cp = ubicacion?.codigoPostal ?? null;
   const piezasPedido = Math.max(1, Math.min(cantidad + enCarrito, maximoVenta(producto.id, cp)));
   const estadoPedido = modoFigma ? disp.estado : estadoExistencia(producto.id, cp, piezasPedido);
-  const foranea = !modoFigma && origenBajoPedido(producto.id, cp, piezasPedido) === 'foranea';
+  const foranea = !modoFigma && esPedidoForaneo(producto.id, cp, piezasPedido);
   const aviso = modoFigma || !(tope || maximo <= 0)
     ? null
     : maximo <= 0
@@ -198,7 +198,7 @@ export function DetalleProducto() {
           </div>
           {!modoFigma && estadoPedido === 'bajo-pedido' && (
             <p className={`${styles.dispBajo} text-body-1-book`}>
-              Entrega estimada de 2 a 4 días hábiles.{foranea && ` ${LEYENDA_FORANEA}`}
+              Entrega estimada de 2 a 4 días hábiles. {LEYENDA_FORANEA}
             </p>
           )}
         </div>
@@ -252,6 +252,7 @@ export function DetalleProducto() {
         <Disponibilidad
           enLinea={existenciaEnLinea(producto.id, ubicacion?.codigoPostal ?? null)}
           soloLocal={esSoloLocal(producto.id)}
+          foranea={foranea}
           enTienda={tienda ? existenciaEnTienda(producto.id, tienda.id) : 0}
           tienda={tienda ? `${tienda.nombre}, ${tienda.estado}` : null}
           onOtraTienda={() => setOtrasTiendas(true)}
@@ -392,7 +393,7 @@ function cantidadInicial(modoFigma: boolean) {
  * SIN RESPALDO EN FIGMA (D34). "Disponibilidad" del ejemplo del usuario: piezas para compra en línea (por rangos)
  * y piezas físicas en "Mi tienda", con "Buscar en otra tienda". Sin pasillo ni bahía.
  */
-function Disponibilidad({ enLinea, enTienda, tienda, soloLocal, onOtraTienda }: { enLinea: number; enTienda: number; tienda: string | null; soloLocal: boolean; onOtraTienda: () => void }) {
+function Disponibilidad({ enLinea, enTienda, tienda, soloLocal, foranea, onOtraTienda }: { enLinea: number; enTienda: number; tienda: string | null; soloLocal: boolean; foranea: boolean; onOtraTienda: () => void }) {
   return (
     <section className={styles.disponibilidad} aria-label="Disponibilidad">
       <p className="text-subheadline-medium">Disponibilidad</p>
@@ -409,11 +410,26 @@ function Disponibilidad({ enLinea, enTienda, tienda, soloLocal, onOtraTienda }: 
             )}
           </p>
           <p className={`${styles.dispGris} text-body-1-book`}>
-            {soloLocal
+            {foranea
+              ? 'Piezas de sucursales fuera de tu zona de entrega.'
+              : soloLocal
               ? 'Las baterías se surten solo de sucursales locales o locales extendidas de tu zona (hasta 30 km).'
               : 'Te mostraremos los detalles de entrega antes de finalizar tu compra'}
           </p>
         </div>
+        {foranea ? (
+          /* D45: existencia en otra región; no se muestran las tiendas. */
+          <div className={`${styles.dispColumna} ${styles.dispRegion}`} role="note">
+            <p className={`${styles.dispFila} text-body-1-medium`}>
+              <Icon name="schedule" color="var(--color-naranja-bajo-pedido)" />
+              <span>Existencia en otra región</span>
+            </p>
+            <p className="text-body-1-book">
+              Este producto no está en las tiendas de tu zona. Lo conseguimos en otra región y se envía como pedido foráneo: entrega estimada de 2 a 4 días hábiles y
+              podría tardar más de lo normal.
+            </p>
+          </div>
+        ) : (
         <div className={styles.dispColumna}>
           <p className={`${styles.dispFila} text-body-1-medium`}>
             <Icon name="store" color="var(--color-neutral-700)" />
@@ -429,6 +445,7 @@ function Disponibilidad({ enLinea, enTienda, tienda, soloLocal, onOtraTienda }: 
             Buscar en otra tienda
           </button>
         </div>
+        )}
       </div>
     </section>
   );

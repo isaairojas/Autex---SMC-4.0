@@ -1,5 +1,9 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-07 — CEDIS fuera de la venta en línea; existencia en otra región (sin respaldo en Figma, D45)
+- "Bajo pedido" solo para lo que está en sucursales foráneas; lo que solo tenía CEDIS queda sin existencia.
+- Detalle: "Existencia en otra región" (pedido foráneo) con las piezas en línea y sin detalle de tiendas; carrito con las piezas en línea de otra región.
+
 ## 2026-10-07 — Sucursales foráneas y secciones de entrega (sin respaldo en Figma, D44)
 - Bajo pedido cuando la mayoría de las piezas sale de sucursales foráneas (más de 30 km), con la leyenda "podría demorar más de lo normal" en detalle, carrito y paso 2 (envío aparte desde la foránea).
 - Carrito: "Zona de entrega" solo con artículos a domicilio y "Recoger en tienda" como sección aparte solo con artículos para recoger.

@@ -34,7 +34,10 @@ await p.getByText('Catálogo de productos').waitFor();
 await p.getByRole('link', { name: 'Refacciones de iluminacion' }).click();
 await p.waitForURL('**/busqueda?**');
 await productosCargados(p);
-if ((await p.getByRole('button', { name: /Agregar a lista/ }).count()) !== 4) throw new Error('El filtro por categoría no dejó 4 productos');
+/* Los productos sin existencia (p. ej. faros que solo tenía CEDIS, D45) se ocultan: visibles + ocultos = 4. */
+const visiblesCat = await p.getByRole('button', { name: /Agregar a lista/ }).count();
+const ocultosCat = Number((await p.getByText(/Mostrar productos no disponibles \(\d+\)/).first().innerText().catch(() => '(0)')).match(/\((\d+)\)/)?.[1] ?? 0);
+if (visiblesCat + ocultosCat !== 4) throw new Error(`El filtro por categoría no dejó 4 productos (${visiblesCat} visibles + ${ocultosCat} ocultos)`);
 paso('Inicio → Catálogo → categoría: ventana "Cargando productos…" y la búsqueda filtrada');
 await p.getByRole('link', { name: 'Marcas', exact: true }).click();
 await p.getByPlaceholder('Buscar por nombre de la marca').fill('tecno');
@@ -229,14 +232,16 @@ for (const i of [0, 1]) {
   await p.getByRole('button', { name: 'Agregar al carrito' }).nth(i).click(); // inyector y cuerpo de aceleración
   await mini.getByRole('button', { name: 'Cerrar' }).click();
 }
-await p.getByRole('button', { name: 'Agregar al carrito' }).nth(2).click(); // filtro de aire: solo en CEDIS
+/* Marcha: solo en León (sucursal foránea para Guadalajara): bajo pedido, existencia en otra región (D45). */
+await p.getByLabel('Cantidad de Motor de arranque (marcha) Tecnofuel').locator('xpath=ancestor::*[.//button[normalize-space()="Agregar al carrito"]][1]').getByRole('button', { name: 'Agregar al carrito' }).click();
 await mini.getByRole('button', { name: 'Cerrar' }).click();
 /* Motoventilador: Tesistán no lo tiene, sale de otra sucursal (envío aparte). */
 await p.getByLabel('Cantidad de Motoventilador de radiador Tecnofuel').locator('xpath=ancestor::*[.//button[normalize-space()="Agregar al carrito"]][1]').getByRole('button', { name: 'Agregar al carrito' }).click();
 await p.getByRole('button', { name: 'Ver todos los productos' }).click();
 await p.waitForURL('**/carrito');
 await p.getByText('Productos bajo pedido (1)').waitFor();
-paso('Carrito: el producto que solo tiene CEDIS 41 aparece como "bajo pedido"');
+await p.getByText(/Existencia en otra región/).first().waitFor();
+paso('Carrito: la marcha (solo en sucursal foránea) aparece "bajo pedido" con "Existencia en otra región"');
 await p.getByRole('button', { name: 'Proceder al pago' }).first().click();
 await p.getByRole('status', { name: 'Preparando tu pedido' }).waitFor();
 await p.waitForURL('**/checkout/envio');
@@ -249,7 +254,7 @@ for (const n of [1, 2, 3]) await p.getByRole('button', { name: new RegExp(`Enví
 await p.getByRole('button', { name: /Envío 1/ }).click();
 await p.getByText(/Sale de Autex/).first().waitFor();
 if (await p.getByText(/Sale de CEDIS/).count()) throw new Error('CEDIS no debe ser origen de envío');
-paso('Paso 2: dirección visible, sin costos y 3 envíos reales (Tesistán, otra sucursal con lo que Tesistán no tiene y lo bajo pedido)');
+paso('Paso 2: dirección visible, sin costos y 3 envíos reales (Tesistán, otra sucursal con lo que Tesistán no tiene y lo foráneo)');
 await p.getByRole('button', { name: 'Cambiar dirección de entrega' }).hover();
 await p.getByRole('tooltip').getByText(/podría verse afectado/).waitFor({ state: 'visible' });
 await p.getByRole('button', { name: 'Cambiar dirección de entrega' }).click();
