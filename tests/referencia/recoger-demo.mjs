@@ -102,7 +102,18 @@ const MARCHA = 'Motor de arranque (marcha) Tecnofuel';
 const CLUTCH = 'Kit de clutch Sachs 3000 990 492';
 const tarjetaCatalogo = (nombre) => q.getByLabel(`Cantidad de ${nombre}`).locator('xpath=ancestor::*[.//button[normalize-space()="Agregar al carrito"]][1]');
 await q.getByLabel(`Cantidad de ${MARCHA}`).locator('xpath=ancestor::*[contains(., "Disponible bajo pedido")][1]').waitFor();
-ok('Catálogo: la marcha (solo en León, sucursal foránea) aparece "Disponible bajo pedido · 2 a 4 días"');
+ok('Catálogo: la marcha (sin piezas en la zona, solo en León) aparece "Disponible bajo pedido" desde la primera pieza');
+/* D46: el filtro de aire tiene 1 pieza en Tesistán: con 1 está disponible y al pedir 2 pasa a bajo pedido. */
+const FILTRO = 'Filtro de aire de motor Tecnofuel';
+const tarjetaFiltro = q.getByLabel(`Cantidad de ${FILTRO}`).locator('xpath=ancestor::*[contains(., "pzs")][1]');
+if (await tarjetaFiltro.getByText('Disponible bajo pedido').count()) throw new Error('Con 1 pieza el filtro debe estar disponible');
+await q.getByLabel(`Cantidad de ${FILTRO}`).fill('2');
+await q.getByLabel(`Cantidad de ${FILTRO}`).press('Enter');
+await tarjetaFiltro.getByText('Disponible bajo pedido').waitFor();
+await q.screenshot({ path: `${OUT}/9-filtro-2-piezas.png` });
+ok('Catálogo: filtro de aire (1 pieza en Tesistán) disponible con 1 y "bajo pedido" al pedir 2');
+await q.getByLabel(`Cantidad de ${FILTRO}`).fill('1');
+await q.getByLabel(`Cantidad de ${FILTRO}`).press('Enter');
 for (const [nombre, n] of [[MARCHA, 1], [CLUTCH, 9]]) {
   const c = q.getByLabel(`Cantidad de ${nombre}`);
   await c.fill(String(n));

@@ -62,8 +62,8 @@ export function SelectorEntrega({ modo, enLinea, enTienda, tienda, aviso, forane
             <strong className={enLinea === '0' ? styles.rojo : styles.verde}>{enLinea}</strong> disponibles para compra en línea{foranea && ' (en otra región)'}
           </span>
         </p>
-        {/* D45: en un pedido foráneo solo se muestra la existencia en línea, sin las tiendas. */}
-        {!foranea && (
+        {/* D45/D46: en un pedido foráneo sin piezas en tu tienda solo se muestra la existencia en línea. */}
+        {!(foranea && !enTienda) && (
         <p className="text-body-2-book">
           <Icon name="store" box={20} size={18} color="var(--color-neutral-700)" />
           <span>

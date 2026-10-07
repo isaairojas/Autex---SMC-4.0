@@ -55,6 +55,7 @@ export function Ofertas() {
                   key={p.id}
                   producto={p}
                   estado={estado(p.id)}
+                  estadoPara={(n) => estadoExistencia(p.id, ubicacion?.codigoPostal ?? null, n + (carrito.find((l) => l.producto.id === p.id)?.cantidad ?? 0))}
                   piezas={piezasEnTiendas(p.id)}
                   etiquetaPiezas={etiquetaExistencia(existenciaEnLinea(p.id, ubicacion?.codigoPostal ?? null))}
                   maximo={maximoVenta(p.id, ubicacion?.codigoPostal ?? null) - (carrito.find((l) => l.producto.id === p.id)?.cantidad ?? 0)}

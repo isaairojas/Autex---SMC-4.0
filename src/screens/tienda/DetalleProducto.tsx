@@ -36,7 +36,7 @@ import r3 from '../../assets/images/rel-3.png';
 import r4 from '../../assets/images/rel-4.png';
 import { CATALOGO_SITIO } from '../../mocks/catalogo';
 import { formatoMXN } from '../../mocks/productos';
-import { esPedidoForaneo, esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, maximoVenta } from '../../mocks/existencias';
+import { esPedidoForaneo, esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, existenciaLocal, maximoVenta } from '../../mocks/existencias';
 import { LEYENDA_FORANEA } from '../../design-system/components/organisms/EntregaCarrito';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
@@ -252,7 +252,8 @@ export function DetalleProducto() {
         <Disponibilidad
           enLinea={existenciaEnLinea(producto.id, ubicacion?.codigoPostal ?? null)}
           soloLocal={esSoloLocal(producto.id)}
-          foranea={foranea}
+          /* D46: sin piezas en la zona, el aviso de otra región ocupa el lugar de "Mi tienda"; con alguna, se ve la tienda. */
+          foranea={foranea && existenciaLocal(producto.id, cp) === 0}
           enTienda={tienda ? existenciaEnTienda(producto.id, tienda.id) : 0}
           tienda={tienda ? `${tienda.nombre}, ${tienda.estado}` : null}
           onOtraTienda={() => setOtrasTiendas(true)}

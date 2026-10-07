@@ -166,6 +166,7 @@ export function Inicio() {
                 key={p.id}
                 producto={p}
                 estado={estado(p)}
+                estadoPara={modoFigma ? undefined : (n) => estadoExistencia(p.id, ubicacion?.codigoPostal ?? null, n + enCarrito(p.id))}
                 piezas={modoFigma ? 104 : piezasEnTiendas(p.id)}
                 etiquetaPiezas={modoFigma ? undefined : etiquetaExistencia(existenciaEnLinea(p.id, ubicacion?.codigoPostal ?? null))}
                 maximo={modoFigma ? undefined : maximoVenta(p.id, ubicacion?.codigoPostal ?? null) - enCarrito(p.id)}

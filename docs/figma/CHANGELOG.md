@@ -1,5 +1,9 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-07 — Inventario de lo bajo pedido (sin respaldo en Figma, D46)
+- Bajo pedido en cuanto la zona no completa la cantidad: los productos de ejemplo tienen 1 pieza en Tesistán (disponibles con 1, bajo pedido con 2); la marcha es el único sin piezas en la zona.
+- La tarjeta del catálogo cambia de estado con la cantidad escrita y muestra las piezas en línea también en bajo pedido.
+
 ## 2026-10-07 — CEDIS fuera de la venta en línea; existencia en otra región (sin respaldo en Figma, D45)
 - "Bajo pedido" solo para lo que está en sucursales foráneas; lo que solo tenía CEDIS queda sin existencia.
 - Detalle: "Existencia en otra región" (pedido foráneo) con las piezas en línea y sin detalle de tiendas; carrito con las piezas en línea de otra región.

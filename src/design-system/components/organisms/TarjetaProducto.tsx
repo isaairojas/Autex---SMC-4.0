@@ -30,13 +30,16 @@ type Props = {
    * Con este valor la cantidad se puede escribir y no puede superarlo; sin él se ve el contador de Figma.
    */
   maximo?: number;
+  /** Sitio (D46): estado con la cantidad elegida; p. ej. con 1 pieza en la zona, al pedir 2 pasa a bajo pedido. */
+  estadoPara?: (cantidad: number) => EstadoExistencia;
   onAgregar: (cantidad: number) => void;
   onVer?: () => void;
   onAvisar?: () => void;
 };
 
-export function TarjetaProducto({ producto, estado, piezas, etiquetaPiezas, maximo, onAgregar, onVer, onAvisar }: Props) {
+export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiquetaPiezas, maximo, estadoPara, onAgregar, onVer, onAvisar }: Props) {
   const [cantidad, setCantidad] = useState(1);
+  const estado = estadoPara && estadoBase !== 'sin-existencia' ? estadoPara(cantidad) : estadoBase;
   const [texto, setTexto] = useState('1');
   const [aviso, setAviso] = useState<string | null>(null);
   const limitado = maximo !== undefined;
@@ -91,6 +94,8 @@ export function TarjetaProducto({ producto, estado, piezas, etiquetaPiezas, maxi
                     Entrega estimada de <b>2 a 4 día</b>s habiles
                   </span>
                 </span>
+                {/* Sitio (D46): piezas para compra en línea, incluidas las de sucursales foráneas. */}
+                {etiquetaPiezas !== undefined && <span className={styles.piezas}>{etiquetaPiezas} pzs</span>}
               </div>
             )}
             {sinExistencia && (

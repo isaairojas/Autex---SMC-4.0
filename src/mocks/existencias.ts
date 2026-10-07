@@ -25,10 +25,13 @@ export const EXISTENCIAS: Record<string, Record<string, number>> = {
   'adolf-horn': { 'switch-encendido': 0, 'cuerpo-aceleracion': 40, 'filtro-aire': 0, 'faro-derecho': 0, 'marcha': 0, 'alternador': 30, 'bomba-gasolina': 0, 'modulo-bomba': 6, 'ventilador': 20, 'switch-luces': 10, 'inyector-ai3922': 50, 'faro-ai3922': 0, 'bosch-x5dc': 20, 'kem-l2113': 10, 'autolite-ai5703': 6, 'kgp-1451': 1, 'duralast-31t': 0, 'eagle-7352': 1, 'autolite-app5363': 2, 'sachs-3000990492': 0, 'bateria-duralast-platinum': 6, 'bateria-duralast-gold': 0, 'alternador-90a': 12, 'alternador-150a': 2, 'aceite-eneos-10w40': 80, 'liqui-moly-flush': 20, 'foco-h7': 30, 'filtro-gasolina-bosch': 0, 'kit-clutch-sachs': 1, 'cables-bujia-kem': 10, 'bujia-incandescente': 0, 'cinta-aislante': 150, 'relevador-12v': 25, 'faro-trabajo-led': 5, 'juego-llaves': 6, 'bujia-moto-iridium': 20, 'bujia-motor-pequeno': 0, 'chaleco-reflejante': 30, 'guantes-nitrilo': 0 },
   'central-camionera': { 'switch-encendido': 0, 'cuerpo-aceleracion': 34, 'filtro-aire': 0, 'faro-derecho': 0, 'marcha': 0, 'alternador': 44, 'bomba-gasolina': 0, 'modulo-bomba': 4, 'ventilador': 10, 'switch-luces': 8, 'inyector-ai3922': 30, 'faro-ai3922': 0, 'bosch-x5dc': 5, 'kem-l2113': 4, 'autolite-ai5703': 16, 'kgp-1451': 0, 'duralast-31t': 2, 'eagle-7352': 0, 'autolite-app5363': 1, 'sachs-3000990492': 1, 'bateria-duralast-platinum': 4, 'bateria-duralast-gold': 0, 'alternador-90a': 8, 'alternador-150a': 0, 'aceite-eneos-10w40': 60, 'liqui-moly-flush': 15, 'foco-h7': 25, 'filtro-gasolina-bosch': 0, 'kit-clutch-sachs': 0, 'cables-bujia-kem': 4, 'bujia-incandescente': 0, 'cinta-aislante': 120, 'relevador-12v': 10, 'faro-trabajo-led': 3, 'juego-llaves': 0, 'bujia-moto-iridium': 15, 'bujia-motor-pequeno': 0, 'chaleco-reflejante': 20, 'guantes-nitrilo': 0 },
   colon: { 'switch-encendido': 0, 'cuerpo-aceleracion': 30, 'filtro-aire': 0, 'faro-derecho': 0, 'marcha': 0, 'alternador': 30, 'bomba-gasolina': 0, 'modulo-bomba': 2, 'ventilador': 8, 'switch-luces': 6, 'inyector-ai3922': 24, 'faro-ai3922': 0, 'bosch-x5dc': 0, 'kem-l2113': 12, 'autolite-ai5703': 4, 'kgp-1451': 2, 'duralast-31t': 1, 'eagle-7352': 1, 'autolite-app5363': 0, 'sachs-3000990492': 0, 'bateria-duralast-platinum': 0, 'bateria-duralast-gold': 3, 'alternador-90a': 10, 'alternador-150a': 1, 'aceite-eneos-10w40': 45, 'liqui-moly-flush': 18, 'foco-h7': 20, 'filtro-gasolina-bosch': 0, 'kit-clutch-sachs': 0, 'cables-bujia-kem': 12, 'bujia-incandescente': 0, 'cinta-aislante': 90, 'relevador-12v': 15, 'faro-trabajo-led': 4, 'juego-llaves': 4, 'bujia-moto-iridium': 10, 'bujia-motor-pequeno': 0, 'chaleco-reflejante': 25, 'guantes-nitrilo': 0 },
-  /* D44: la marcha solo está en León (sucursales foráneas para Guadalajara): se vende bajo pedido. El clutch Sachs
-     tiene pocas piezas en Guadalajara y más en León: al pedir muchas, la mayoría sale de León y pasa a bajo pedido. */
-  'leon-moto-partes': { marcha: 4, 'kit-clutch-sachs': 6 },
-  'leon-torres-landa': { marcha: 3, 'kit-clutch-sachs': 6 },
+  /* D44/D46: la marcha es el único producto sin piezas en la zona de Guadalajara: solo está en León (sucursales
+     foráneas) y es bajo pedido desde la primera pieza. Los productos que antes solo tenía CEDIS tienen 1 pieza en
+     Tesistán y más en León: 1 pieza está disponible y desde 2 pasan a bajo pedido. El clutch Sachs tiene pocas
+     piezas en Guadalajara y más en León. */
+  tesistan: { 'filtro-aire': 1, 'faro-derecho': 1, 'faro-ai3922': 1, 'filtro-gasolina-bosch': 1, 'bujia-motor-pequeno': 1 },
+  'leon-moto-partes': { marcha: 4, 'kit-clutch-sachs': 6, 'filtro-aire': 6, 'faro-derecho': 3, 'faro-ai3922': 2, 'filtro-gasolina-bosch': 5, 'bujia-motor-pequeno': 8 },
+  'leon-torres-landa': { marcha: 3, 'kit-clutch-sachs': 6, 'filtro-aire': 4, 'faro-derecho': 2, 'faro-ai3922': 3, 'filtro-gasolina-bosch': 4, 'bujia-motor-pequeno': 6 },
   'cedis-41': { 'switch-encendido': 0, 'cuerpo-aceleracion': 80, 'filtro-aire': 25, 'faro-derecho': 6, 'marcha': 0, 'alternador': 40, 'bomba-gasolina': 0, 'modulo-bomba': 0, 'ventilador': 15, 'switch-luces': 10, 'inyector-ai3922': 30, 'faro-ai3922': 4, 'bosch-x5dc': 100, 'kem-l2113': 50, 'autolite-ai5703': 80, 'kgp-1451': 10, 'duralast-31t': 15, 'eagle-7352': 5, 'autolite-app5363': 40, 'sachs-3000990492': 3, 'bateria-duralast-platinum': 30, 'bateria-duralast-gold': 20, 'alternador-90a': 20, 'alternador-150a': 6, 'aceite-eneos-10w40': 200, 'liqui-moly-flush': 40, 'foco-h7': 50, 'filtro-gasolina-bosch': 15, 'kit-clutch-sachs': 3, 'cables-bujia-kem': 50, 'bujia-incandescente': 0, 'cinta-aislante': 500, 'relevador-12v': 60, 'faro-trabajo-led': 10, 'juego-llaves': 10, 'bujia-moto-iridium': 60, 'bujia-motor-pequeno': 20, 'chaleco-reflejante': 100, 'guantes-nitrilo': 0 },
 };
 
@@ -90,15 +93,13 @@ export function existenciaLocal(productoId: string, cp: string | null): number {
 }
 
 /**
- * Bajo pedido por sucursal foránea (D44/D45): las tiendas que alcanzan el C.P. completan las piezas, pero la mayoría
- * tiene que salir de sucursales foráneas (más de 30 km): existencia en otra región, entrega de 2 a 4 días hábiles y
- * puede demorar más de lo normal. CEDIS ya no cuenta.
+ * Bajo pedido por sucursal foránea (D44–D46): las tiendas de la zona (Local y Local Extendido, hasta 30 km) no
+ * completan las piezas y las sucursales foráneas sí: existencia en otra región, entrega de 2 a 4 días hábiles y puede
+ * demorar más de lo normal. Con 1 pieza en la zona, al pedir 2 ya es bajo pedido. CEDIS ya no cuenta.
  */
 export function esPedidoForaneo(productoId: string, cp: string | null, cantidad = 1): boolean {
   if (esSoloLocal(productoId) || !cobertura(cp)) return false;
-  const local = existenciaLocal(productoId, cp);
-  if (local >= cantidad) return false;
-  return existenciaEnLinea(productoId, cp) >= cantidad && cantidad - local > cantidad / 2;
+  return existenciaLocal(productoId, cp) < cantidad && existenciaEnLinea(productoId, cp) >= cantidad;
 }
 
 /** Piezas que se pueden comprar en línea para un C.P.: tiendas que lo alcanzan (baterías: solo locales); sin CEDIS. */
