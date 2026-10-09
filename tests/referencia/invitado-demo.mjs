@@ -35,7 +35,8 @@ await p.screenshot({ path: `${OUT}/3-tengo-cuenta.png` });
 await p.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa.com.mx');
 await p.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
 await p.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
-await p.waitForURL('**/checkout/envio');
+/* D57: al iniciar sesión se regresa a la página principal, también desde el carrito. */
+await p.waitForURL('http://localhost:5179/');
 console.log('Tengo una cuenta → ', p.url());
 await browser.close();
 if (errores.length) console.log('ERRORES', errores);

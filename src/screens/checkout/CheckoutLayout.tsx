@@ -34,7 +34,7 @@ const RUTAS_PASO = { 1: '/checkout/datos', 2: '/checkout/envio', 3: '/checkout/p
 
 export function CheckoutLayout({ paso, children, overlay, resumen, onConfirmar, sinCostoEnvio }: CheckoutLayoutProps) {
   const navigate = useNavigate();
-  const { carrito, cliente, totales, disponibilidad, modoFigma, numeroPedido, pasoAlcanzado, setPasoAlcanzado } = useDemo();
+  const { carrito, cliente, totales, disponibilidad, modoFigma, numeroPedido, pasoAlcanzado, setPasoAlcanzado, mostrarAviso } = useDemo();
   const version2026 = paso === 1;
   const registrado = cliente.tipo === 'b2c' || cliente.tipo === 'b2b';
   const { grupos } = useGruposPedido();
@@ -42,6 +42,14 @@ export function CheckoutLayout({ paso, children, overlay, resumen, onConfirmar, 
   useEffect(() => {
     if (paso > pasoAlcanzado) setPasoAlcanzado(paso);
   }, [paso]); // eslint-disable-line react-hooks/exhaustive-deps
+  /* D57: no se puede pagar un artículo sin existencia: si alguno queda sin piezas, regresa al carrito con una leyenda. */
+  const sinExistencia = modoFigma ? [] : carrito.filter((l) => disponibilidad(l.producto.id).estado === 'sin-existencia');
+  useEffect(() => {
+    if (!sinExistencia.length) return;
+    const nombres = sinExistencia.map((l) => l.producto.nombre).join(', ');
+    mostrarAviso(`${nombres} ${sinExistencia.length === 1 ? 'no tiene' : 'no tienen'} existencia para tu entrega. Te regresamos al carrito para que lo resuelvas antes de pagar.`);
+    navigate('/carrito');
+  }, [sinExistencia.length]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <PageShell version2026={version2026} enlaceActivo={null} pasarela={!modoFigma}>
       <div className={styles.headline} style={{ marginTop: version2026 ? 20 : 26 }}>

@@ -43,9 +43,15 @@ export const TARJETAS_2026: TarjetaRegistrada2026[] = [
   { id: 'visa-4485', marca: 'visa', terminacion: '4485' },
 ];
 
-type TarjetaProps = { tarjeta: TarjetaRegistrada2026; seleccionada: boolean; onSelect: () => void };
+type TarjetaProps = {
+  tarjeta: TarjetaRegistrada2026;
+  seleccionada: boolean;
+  onSelect: () => void;
+  /** Sitio (D57, sin respaldo en Figma): marca de la tarjeta predeterminada. */
+  predeterminada?: boolean;
+};
 
-export function TarjetaGuardada({ tarjeta, seleccionada, onSelect }: TarjetaProps) {
+export function TarjetaGuardada({ tarjeta, seleccionada, onSelect, predeterminada = false }: TarjetaProps) {
   const nombre = tarjeta.marca === 'visa' ? 'Visa' : 'Mastercard';
   return (
     <button type="button" className={seleccionada ? `${styles.tarjeta} ${styles.tarjetaActiva}` : styles.tarjeta} onClick={onSelect}>
@@ -55,6 +61,7 @@ export function TarjetaGuardada({ tarjeta, seleccionada, onSelect }: TarjetaProp
         <span className={styles.tarjetaTexto}>
           {nombre} con terminación {tarjeta.terminacion}
         </span>
+        {predeterminada && <span className={`${styles.predeterminada} text-caption-book`}>Predeterminada</span>}
       </span>
       <Icon name="expand_more" box={32} size={28} />
     </button>

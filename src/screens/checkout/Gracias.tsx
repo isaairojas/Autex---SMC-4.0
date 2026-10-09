@@ -61,8 +61,9 @@ export function Gracias({ ticketAbierto = false, soloContenido = false }: Gracia
             <div className={styles.mensaje}>
               <p className={`${styles.title} text-heading-1-book`}>¡Muchas gracias por tu compra!</p>
               <p className={`${styles.desc} text-os-body-1`}>
-                Tu auto está por estrenar. Tu número de pedido es<b className={styles.bold}> {numero}. </b>Se enviará un correo electrónico con los detalles de tu
-                compra.{enTienda && ' No te olvides de descargar tu referencia de pago y realizarlo en Tienda OXXO.'}
+                {/* D57: el sitio no usa "Tu auto está por estrenar" y nombra la tienda de autoservicio elegida (Figma: siempre OXXO). */}
+                {modoFigma ? 'Tu auto está por estrenar. ' : 'Recibimos tu pedido. '}Tu número de pedido es<b className={styles.bold}> {numero}. </b>Se enviará un correo electrónico con los detalles de tu
+                compra.{enTienda && ` No te olvides de descargar tu referencia de pago y realizarlo en ${modoFigma ? 'Tienda OXXO' : pedido?.tiendaPago ?? 'la tienda de autoservicio que elegiste'}.`}
               </p>
             </div>
           </div>

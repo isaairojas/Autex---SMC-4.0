@@ -31,7 +31,8 @@ const COLUMNS_2026 = [
   { title: 'Contáctanos', links: ['33 3208 4440', '33 2835 9694', 'contacto@autex.com.mx', 'Localiza tu tienda'] },
 ];
 
-export function Footer({ version2026 = false }: { version2026?: boolean }) {
+/** sitio (D57): el mismo año en todas las pantallas (el actual); la galería conserva "AUTEX 2023" / "AUTEX 2022" de Figma. */
+export function Footer({ version2026 = false, sitio = false }: { version2026?: boolean; sitio?: boolean }) {
   const columnas = version2026 ? COLUMNS_2026 : COLUMNS;
   return (
     <footer className={styles.footer}>
@@ -68,7 +69,7 @@ export function Footer({ version2026 = false }: { version2026?: boolean }) {
       </div>
       <div className={styles.legal}>
         <p className={`${styles.legalText} text-body-2-book`}>
-          Derechos Reservados <span className="text-body-2-medium">{version2026 ? 'AUTEX 2023' : 'AUTEX 2022'}</span>.
+          Derechos Reservados <span className="text-body-2-medium">{sitio ? `AUTEX ${new Date().getFullYear()}` : version2026 ? 'AUTEX 2023' : 'AUTEX 2022'}</span>.
         </p>
         <div className={styles.payment}>
           <span className="text-body-2-book">Métodos de pago</span>

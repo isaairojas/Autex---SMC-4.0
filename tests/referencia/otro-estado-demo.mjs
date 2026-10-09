@@ -1,5 +1,5 @@
-// Tienda de otro estado (D47): al elegirla, la entrega pasa al C.P. predeterminado de ese estado (también para el
-// cliente registrado, que deja de usar su dirección guardada). Uso: node tests/referencia/otro-estado-demo.mjs <salida>
+// Tienda de otro estado (D57, reemplaza a D47): elegirla solo cambia dónde se recoge; la entrega no cambia y el
+// cliente registrado conserva su dirección guardada. Uso: node tests/referencia/otro-estado-demo.mjs <salida>
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 const OUT = process.argv[2] ?? 'capturas-otro-estado';
@@ -16,45 +16,40 @@ const pagina = async () => {
   await p.getByRole('status', { name: 'Cargando productos…' }).waitFor({ state: 'detached' });
   return p;
 };
-const entrega = (p) => p.getByRole('button', { name: 'Entrega en' }).innerText();
+const entrega = async (p) => (await p.getByRole('button', { name: 'Entrega en' }).innerText()).replace(/\s+/g, ' ');
+const miTienda = async (p) => (await p.getByRole('button', { name: 'Mi tienda' }).innerText()).match(/Autex[^\n]*/)?.[0];
 const elegirEn = async (p, estado, captura) => {
   await p.getByRole('button', { name: 'Mi tienda' }).click();
   const panel = p.getByRole('dialog', { name: 'Selecciona una tienda' });
   await panel.getByLabel('Estado').selectOption(estado);
-  const aviso = (await panel.getByText(/Al elegirla, tu entrega cambia a C\.P\./).first().innerText()).trim();
+  if (await panel.getByText(/tu entrega cambia/).count()) throw new Error('La tienda de otro estado ya no debe avisar que la entrega cambia');
   if (captura) await p.screenshot({ path: `${OUT}/${captura}` });
   await panel.getByRole('button', { name: 'Seleccionar tienda' }).first().click();
-  await p.getByRole('status', { name: 'Cambiando tu tienda y tu C.P. de entrega' }).waitFor();
-  await p.getByRole('status', { name: 'Cambiando tu tienda y tu C.P. de entrega' }).waitFor({ state: 'detached' });
-  return aviso;
+  await p.getByRole('status', { name: 'Cambiando tu tienda' }).waitFor({ state: 'detached' });
 };
 
 let p = await pagina();
 const antes = await entrega(p);
-const aviso = await elegirEn(p, 'Nuevo León', '1-aviso-otro-estado.png');
-if (!(await entrega(p)).includes('64000')) throw new Error(`La entrega debía pasar a 64000 (está en ${await entrega(p)})`);
-const tienda = (await p.getByRole('button', { name: 'Mi tienda' }).innerText()).match(/Autex[^\n]*/)?.[0];
+await elegirEn(p, 'Nuevo León', '1-tienda-otro-estado.png');
+const despues = await entrega(p);
+if (despues !== antes) throw new Error(`La entrega no debe cambiar (antes "${antes}", ahora "${despues}")`);
 await p.screenshot({ path: `${OUT}/2-monterrey.png` });
-ok(`Invitado: "${aviso}" → entrega ${antes.replace(/\s+/g, ' ')} → 64000, ${tienda}`);
-await p.getByRole('button', { name: 'Mi tienda' }).click();
-const panel = p.getByRole('dialog', { name: 'Selecciona una tienda' });
-await panel.getByRole('button', { name: 'Seleccionar tienda' }).first().click();
-await p.getByRole('status', { name: 'Cambiando tu tienda' }).waitFor({ state: 'detached' });
-if (!(await entrega(p)).includes('64000')) throw new Error('Una tienda del mismo estado no debe cambiar el C.P.');
-ok('Tienda del mismo estado: el C.P. de entrega no cambia');
+ok(`Invitado: "Mi tienda" pasa a ${await miTienda(p)} y la entrega sigue en "${despues}"`);
 await p.close();
 
 p = await pagina();
 await p.getByRole('button', { name: 'Ingresar' }).click();
 await p.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa.com.mx');
 await p.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
-await p.getByRole('button', { name: 'Iniciar sesión' }).click();
+await p.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
+/* D57: al iniciar sesión se regresa a la página principal. */
+await p.waitForURL(B + '/');
 await p.getByRole('button', { name: 'Entrega en' }).getByText('Taller Chapalita').waitFor();
 await elegirEn(p, 'Guanajuato');
 const e = await entrega(p);
-if (!e.includes('37530') || e.includes('Taller Chapalita')) throw new Error(`Registrado: la entrega debía pasar a 37530 sin la dirección guardada (está en ${e})`);
+if (!e.includes('Taller Chapalita') || !e.includes('45040')) throw new Error(`Registrado: debe conservar su dirección guardada (está en ${e})`);
 await p.screenshot({ path: `${OUT}/3-registrado-leon.png` });
-ok(`Registrado: de "Taller Chapalita" (45040) a ${e.replace(/\s+/g, ' ')} al elegir una tienda de Guanajuato`);
+ok(`Registrado: "Mi tienda" pasa a ${await miTienda(p)} y conserva "${e}"`);
 
 await browser.close();
 if (errores.length) console.log('ERRORES', errores);

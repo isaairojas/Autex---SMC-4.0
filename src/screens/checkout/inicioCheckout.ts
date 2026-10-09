@@ -1,7 +1,7 @@
 /**
  * SIN RESPALDO EN FIGMA (D52). Entrada del cliente registrado a la pasarela de pago:
  *  - Con su información completa (dirección de entrega guardada y tarjeta registrada), todo a domicilio, sin artículos
- *    sin existencia y un solo envío, pasa directo al paso 4 "Confirmación" con el envío y la tarjeta ya elegidos.
+ *    sin existencia y un solo envío, pasa directo al paso 4 "Confirmación" con el envío y su tarjeta predeterminada (D57).
  *  - Si no, al paso 2 "Método de envío" (o al paso 1 si no tiene direcciones guardadas).
  */
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +10,6 @@ import { lineaDireccion } from '../../mocks/clientes';
 import { repartirEnvios } from '../../mocks/envios';
 import { coordenadas } from '../../mocks/tiendas';
 import { useDemo } from '../../state/DemoContext';
-
-/** Tarjeta registrada que el paso 3 deja elegida de inicio. */
-const TARJETA_PREDETERMINADA = TARJETAS_2026.find((t) => t.id === 'visa-4485') ?? TARJETAS_2026[0];
 
 export function useIrAlCheckout() {
   const navigate = useNavigate();
@@ -34,8 +31,10 @@ export function useIrAlCheckout() {
       if (!directo || !direccion) return navigate('/checkout/envio');
       demo.setEnvio('domicilio');
       demo.setEnvioDetalle({ ...demo.envioDetalle, direccion: lineaDireccion(direccion) });
+      /* D57: la tarjeta predeterminada del cliente (Mi cuenta → Método de pago o el paso 3). */
+      const predeterminada = TARJETAS_2026.find((t) => t.id === demo.tarjetaPredeterminadaId) ?? TARJETAS_2026[0];
       demo.setPago('tarjeta');
-      demo.setPagoDetalle({ ...demo.pagoDetalle, forma: TARJETA_PREDETERMINADA.marca, tarjeta: { ...demo.pagoDetalle.tarjeta, numero: `421589637412${TARJETA_PREDETERMINADA.terminacion}` } });
+      demo.setPagoDetalle({ ...demo.pagoDetalle, forma: predeterminada.marca, tarjeta: { ...demo.pagoDetalle.tarjeta, numero: `421589637412${predeterminada.terminacion}` } });
       navigate('/checkout/confirmacion', { state: { directo: true } });
     });
   };

@@ -13,6 +13,7 @@ import { EncabezadoPasarela } from '../design-system/components/organisms/Encabe
 import { Ubicacion } from '../design-system/components/organisms/Ubicacion';
 import { MiniCarrito } from '../design-system/components/organisms/Carrito';
 import { CargaPagina } from '../design-system/components/molecules/CargaPagina';
+import { Toast } from '../design-system/components/molecules/Toast';
 import { ModalLogin } from '../design-system/components/organisms/ModalLogin';
 import { AvisoTienda, PanelEntrega, PanelTienda, PermisoNavegador, type Posicion } from '../design-system/components/organisms/UbicacionTienda';
 import { MisVehiculos } from '../design-system/components/organisms/MisVehiculos';
@@ -20,7 +21,13 @@ import { nombreVehiculo } from '../mocks/vehiculos';
 import { estadoHorario } from '../mocks/tiendas';
 import styles from '../design-system/components/organisms/UbicacionTienda.module.css';
 import { CATALOGO_SITIO } from '../mocks/catalogo';
+import bannerConfig from '../mocks/configuracion-banner.json';
 import { useDemo } from '../state/DemoContext';
+
+/** D57: promoción de la franja superior del sitio (configuracion-banner.json); apagada, la franja queda sin texto. */
+const BANNER = bannerConfig.mostrar
+  ? { titulo: bannerConfig.titulo, detalle: bannerConfig.detalle, nota: bannerConfig.mostrarRestricciones ? bannerConfig.restricciones : undefined }
+  : null;
 
 const SKUS = Object.fromEntries(CATALOGO_SITIO.map((p) => [p.id, p.skuVisible]));
 
@@ -105,6 +112,7 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
           entrega={sitio ? (demo.direccion ? demo.direccion.nombre : ubicacion?.codigoPostal ?? 'C.P.') : undefined}
           entregaTitulo={demo.direccion ? `Entrega en ${demo.direccion.codigoPostal}` : undefined}
           onEntregaClick={() => abrirPanel(panel === 'entrega' ? null : 'entrega')}
+          banner={sitio ? BANNER : undefined}
         />
       ) : (
       <Navbar
@@ -121,7 +129,7 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
       />
       )}
       {children}
-      <Footer version2026={version2026} />
+      <Footer version2026={version2026} sitio={sitio} />
       {miniAbierto && (
         <MiniCarrito
           lineas={carrito}
@@ -142,9 +150,8 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
             const destino = demo.login.destino;
             demo.ingresar('b2c');
             demo.cerrarLogin();
-            /* Al ingresar desde el carrito, el cliente registrado salta al paso 2 (D35); sin direcciones, al paso 1. */
-            if (destino && sitio && destino === '/checkout/datos')
-              demo.conCarga('Preparando tu pedido', 'Calculamos los envíos para tu dirección de entrega…', () => navigate(demo.direcciones.length ? '/checkout/envio' : '/checkout/datos'));
+            /* D57: en el sitio, al iniciar sesión siempre se regresa a la página principal, sin importar desde dónde se ingresó. */
+            if (sitio) demo.conCarga('Iniciando sesión', '', () => navigate('/'), 700);
             else if (destino) navigate(destino);
           }}
           onInvitado={() => {
@@ -267,6 +274,11 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
         />
       )}
       {sitio && demo.avisoNavegador && <PermisoNavegador onResponder={demo.responderPermiso} />}
+      {sitio && demo.avisoTemporal && (
+        <div className={styles.avisoTemporal} role="alert" onClick={() => demo.mostrarAviso(null)}>
+          <Toast>{demo.avisoTemporal}</Toast>
+        </div>
+      )}
       {sitio && demo.cargando && <CargaPagina texto={demo.cargando.titulo} />}
     </div>
   );

@@ -1,5 +1,9 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-09 — Revisión del flujo: existencias, fechas hábiles, recoger y factura opcional (sin respaldo en Figma, D57)
+- Sin pagar artículos sin existencia (regreso al carrito con leyenda temporal); barra superior ajusta el carrito; tope de piezas al recoger; tienda de otro estado ya no cambia la entrega (reemplaza D47).
+- Fechas de entrega en días hábiles; franja de envío gratis configurable; "Requiero factura"; "¿Quién recoge el pedido?"; tarjeta predeterminada; inicio de sesión regresa al inicio; textos corregidos. Prueba `tests/referencia/revision-flujo-demo.mjs`.
+
 ## 2026-10-09 — Detalle desde el carrito, envíos compactos y mismo C.P. sin aviso (sin respaldo en Figma, D56)
 - Carrito: imagen y nombre abren el detalle. Confirmación: envíos plegables y artículos de recoger plegados. Registrado: con el mismo C.P. no se pide confirmación del cambio de dirección.
 

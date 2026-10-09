@@ -25,6 +25,12 @@
   white-space: nowrap;
 }
 
+/* D57: "(Aplica restricciones)" con texto más chico, alineado a la línea base de la promoción */
+.bannerNota {
+  align-self: flex-end;
+  margin-left: -16px;
+}
+
 .bannerButtons {
   position: absolute;
   right: 80px;

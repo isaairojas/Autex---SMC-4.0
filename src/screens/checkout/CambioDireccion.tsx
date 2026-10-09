@@ -32,12 +32,33 @@ export function useCambioDireccion() {
   const [pendiente, setPendiente] = useState<Pendiente | null>(null);
   const [eligiendo, setEligiendo] = useState(false);
   const registrado = demo.cliente.tipo !== 'invitado';
-  const aplicarCambio = (aplicar: () => AjusteDireccion[], mismoCP: boolean) =>
-    demo.conCarga('Actualizando tu dirección de entrega', 'Recalculamos las existencias, los envíos y los tiempos de entrega…', () => {
-      const ajustes = aplicar();
-      demo.setAjusteDireccion(mismoCP ? null : ajustes);
-      navigate('/checkout/envio');
-    });
+  /**
+   * D57: si con la nueva dirección algún artículo se queda en 0 piezas, el cliente regresa al carrito con una leyenda
+   * temporal (no se puede pagar un artículo sin existencia); si no, sigue a "Método de envío" con lo que se ajustó.
+   * primeraVez: la dirección del paso 1 se fija por primera vez (sin aviso si todo sigue igual).
+   */
+  const aplicarCambio = (aplicar: () => AjusteDireccion[], mismoCP: boolean, primeraVez = false) =>
+    demo.conCarga(
+      primeraVez ? 'Calculando tu envío' : 'Actualizando tu dirección de entrega',
+      primeraVez ? 'Revisamos las existencias de cada sucursal para tu dirección…' : 'Recalculamos las existencias, los envíos y los tiempos de entrega…',
+      () => {
+        const ajustes = aplicar();
+        const sinPiezas = ajustes.filter((a) => a.ahora === 0);
+        if (sinPiezas.length) {
+          demo.setAjusteDireccion(null);
+          const nombres = sinPiezas.map((a) => a.nombre).join(', ');
+          demo.mostrarAviso(
+            sinPiezas.length === 1
+              ? `${nombres} no tiene existencia para tu dirección de entrega. Te regresamos al carrito: elimínalo o guárdalo para continuar.`
+              : `${nombres} no tienen existencia para tu dirección de entrega. Te regresamos al carrito: elimínalos o guárdalos para continuar.`,
+          );
+          navigate('/carrito');
+          return;
+        }
+        demo.setAjusteDireccion(mismoCP || (primeraVez && !ajustes.length) ? null : ajustes);
+        navigate('/checkout/envio');
+      },
+    );
   const pedir = (nueva: ReactNode, aplicar: () => AjusteDireccion[], cp?: string) =>
     cp && cp === demo.ubicacion?.codigoPostal ? aplicarCambio(aplicar, true) : setPendiente({ nueva, aplicar });
   const cambiar = () => (registrado ? setEligiendo(true) : navigate('/checkout/datos'));
@@ -97,7 +118,7 @@ export function useCambioDireccion() {
       )}
     </>
   );
-  return { pedir, cambiar, modales };
+  return { pedir, cambiar, modales, aplicarCambio };
 }
 
 /** Modal "Cambiar dirección de entrega": direcciones guardadas del cliente registrado. */

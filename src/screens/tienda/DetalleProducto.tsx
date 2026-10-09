@@ -66,6 +66,8 @@ const JUNTOS = [
   { nombre: 'Liqui Moly 2657 - Motor Limpieza, Engine Flush Plus, 300 ml', precio: '$233.40' },
   { nombre: 'Castrol 1597B1 Edge Extended Performance 5W-30 Aceite de Motor sintético Completo, 5...', precio: '$890.00' },
 ];
+/** Sitio (D57): "Comprados juntos" con productos del catálogo de la demo (bujía, limpiador y aceite) que sí se agregan. */
+const JUNTOS_SITIO = ['bosch-x5dc', 'liqui-moly-flush', 'aceite-eneos-10w40'];
 
 const ESPECIFICACIONES = [
   ['13.5 Centimetros', '200 L/H', '55 PSI (Libras)', '22 Centimetros'],
@@ -91,9 +93,28 @@ export function DetalleProducto() {
   const [mini, setMini] = useState(0);
   const [tab, setTab] = useState(0);
   const disp = disponibilidad(producto.id);
-  /* Sitio (D39): no se agregan más piezas de las disponibles para compra en línea (menos las del carrito). */
+  /* Sitio (D39): no se agregan más piezas de las disponibles para compra en línea (menos las del carrito). D57: si en el
+     carrito se recoge en tienda, el tope son las piezas de "Mi tienda". */
   const enCarrito = carrito.find((l) => l.producto.id === producto.id)?.cantidad ?? 0;
-  const maximo = modoFigma ? Infinity : Math.max(0, maximoVenta(producto.id, ubicacion?.codigoPostal ?? null) - enCarrito);
+  const recoge = carrito.find((l) => l.producto.id === producto.id)?.entrega === 'tienda';
+  const disponibles = recoge ? (tienda ? existenciaEnTienda(producto.id, tienda.id) : 0) : maximoVenta(producto.id, ubicacion?.codigoPostal ?? null);
+  const maximo = modoFigma ? Infinity : Math.max(0, disponibles - enCarrito);
+  const donde = recoge && tienda ? `para recoger en Autex ${tienda.nombre}` : 'para compra en línea';
+  /* D57: confirmación breve en el botón al agregar (además del mini carrito). */
+  const [agregado, setAgregado] = useState<'producto' | 'juntos' | null>(null);
+  const marcarAgregado = (que: 'producto' | 'juntos') => {
+    setAgregado(que);
+    window.setTimeout(() => setAgregado(null), 2500);
+  };
+  const juntos = JUNTOS_SITIO.filter((x) => x !== producto.id)
+    .map((x) => CATALOGO_SITIO.find((p) => p.id === x))
+    .filter((p): p is (typeof CATALOGO_SITIO)[number] => !!p);
+  const juntosConPiezas = juntos.filter((p) => maximoVenta(p.id, ubicacion?.codigoPostal ?? null) > (carrito.find((l) => l.producto.id === p.id)?.cantidad ?? 0));
+  const agregarJuntos = () => {
+    if (!ubicacion) return abrirUbicacion();
+    juntosConPiezas.forEach((p) => agregar(p, 1));
+    marcarAgregado('juntos');
+  };
   const tope = !modoFigma && cantidad >= maximo;
   /* D44: con la cantidad elegida (más lo del carrito), si la mayoría sale de sucursales foráneas es bajo pedido. */
   const cp = ubicacion?.codigoPostal ?? null;
@@ -103,8 +124,8 @@ export function DetalleProducto() {
   const aviso = modoFigma || !(tope || maximo <= 0)
     ? null
     : maximo <= 0
-      ? 'Ya tienes en tu carrito todas las piezas disponibles para compra en línea.'
-      : `Solo hay ${maximo} ${maximo === 1 ? 'pieza disponible' : 'piezas disponibles'} para compra en línea.`;
+      ? `Ya tienes en tu carrito todas las piezas disponibles ${donde}.`
+      : `Solo hay ${maximo} ${maximo === 1 ? 'pieza disponible' : 'piezas disponibles'} ${donde}.`;
 
   /* Cantidad escrita: si supera la existencia, se validan las existencias (carga) y vuelve a la cantidad disponible. */
   const confirmar = (alTerminar?: (c: number) => void) => {
@@ -129,7 +150,10 @@ export function DetalleProducto() {
     /* Con una cantidad mayor a la existencia solo se ajusta; el cliente vuelve a dar "Añadir al carrito". */
     confirmar((c) => {
       agregar(producto, Math.min(c, maximo));
-      if (!modoFigma) setCantidad(1);
+      if (!modoFigma) {
+        setCantidad(1);
+        marcarAgregado('producto');
+      }
     });
   };
 
@@ -268,8 +292,14 @@ export function DetalleProducto() {
                   <img src={addIcon} alt="" width={16} height={16} />
                 </button>
               </div>
-              <button type="button" className={`${styles.anadir} text-body-1-book`} disabled={!disp.ok || maximo <= 0} onClick={onAgregar}>
-                Añadir al carrito
+              <button type="button" className={`${styles.anadir} ${agregado === 'producto' ? styles.anadido : ''} text-body-1-book`} disabled={!disp.ok || maximo <= 0} onClick={onAgregar}>
+                {agregado === 'producto' ? (
+                  <>
+                    <Icon name="check" box={20} size={18} color="var(--color-nativo-blanco)" /> Agregado al carrito
+                  </>
+                ) : (
+                  'Añadir al carrito'
+                )}
               </button>
               {aviso && <p className={`${styles.avisoTope} text-body-2-book`}>{aviso}</p>}
             </div>
@@ -325,7 +355,7 @@ export function DetalleProducto() {
         <p className={`${styles.juntosTitle} text-heading-3-medium`}>Comprados juntos habitualmente</p>
         <div className={styles.juntosMain}>
           <div className={styles.photos}>
-            {[jBujia, jLiqui, jAceite].map((src, i) => (
+            {(modoFigma ? [jBujia, jLiqui, jAceite] : juntos.map((p) => p.imagen[p.imagen.length - 1].src)).map((src, i) => (
               <span key={i} className={styles.photoWrap}>
                 {i > 0 && <Icon name="add" />}
                 <span className={styles.photo}>
@@ -336,15 +366,21 @@ export function DetalleProducto() {
           </div>
           <div className={styles.juntosAction}>
             <p className={`${styles.total} text-heading-3-medium`}>
-              Precio total: <span className={styles.totalMonto}>$1,255.70</span>
+              Precio total: <span className={styles.totalMonto}>{modoFigma ? '$1,255.70' : formatoMXN(juntos.reduce((s, p) => s + p.precio, 0))}</span>
             </p>
-            <button type="button" className={`${styles.anadir} text-body-1-book`}>
-              Añadir productos al carrito
+            {/* D57: en el sitio el botón agrega al carrito los productos que tienen piezas (Figma: sin acción). */}
+            <button
+              type="button"
+              className={`${styles.anadir} ${agregado === 'juntos' ? styles.anadido : ''} text-body-1-book`}
+              disabled={!modoFigma && !juntosConPiezas.length}
+              onClick={modoFigma ? undefined : agregarJuntos}
+            >
+              {agregado === 'juntos' ? 'Productos agregados al carrito' : 'Añadir productos al carrito'}
             </button>
           </div>
         </div>
         <div className={styles.checks}>
-          {JUNTOS.map((j) => (
+          {(modoFigma ? JUNTOS : juntos.map((p) => ({ nombre: p.nombre, precio: formatoMXN(p.precio) }))).map((j) => (
             <div key={j.nombre} className={styles.check}>
               <span className={styles.checkLabel}>
                 <span className={styles.checkbox}>

@@ -4,6 +4,8 @@
  * la colonia se habilita con el C.P. y ciudad / estado se llenan solos.
  * D51: "Buscar dirección" sugiere direcciones mientras se escribe (autocompletado simulado de Google) y llena calle,
  * número, C.P. y colonia; el registrado ve arriba sus direcciones guardadas para llenar la dirección con una de ellas.
+ * D57: los datos fiscales solo se piden si el cliente marca "Requiero factura" (sin marcarla, el pedido no se factura).
+ * Si todo el pedido se recoge en tienda no se pide dirección: se pide quién recoge y su teléfono (obligatorios).
  */
 import { useState } from 'react';
 import { Icon } from '../../design-system/components/atoms/Icon';
@@ -29,17 +31,30 @@ export const DATOS_INVITADO_VACIOS = {
   senas: '',
   codigoPostal: '',
   colonia: '',
+  /** D57: 'si' cuando el cliente pide factura. */
+  factura: '',
+  /** D57: persona que recoge en tienda y su teléfono (pedido solo para recoger). */
+  recoge: '',
+  telefonoRecoge: '',
 };
 export type DatosInvitado = typeof DATOS_INVITADO_VACIOS;
 
 const REGIMENES = ['Sin obligaciones fiscales', 'Persona física con actividad empresarial', 'Régimen Simplificado de Confianza', 'Persona moral'];
 const USOS_CFDI = ['G01 Adquisición de mercancías', 'G03 Gastos en general', 'S01 Sin efectos fiscales'];
-const OBLIGATORIOS: (keyof DatosInvitado)[] = ['nombre', 'apellido', 'correo', 'telefono', 'calle', 'numeroExterior', 'entreCalle1', 'entreCalle2', 'codigoPostal', 'colonia'];
+const CLIENTE: (keyof DatosInvitado)[] = ['nombre', 'apellido', 'correo', 'telefono'];
+const DIRECCION: (keyof DatosInvitado)[] = ['calle', 'numeroExterior', 'entreCalle1', 'entreCalle2', 'codigoPostal', 'colonia'];
 
-/** null si falta algo obligatorio o un dato no es válido. */
+/** D57: datos del cliente, los fiscales si pide factura y, si todo se recoge, quién recoge y su teléfono. */
+export function datosCompletos(d: DatosInvitado, soloRecoger = false) {
+  const obligatorios = [...CLIENTE, ...(d.factura && !soloRecoger ? (['regimen', 'cfdi'] as const) : []), ...(soloRecoger ? (['recoge', 'telefonoRecoge'] as const) : DIRECCION)];
+  if (obligatorios.some((k) => !d[k].trim())) return false;
+  if (!/^\S+@\S+\.\S+$/.test(d.correo.trim()) || d.telefono.length !== 10) return false;
+  return !soloRecoger || d.telefonoRecoge.length === 10;
+}
+
+/** Zona de la dirección de envío; null si falta algo obligatorio o un dato no es válido. */
 export function validarInvitado(d: DatosInvitado) {
-  if (OBLIGATORIOS.some((k) => !d[k].trim())) return null;
-  if (!/^\S+@\S+\.\S+$/.test(d.correo.trim()) || d.telefono.length !== 10) return null;
+  if (!datosCompletos(d)) return null;
   return resolverCP(d.codigoPostal);
 }
 
@@ -50,9 +65,15 @@ export type DireccionParaFormulario = { id: string; nombre: string; descripcion:
 export const esLaMisma = (d: DatosInvitado, g: DireccionParaFormulario['campos']) =>
   (['calle', 'numeroExterior', 'numeroInterior', 'codigoPostal', 'colonia'] as const).every((k) => d[k].trim() === g[k].trim());
 
-type FormularioProps = { datos: DatosInvitado; onCambiar: (d: DatosInvitado) => void; guardadas?: DireccionParaFormulario[] };
+type FormularioProps = {
+  datos: DatosInvitado;
+  onCambiar: (d: DatosInvitado) => void;
+  guardadas?: DireccionParaFormulario[];
+  /** D57: todo el pedido se recoge en tienda: sin dirección de envío; quién recoge y su teléfono. */
+  soloRecoger?: { tienda: string } | null;
+};
 
-export function FormularioInvitado({ datos, onCambiar, guardadas }: FormularioProps) {
+export function FormularioInvitado({ datos, onCambiar, guardadas, soloRecoger }: FormularioProps) {
   const [busqueda, setBusqueda] = useState('');
   const sugerencias = sugerirDirecciones(busqueda);
   const zona = datos.codigoPostal.length === 5 ? resolverCP(datos.codigoPostal) : null;
@@ -102,11 +123,35 @@ export function FormularioInvitado({ datos, onCambiar, guardadas }: FormularioPr
         {campo('correo', 'Correo electrónico')}
         {campo('telefono', 'Número de teléfono de contacto', 'Número de teléfono de contacto', { numerico: 10 })}
       </div>
-      <p className={`${styles.seccion} text-subheadline-book`}>Datos fiscales</p>
-      <div className={styles.rejilla}>
-        {lista('regimen', 'Régimen fiscal', 'Régimen fiscal', REGIMENES)}
-        {lista('cfdi', 'Uso del CFDI', 'Uso del CFDI', USOS_CFDI)}
-      </div>
+      {/* D57: un pedido solo para recoger no lleva la parte fiscal (decisión del usuario). */}
+      {!soloRecoger && (
+        <>
+          <p className={`${styles.seccion} text-subheadline-book`}>Facturación</p>
+          <label className={`${styles.casilla} text-body-1-book`}>
+            <input type="checkbox" name="factura" checked={!!datos.factura} onChange={(e) => onCambiar({ ...datos, factura: e.target.checked ? 'si' : '' })} />
+            Requiero factura
+          </label>
+          {datos.factura ? (
+            <div className={styles.rejilla}>
+              {lista('regimen', 'Régimen fiscal', 'Régimen fiscal', REGIMENES, true)}
+              {lista('cfdi', 'Uso del CFDI', 'Uso del CFDI', USOS_CFDI, true)}
+            </div>
+          ) : (
+            <p className={`${styles.ayuda} text-body-2-book`}>Si no la marcas, tu pedido no se factura.</p>
+          )}
+        </>
+      )}
+      {soloRecoger ? (
+        <>
+          <p className={`${styles.seccion} text-subheadline-book`}>¿Quién recoge el pedido?</p>
+          <p className={`${styles.ayuda} text-body-2-book`}>Todo tu pedido se recoge en {soloRecoger.tienda}; no necesitamos dirección de envío.</p>
+          <div className={styles.rejilla}>
+            {campo('recoge', 'Nombre de quien recoge', 'Nombre completo de quien recoge')}
+            {campo('telefonoRecoge', 'Teléfono de quien recoge', 'Teléfono a 10 dígitos', { numerico: 10 })}
+          </div>
+        </>
+      ) : (
+        <>
       <p className={`${styles.seccion} text-subheadline-book`}>Dirección de envío</p>
       {guardadas && guardadas.length > 0 && (
         <div className={styles.guardadas} role="radiogroup" aria-label="Tus direcciones guardadas">
@@ -152,6 +197,8 @@ export function FormularioInvitado({ datos, onCambiar, guardadas }: FormularioPr
         </label>
       </div>
       {datos.codigoPostal.length === 5 && !zona && <p className={`${styles.error} text-body-2-book`}>No encontramos ese código postal.</p>}
+        </>
+      )}
     </div>
   );
 }

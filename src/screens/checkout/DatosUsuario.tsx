@@ -21,7 +21,7 @@ import { useDemo } from '../../state/DemoContext';
 import { calleCompleta, DIRECCIONES, lineaDireccion, PEDIDO_ANTERIOR_REGISTRADO, type Cliente, type DireccionEntrega, type DireccionGuardada } from '../../mocks/clientes';
 import { CheckoutLayout } from './CheckoutLayout';
 import { useCambioDireccion } from './CambioDireccion';
-import { DATOS_INVITADO_VACIOS, esLaMisma, FormularioInvitado, validarInvitado, type DatosInvitado, type DireccionParaFormulario } from './FormularioInvitado';
+import { datosCompletos, DATOS_INVITADO_VACIOS, esLaMisma, FormularioInvitado, validarInvitado, type DatosInvitado, type DireccionParaFormulario } from './FormularioInvitado';
 import invitadoStyles from './FormularioInvitado.module.css';
 import styles from './DatosUsuario.module.css';
 
@@ -40,12 +40,16 @@ export function DatosUsuario({ direcciones }: Props) {
   const registradoSitio = sitio && cliente.tipo !== 'invitado';
   /* D51: el registrado ve el formulario lleno con su pedido anterior y con la dirección de entrega en uso. */
   const anterior = demo.pedidos.find((p) => p.registrado && p.datos)?.datos ?? PEDIDO_ANTERIOR_REGISTRADO;
-  const [datos, setDatos] = useState<DatosInvitado>(() =>
-    registradoSitio
-      ? { ...DATOS_INVITADO_VACIOS, ...anterior, ...demo.borradorInvitado, ...(demo.direccion ? camposDe(demo.direccion) : {}) }
-      : { ...DATOS_INVITADO_VACIOS, ...demo.borradorInvitado },
-  );
-  const zona = sitio ? validarInvitado(datos) : null;
+  const [datos, setDatos] = useState<DatosInvitado>(() => {
+    if (!registradoSitio) return { ...DATOS_INVITADO_VACIOS, ...demo.borradorInvitado };
+    const d = { ...DATOS_INVITADO_VACIOS, ...anterior, ...demo.borradorInvitado, ...(demo.direccion ? camposDe(demo.direccion) : {}) };
+    /* D57: el registrado recoge a su nombre y con su teléfono, salvo que los cambie. */
+    return { ...d, recoge: d.recoge || `${d.nombre} ${d.apellido}`.trim(), telefonoRecoge: d.telefonoRecoge || d.telefono };
+  });
+  /* D57: si todo el pedido se recoge en tienda no se pide dirección de envío, sino quién recoge y su teléfono. */
+  const soloRecoger = sitio && demo.tienda && demo.carrito.length > 0 && demo.carrito.every((l) => l.entrega === 'tienda') ? { tienda: `Autex ${demo.tienda.nombre}` } : null;
+  const zona = sitio && !soloRecoger ? validarInvitado(datos) : null;
+  const listo = soloRecoger ? datosCompletos(datos, true) : !!zona;
   const guardadas: DireccionParaFormulario[] = registradoSitio ? demo.direcciones.map((d) => ({ id: d.id, nombre: d.nombre, descripcion: lineaDireccion(d), campos: camposDe(d) })) : [];
   const cambio = useCambioDireccion();
   const lista = direcciones ?? (cliente.tipo === 'b2b' ? 'b2b' : cliente.tipo === 'b2c' ? 'b2c' : null);
@@ -55,8 +59,14 @@ export function DatosUsuario({ direcciones }: Props) {
 
   /* Sitio: guarda los datos y fija la dirección; si ya había una dirección en el pedido y cambia, pide confirmación (D51). */
   const continuarSitio = () => {
-    if (!zona) return;
+    if (!listo) return;
     demo.setBorradorInvitado(datos);
+    if (soloRecoger) {
+      setCliente({ ...cliente, nombre: `${datos.nombre.trim()} ${datos.apellido.trim()}`, correo: datos.correo.trim(), telefono: datos.telefono, regimen: datos.regimen, cfdi: datos.cfdi });
+      conCarga('Preparando tu pedido', 'Revisamos las existencias de tu tienda…', () => navigate('/checkout/envio'));
+      return;
+    }
+    if (!zona) return;
     setCliente({
       ...cliente,
       nombre: `${datos.nombre.trim()} ${datos.apellido.trim()}`,
@@ -86,12 +96,11 @@ export function DatosUsuario({ direcciones }: Props) {
       return;
     }
     setEnvioDetalle({ ...envioDetalle, direccion: linea });
-    conCarga('Calculando tu envío', 'Revisamos las existencias de cada sucursal para tu dirección…', () => {
-      /* La dirección capturada pasa a ser la ubicación de entrega (envíos y tienda). */
-      if (guardada && guardada.id !== demo.direccion?.id) demo.elegirDireccion(guardada.id);
-      else if (!actual) setUbicacion(ubicacion);
-      navigate('/checkout/envio');
-    });
+    /* D57: la dirección capturada pasa a ser la ubicación de entrega; si su C.P. es otro, se recalculan las existencias
+       (lo que se quede en 0 regresa al carrito con una leyenda) y Método de envío muestra lo que se ajustó. */
+    if (guardada && guardada.id !== demo.direccion?.id) return cambio.aplicarCambio(() => demo.cambiarDireccionPedido(guardada.id), guardada.codigoPostal === demo.ubicacion?.codigoPostal, true);
+    if (!actual && datos.codigoPostal !== demo.ubicacion?.codigoPostal) return cambio.aplicarCambio(() => demo.cambiarUbicacionPedido(ubicacion), false, true);
+    conCarga('Calculando tu envío', 'Revisamos las existencias de cada sucursal para tu dirección…', () => navigate('/checkout/envio'));
   };
 
   const acciones = (
@@ -100,7 +109,7 @@ export function DatosUsuario({ direcciones }: Props) {
         Regresar
       </Button>
       <Button
-        disabled={sitio && !zona}
+        disabled={sitio && !listo}
         onClick={() => {
           if (sitio) return continuarSitio();
           const elegida = lista && !formulario ? DIRECCIONES[lista].find((d) => d.id === sel)?.direccion : undefined;
@@ -131,7 +140,7 @@ export function DatosUsuario({ direcciones }: Props) {
             )}
           </p>
           <CheckoutCard title="Datos del usuario" intro="Llena los siguientes campos para continuar" espacio={20} accionesInset={false} actions={acciones}>
-            <FormularioInvitado datos={datos} onCambiar={setDatos} guardadas={registradoSitio ? guardadas : undefined} />
+            <FormularioInvitado datos={datos} onCambiar={setDatos} guardadas={registradoSitio ? guardadas : undefined} soloRecoger={soloRecoger} />
           </CheckoutCard>
         </div>
       ) : (

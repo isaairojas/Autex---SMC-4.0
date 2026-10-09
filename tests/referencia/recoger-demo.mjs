@@ -64,6 +64,11 @@ await p.getByRole('button', { name: 'Aceptar' }).click();
 await p.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa.com.mx');
 await p.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
 await p.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
+/* D57: iniciar sesión regresa a la página principal; desde el carrito se procede al pago. */
+await p.waitForURL(B + '/');
+await p.locator('button', { hasText: 'shopping_cart' }).first().click();
+await p.getByRole('button', { name: 'Ver todos los productos' }).click();
+await p.getByRole('button', { name: 'Proceder al pago' }).first().click();
 await p.waitForURL('**/checkout/envio');
 await p.getByText('Recoger en tienda', { exact: true }).first().waitFor();
 await p.screenshot({ path: `${OUT}/3-paso2.png`, fullPage: true });
@@ -132,6 +137,11 @@ await q.getByRole('button', { name: 'Aceptar' }).click();
 await q.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa.com.mx');
 await q.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
 await q.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
+/* D57: iniciar sesión regresa a la página principal; desde el carrito se procede al pago. */
+await q.waitForURL(B + '/');
+await q.locator('button', { hasText: 'shopping_cart' }).first().click();
+await q.getByRole('button', { name: 'Ver todos los productos' }).click();
+await q.getByRole('button', { name: 'Proceder al pago' }).first().click();
 await q.waitForURL('**/checkout/envio');
 for (const b of await q.getByRole('button', { name: /Envío \d+/ }).all()) await b.click();
 await q.getByText(/\(sucursal foránea\)/).first().waitFor();

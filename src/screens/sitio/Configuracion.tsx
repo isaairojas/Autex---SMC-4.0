@@ -8,7 +8,7 @@ import { useState, type ReactNode } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../../design-system/components/atoms/Button';
 import { Icon } from '../../design-system/components/atoms/Icon';
-import { TARJETAS_REGISTRADAS } from '../../design-system/components/organisms/PagoRegistrado';
+import { TARJETAS_2026 } from '../../design-system/components/organisms/Pago2026';
 import { lineaDireccion, type DireccionEntrega } from '../../mocks/clientes';
 import { coloniasDe } from '../../mocks/colonias';
 import { resolverCP } from '../../mocks/tiendas';
@@ -95,14 +95,7 @@ export function Configuracion() {
               ))}
             </div>
           ) : seccion === 'pago' ? (
-            <div className={styles.lista}>
-              {TARJETAS_REGISTRADAS.map((t) => (
-                <div key={t.id} className={styles.item}>
-                  <Icon name="credit_card" color="var(--color-primary-500)" />
-                  <p className="text-subheadline-book">{t.texto}</p>
-                </div>
-              ))}
-            </div>
+            <ListaTarjetas />
           ) : seccion === 'pedidos' ? (
             <MisPedidos onCatalogo={() => navigate('/busqueda')} />
           ) : (
@@ -155,7 +148,40 @@ function MisPedidos({ onCatalogo }: { onCatalogo: () => void }) {
                 {a}
               </p>
             ))}
+            {/* D57: lo que se recoge muestra la tienda; lo que va a domicilio, la dirección. */}
+            {p.tiendaRecoge && <p className={`${styles.gris} text-body-2-book`}>Recoger en {p.tiendaRecoge}</p>}
             {p.direccion && <p className={`${styles.gris} text-body-2-book`}>Entrega en {p.direccion}</p>}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** D57: tarjetas registradas (las mismas del paso 3) con la predeterminada, que es la que se elige de inicio al pagar. */
+function ListaTarjetas() {
+  const { tarjetaPredeterminadaId, setTarjetaPredeterminada } = useDemo();
+  return (
+    <div className={styles.lista}>
+      <div className={styles.listaCabecera}>
+        <p className="text-subheadline-medium">Mis tarjetas ({TARJETAS_2026.length})</p>
+      </div>
+      {TARJETAS_2026.map((t) => (
+        <div key={t.id} className={t.id === tarjetaPredeterminadaId ? `${styles.item} ${styles.itemPred}` : styles.item}>
+          <Icon name="credit_card" color="var(--color-primary-500)" />
+          <div className={styles.itemTexto}>
+            <p className="text-subheadline-medium">
+              {t.marca === 'visa' ? 'Visa' : 'Mastercard'} con terminación {t.terminacion}
+              {t.id === tarjetaPredeterminadaId && <span className={`${styles.etiqueta} text-caption-book`}>Predeterminada</span>}
+            </p>
+            <p className={`${styles.gris} text-body-2-book`}>La predeterminada se elige de inicio al pagar tus pedidos.</p>
+          </div>
+          <div className={styles.itemAcciones}>
+            {t.id !== tarjetaPredeterminadaId && (
+              <button type="button" className={`${styles.enlace} text-body-2-book`} onClick={() => setTarjetaPredeterminada(t.id)}>
+                Usar como predeterminada
+              </button>
+            )}
           </div>
         </div>
       ))}

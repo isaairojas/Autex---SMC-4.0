@@ -105,7 +105,8 @@ export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiqueta
                 <span className={styles.motionTexto}>
                   <span className="text-body-1-book">Disponible bajo pedido</span>
                   <span className={styles.entrega}>
-                    Entrega estimada de <b>2 a 4 día</b>s habiles
+                    {/* figma: "2 a 4 día</b>s habiles" sin acento (D25); el sitio lo corrige (D57). */}
+                    Entrega estimada de <b>2 a 4 día</b>s {etiquetaPiezas !== undefined ? 'hábiles' : 'habiles'}
                   </span>
                 </span>
                 {/* Sitio (D46): piezas para compra en línea, incluidas las de sucursales foráneas. */}

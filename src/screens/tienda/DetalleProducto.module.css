@@ -346,6 +346,15 @@
   cursor: pointer;
 }
 
+/* D57: confirmación breve después de agregar */
+.anadido {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-green-700);
+}
+
 .anadir:disabled {
   opacity: 0.5;
   cursor: not-allowed;

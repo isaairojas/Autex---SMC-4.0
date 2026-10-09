@@ -135,6 +135,8 @@ export const PEDIDO_ANTERIOR_REGISTRADO: Record<string, string> = {
   telefono: '6693318596',
   regimen: 'Persona física con actividad empresarial',
   cfdi: 'G01 Adquisición de mercancías',
+  /** D57: el pedido anterior se facturó. */
+  factura: 'si',
   calle: 'Av. Guadalupe',
   numeroExterior: '1144',
   numeroInterior: '',

@@ -18,15 +18,18 @@ import { TiendasAutoservicio } from '../../design-system/components/organisms/Ti
 import { TARJETA_FIGMA, useDemo } from '../../state/DemoContext';
 import { BloqueDireccion, useCambioDireccion } from './CambioDireccion';
 import { CheckoutLayout } from './CheckoutLayout';
+import styles from './FormularioInvitado.module.css';
 
 export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean }) {
   const navigate = useNavigate();
-  const { pagoDetalle, setPagoDetalle, setPago, cliente, conCarga, modoFigma } = useDemo();
+  const { pagoDetalle, setPagoDetalle, setPago, cliente, conCarga, modoFigma, tarjetaPredeterminadaId, setTarjetaPredeterminada } = useDemo();
   const registrado = cliente.tipo === 'b2c' || cliente.tipo === 'b2b';
   const [forma, setForma] = useState<FormaPago2026>(pagoDetalle.forma === 'otras' ? 'otras' : 'tarjetas');
   const [modal, setModal] = useState(modalTiendas);
   const [tienda, setTienda] = useState(pagoDetalle.tiendaId);
-  const [registrada, setRegistrada] = useState('visa-4485');
+  /* D57: de inicio, la tarjeta predeterminada del cliente (la galería conserva la Visa 4485 de Figma). */
+  const [registrada, setRegistrada] = useState(modoFigma ? 'visa-4485' : tarjetaPredeterminadaId);
+  const [comoPredeterminada, setComoPredeterminada] = useState(false);
   const [nueva, setNueva] = useState(!registrado);
   /* D51: la dirección también se cambia desde este paso (con confirmación; regresa a Método de envío). */
   const cambio = useCambioDireccion();
@@ -47,6 +50,7 @@ export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean })
       setPago('tarjeta');
       if (!nueva) {
         const t = TARJETAS_2026.find((x) => x.id === registrada) ?? TARJETAS_2026[2];
+        if (comoPredeterminada) setTarjetaPredeterminada(t.id);
         setPagoDetalle({ ...pagoDetalle, forma: t.marca, tarjeta: { ...pagoDetalle.tarjeta, numero: `421589637412${t.terminacion}` } });
       } else {
         setPagoDetalle({ ...pagoDetalle, forma: pagoDetalle.tarjeta.numero.startsWith('5') ? 'mastercard' : 'visa' });
@@ -112,8 +116,14 @@ export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean })
         {forma === 'tarjetas' && !nueva && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'flex-start' }}>
             {TARJETAS_2026.map((t) => (
-              <TarjetaGuardada key={t.id} tarjeta={t} seleccionada={registrada === t.id} onSelect={() => setRegistrada(t.id)} />
+              <TarjetaGuardada key={t.id} tarjeta={t} seleccionada={registrada === t.id} onSelect={() => setRegistrada(t.id)} predeterminada={!modoFigma && t.id === tarjetaPredeterminadaId} />
             ))}
+            {!modoFigma && registrada !== tarjetaPredeterminadaId && (
+              <label className={`${styles.casilla} text-body-1-book`}>
+                <input type="checkbox" checked={comoPredeterminada} onChange={(e) => setComoPredeterminada(e.target.checked)} />
+                Usar esta tarjeta como predeterminada
+              </label>
+            )}
             <LinkButton mas onClick={() => setNueva(true)}>
               Añadir tarjeta
             </LinkButton>

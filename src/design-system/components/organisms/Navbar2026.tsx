@@ -41,6 +41,11 @@ type Navbar2026Props = {
   /** Línea 1 del chip de entrega; con dirección guardada lleva el C.P. ("Entrega en 45040"). */
   entregaTitulo?: string;
   onEntregaClick?: () => void;
+  /**
+   * Sitio (D57): promoción de la franja superior (configuracion-banner.json) en lugar de "COMPRAS MAYORES A $499 MXN";
+   * null la oculta. Sin la prop se muestra el texto de Figma.
+   */
+  banner?: { titulo: string; detalle: string; nota?: string } | null;
 };
 
 const LINKS = ['Inicio', 'Catálogo', 'Marcas', 'Promociones'] as const;
@@ -63,6 +68,7 @@ export function Navbar2026({
   entrega,
   entregaTitulo = 'Entrega en',
   onEntregaClick,
+  banner = { titulo: 'ENVÍO GRATIS A TODO MÉXICO', detalle: 'COMPRAS MAYORES A $499 MXN' },
 }: Navbar2026Props) {
   const navigate = useNavigate();
   const [texto, setTexto] = useState('');
@@ -79,11 +85,14 @@ export function Navbar2026({
     <header className={styles.navbar}>
       {/* Banner informative · I673:18975;606:13262 */}
       <div className={styles.banner}>
-        <div className={`${styles.bannerText} text-body-1-medium`}>
-          <span>ENVÍO GRATIS A TODO MÉXICO</span>
-          <span>|</span>
-          <span>COMPRAS MAYORES A $499 MXN</span>
-        </div>
+        {banner && (
+          <div className={`${styles.bannerText} text-body-1-medium`}>
+            <span>{banner.titulo}</span>
+            <span>|</span>
+            <span>{banner.detalle}</span>
+            {banner.nota && <span className={`${styles.bannerNota} text-caption-book`}>{banner.nota}</span>}
+          </div>
+        )}
         <div className={styles.bannerButtons}>
           <span className={styles.bannerItem}>
             <Icon name="info" color="var(--color-nativo-blanco)" />

@@ -10,7 +10,8 @@
  */
 import type { EstadoExistencia, LineaCarrito } from './productos';
 import { alcanceLocalKm, existenciaEnTienda, redDeEntrega } from './existencias';
-import { servicioPara, textoEntrega } from './tiendas';
+import { rangoEntrega, textoRango, type RangoEntrega } from './fechasEntrega';
+import { servicioPara } from './tiendas';
 
 export type Envio = {
   numero: number;
@@ -19,8 +20,10 @@ export type Envio = {
   bajoPedido: boolean;
   /** D44: sale de una sucursal foránea (más de 30 km de la entrega). */
   foranea: boolean;
-  /** "Entrega hoy…", "Entrega en 24 horas", "Entrega en 48 a 72 horas", "Entrega de 2 a 4 días hábiles". */
+  /** D57: "Entrega hoy", "Entrega mañana", "Entrega el viernes 9 de octubre", "Entrega entre el viernes 9 y el martes 13 de octubre". */
   tiempo: string;
+  /** D57: fechas estimadas (días hábiles) para el encabezado de la sección. */
+  rango: RangoEntrega;
   lineas: LineaCarrito[];
 };
 
@@ -64,13 +67,16 @@ export function repartirEnvios(lineas: LineaCarrito[], entrega: { lat: number; l
   }
   const envio = (id: string, ls: LineaCarrito[], bajoPedido: boolean) => {
     const s = sucursales.find((x) => x.id === id)!;
+    /* D57: Local hoy (antes de las 2:00 p.m.) o el siguiente día hábil; Local Extendido a 2 días hábiles; foráneo y bajo
+       pedido de 2 a 4 días hábiles. */
+    const rango = rangoEntrega(servicioPara(s.km), bajoPedido);
     return {
       sucursal: s.nombre,
       direccion: s.direccion,
       bajoPedido,
       foranea: s.km > alcanceLocalKm(),
-      /* Local: hoy si la compra es antes de las 2:00 p.m.; si no, mañana (D38). */
-      tiempo: bajoPedido ? 'Entrega de 2 a 4 días hábiles' : textoEntrega(servicioPara(s.km)),
+      tiempo: textoRango(rango),
+      rango,
       lineas: ls,
     };
   };

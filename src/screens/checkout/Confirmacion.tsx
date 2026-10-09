@@ -57,6 +57,9 @@ export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: 
   /* D54: "Método de envío" separado: la dirección, cada envío con su sucursal, tiempo y artículos (sin elegir fecha) y
      lo que se recoge en tienda aparte. */
   const { envios, recoger, sinExistencia } = useGruposPedido();
+  /* D54: facturación con los datos fiscales del paso 1 (el registrado, los de su pedido anterior si no los ha cambiado). */
+  const fiscales = borradorInvitado ?? (cliente.tipo !== 'invitado' ? pedidos.find((p) => p.registrado && p.datos)?.datos ?? PEDIDO_ANTERIOR_REGISTRADO : null);
+  const recogeTexto = fiscales?.recoge ? `${fiscales.recoge}${fiscales.telefonoRecoge ? `, tel. ${fiscales.telefonoRecoge}` : ''}` : cliente.tipo !== 'invitado' ? `${cliente.nombre}, tel. ${cliente.telefono}` : '';
   const filasEnvio: FilaConfirmacion[] = [
     ...(envia
       ? [
@@ -74,7 +77,8 @@ export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: 
           {
             etiqueta: 'Recoger en tienda',
             valor: `Autex ${miTienda.nombre}`,
-            nota: `${miTienda.direccion} · ${estadoHorario(miTienda.horario).corto}`,
+            /* D57: quién recoge y su teléfono (paso 1); el registrado sin cambios recoge a su nombre. */
+            nota: `${miTienda.direccion} · ${estadoHorario(miTienda.horario).corto}${recogeTexto ? ` · Recoge: ${recogeTexto}` : ''}`,
             contenido: <Desplegable lineas={recoger} />,
             onCambiar: () => navigate('/carrito'),
           },
@@ -84,18 +88,20 @@ export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: 
       ? [{ etiqueta: 'Sin existencia', valor: 'No entra en ningún envío', contenido: <Desplegable lineas={sinExistencia} />, onCambiar: () => navigate('/checkout/envio') }]
       : []),
   ];
-  /* D54: facturación con los datos fiscales del paso 1 (el registrado, los de su pedido anterior si no los ha cambiado). */
-  const fiscales = borradorInvitado ?? (cliente.tipo !== 'invitado' ? pedidos.find((p) => p.registrado && p.datos)?.datos ?? PEDIDO_ANTERIOR_REGISTRADO : null);
-  const filasFacturacion: FilaConfirmacion[] =
-    fiscales?.regimen && fiscales.cfdi
+  /* D57: solo se factura si el cliente marcó "Requiero factura" en el paso 1; si no, no hay bloque de facturación.
+     Un pedido solo para recoger no lleva la parte fiscal. */
+  const filasFacturacion: FilaConfirmacion[] | null =
+    envia && fiscales?.factura && fiscales.regimen && fiscales.cfdi
       ? [
           { etiqueta: 'Régimen fiscal', valor: fiscales.regimen, onCambiar: () => navigate('/checkout/datos') },
           { etiqueta: 'Uso del CFDI', valor: fiscales.cfdi },
           { etiqueta: 'Factura a nombre de', valor: `${fiscales.nombre ?? ''} ${fiscales.apellido ?? ''}`.trim() || cliente.nombre, nota: `La enviaremos a ${fiscales.correo || cliente.correo}` },
         ]
-      : [{ etiqueta: 'Factura', valor: 'Sin datos fiscales', nota: 'Si necesitas factura, agrega tu régimen fiscal y uso del CFDI en Datos del usuario.', onCambiar: () => navigate('/checkout/datos') }];
+      : null;
 
   const confirmar = () => {
+    /* D57: respaldo: nunca se confirma un pedido con artículos sin existencia (CheckoutLayout regresa al carrito). */
+    if (!modoFigma && sinExistencia.length) return;
     if (enTienda) {
       terminar();
       return;
@@ -135,7 +141,7 @@ export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: 
     >
       <CheckoutCard
         title="Confirmación del pedido"
-        intro="Selecciona método de pago"
+        intro={modoFigma ? 'Selecciona método de pago' : 'Revisa tu pedido y confírmalo'}
         actions={
           <Button variant="outline" onClick={() => navigate('/checkout/pago')}>
             Regresar
@@ -158,11 +164,11 @@ export function Confirmacion({ overlayInicial = 'ninguno' }: { overlayInicial?: 
               variante="envio"
               filas={[
                 enTienda
-                  ? { etiqueta: 'Tienda de autoservcio', valor: `Tienda ${tienda?.nombre ?? 'OXXO'}`, onCambiar: () => navigate('/checkout/pago') }
+                  ? { etiqueta: 'Tienda de autoservicio', valor: tienda?.nombre ?? 'Tienda de autoservicio', onCambiar: () => navigate('/checkout/pago') }
                   : { etiqueta: 'Pago con tarjeta débito / crédito', valor: `${marca} terminación ${terminacion}`, onCambiar: () => navigate('/checkout/pago') },
               ]}
             />
-            <ConfirmacionBloque titulo="Facturación" gap={TITULO_GAP} anchoTitulo={TITULO_ANCHO} variante="envio" filas={filasFacturacion} />
+            {filasFacturacion && <ConfirmacionBloque titulo="Facturación" gap={TITULO_GAP} anchoTitulo={TITULO_ANCHO} variante="envio" filas={filasFacturacion} />}
           </div>
         ) : (
         <div className={styles.blocks}>

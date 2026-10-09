@@ -7,9 +7,9 @@ import { CARRITO_2026, formatoMXN, type EstadoExistencia, type LineaCarrito, typ
 import { type Totales } from '../design-system/components/organisms/Resumen';
 import type { DatosTarjeta, FormaSeleccionada } from '../design-system/components/organisms/FormaDePago';
 import { esPedidoForaneo, estadoExistencia, existenciaEnTienda, maximoVenta } from '../mocks/existencias';
-import { costoEnvio } from '../mocks/logistica';
+import { costoEnvio, TIENDAS_AUTOSERVICIO } from '../mocks/logistica';
 import { CLIENTE_INVITADO, CLIENTES, DIRECCIONES_ENTREGA, UBICACION_FIGMA, type Cliente, type DireccionEntrega, type Ubicacion } from '../mocks/clientes';
-import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, ubicacionPredeterminadaDe, type TiendaCercana, type UbicacionEntrega } from '../mocks/tiendas';
+import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, type TiendaCercana, type UbicacionEntrega } from '../mocks/tiendas';
 import { idVehiculo, type Vehiculo } from '../mocks/vehiculos';
 
 export type MetodoEnvio = 'sucursal' | 'domicilio' | null;
@@ -32,6 +32,10 @@ export type Pedido = {
   articulos: string[];
   direccion: string;
   enTienda: boolean;
+  /** D57: tienda de autoservicio donde se paga ("7-Eleven"). */
+  tiendaPago?: string;
+  /** D57: tienda donde se recoge lo que no va a domicilio ("Autex Colón"). */
+  tiendaRecoge?: string;
   registrado: boolean;
   /** D51: datos del formulario del paso 1 (cliente, fiscales y dirección) para llenar el siguiente pedido. */
   datos?: Record<string, string>;
@@ -79,14 +83,14 @@ type DemoState = {
   abrirUbicacion: () => void;
   cerrarUbicacion: () => void;
   /**
-   * Tienda elegida ("Mi tienda"); sin elección es la más cercana a la ubicación de entrega. Elegir una de otro estado
-   * cambia la entrega al C.P. predeterminado de ese estado (también para el cliente registrado, D47).
+   * Tienda elegida ("Mi tienda"); sin elección es la más cercana a la ubicación de entrega. D57 (reemplaza a D47):
+   * elegir una tienda de otro estado ya no cambia la ubicación de entrega ni quita la dirección guardada.
    */
   tienda: TiendaCercana | null;
   /** Tiendas ordenadas por distancia a la ubicación de entrega, con su nivel de servicio. */
   tiendas: TiendaCercana[];
   setTienda: (id: string) => void;
-  /** setTienda con la carga de página: "Cambiando tu tienda" (y "tu C.P. de entrega" si es de otro estado). */
+  /** setTienda con la carga de página "Cambiando tu tienda". */
   elegirTienda: (id: string) => void;
   panel: PanelUbicacion;
   abrirPanel: (p: PanelUbicacion) => void;
@@ -165,6 +169,12 @@ type DemoState = {
   ultimoPedido: Pedido | null;
   /** Al pagar: guarda el pedido y deja carrito, envío y pago listos para la siguiente compra. */
   registrarPedido: () => void;
+  /** D57: leyenda temporal (toast) arriba de la página; se quita sola. */
+  avisoTemporal: string | null;
+  mostrarAviso: (texto: string | null) => void;
+  /** D57: tarjeta registrada predeterminada (la que se elige de inicio al pagar). */
+  tarjetaPredeterminadaId: string;
+  setTarjetaPredeterminada: (id: string) => void;
   setBorradorInvitado: (d: Record<string, string> | null) => void;
 };
 
@@ -211,6 +221,14 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
   const [pasoAlcanzado, setPasoAlcanzado] = useState(0);
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [ultimoPedido, setUltimoPedido] = useState<Pedido | null>(null);
+  const [avisoTemporal, setAvisoTemporal] = useState<string | null>(null);
+  const relojAviso = useRef<number>();
+  const mostrarAviso = (texto: string | null) => {
+    window.clearTimeout(relojAviso.current);
+    setAvisoTemporal(texto);
+    if (texto) relojAviso.current = window.setTimeout(() => setAvisoTemporal(null), 8000);
+  };
+  const [tarjetaPredeterminadaId, setTarjetaPredeterminada] = useState('visa-4485');
   const vehiculo = vehiculos.find((v) => v.id === vehiculoId) ?? null;
   const [direcciones, setDirecciones] = useState<DireccionEntrega[]>(DIRECCIONES_ENTREGA);
   const [direccionId, setDireccionId] = useState<string | null>(null);
@@ -249,14 +267,47 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
   }, [ubicacion]);
   const tienda = tiendas.find((t) => t.id === tiendaId) ?? tiendas[0] ?? null;
 
-  /* D43: si cambia "Mi tienda" (o el C.P., que la recalcula), lo que se recoge se ajusta a las piezas de la nueva tienda
-     y los avisos de la tienda anterior se quitan. */
-  const tiendaPrevia = useRef(tienda?.id);
+  /* D43/D57: si cambia "Mi tienda" o el C.P. de entrega (barra superior, mi ubicación o una dirección), se ajusta todo el
+     carrito: lo que se recoge a las piezas de la nueva tienda (si no las tiene, pasa a domicilio) y lo que va a domicilio
+     a la existencia en línea del nuevo C.P. Fuera del checkout, una leyenda temporal resume lo que cambió. */
+  const claveUbicacion = `${tienda?.id ?? ''}|${ubicacion?.codigoPostal ?? ''}`;
+  const ubicacionPrevia = useRef(claveUbicacion);
+  /* D57: el cambio de dirección del checkout ya ajustó el carrito y da su propio aviso (p. ej. "Te regresamos al
+     carrito…"); la leyenda general no debe reemplazarlo. */
+  const cambioDelCheckout = useRef(false);
   useEffect(() => {
-    if (tiendaPrevia.current === tienda?.id) return;
-    tiendaPrevia.current = tienda?.id;
-    setCarrito((c) => c.map((l) => (l.entrega === 'tienda' ? ajustarEntrega(l, 'tienda') : { ...l, aviso: undefined })));
-  }, [tienda?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (ubicacionPrevia.current === claveUbicacion) return;
+    ubicacionPrevia.current = claveUbicacion;
+    const delCheckout = cambioDelCheckout.current;
+    cambioDelCheckout.current = false;
+    if (modoFigma || !carrito.length) return;
+    const cp = ubicacion?.codigoPostal ?? null;
+    let ajustados = 0;
+    const nuevo = carrito.map((l) => {
+      let r = ajustarEntrega(l, l.entrega === 'tienda' ? 'tienda' : 'domicilio');
+      if (l.entrega === 'tienda' && r.entrega === 'domicilio') {
+        const d = ajustarEntrega(r, 'domicilio');
+        r = { ...d, aviso: [r.aviso, d.aviso].filter(Boolean).join(' ') };
+      }
+      if (r.cantidad !== l.cantidad || r.entrega !== (l.entrega ?? 'domicilio')) ajustados++;
+      return r;
+    });
+    const sin = nuevo.filter((l) => l.entrega !== 'tienda' && maximoVenta(l.producto.id, cp) === 0).length;
+    setCarrito(nuevo);
+    if (delCheckout || window.location.pathname.includes('/checkout/') || (!ajustados && !sin)) return;
+    const partes = [
+      ajustados ? `${ajustados} ${ajustados === 1 ? 'artículo cambió' : 'artículos cambiaron'} de cantidad o de entrega` : '',
+      sin ? `${sin} sin existencia` : '',
+    ].filter(Boolean);
+    mostrarAviso(`Actualizamos tu carrito con las existencias de tu nueva ubicación: ${partes.join(' y ')}.`);
+  }, [claveUbicacion]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* D57: tope de una línea: lo que se recoge no supera las piezas de "Mi tienda" ni lo que va a domicilio la existencia en línea. */
+  const topeLinea = (l: LineaCarrito): LineaCarrito => {
+    if (modoFigma) return l;
+    const r = ajustarEntrega(l, l.entrega === 'tienda' ? 'tienda' : 'domicilio');
+    return r.cantidad < l.cantidad ? r : { ...l, aviso: undefined };
+  };
 
   /**
    * D50: recalcula cada artículo para una nueva ubicación de entrega con su opción: a domicilio contra la existencia en
@@ -351,22 +402,14 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
       cerrarUbicacion: () => setPanel(null),
       tienda,
       tiendas,
+      /* D57 (reemplaza a D47): la tienda solo cambia dónde se recoge; la entrega y la dirección guardada se conservan. */
       setTienda: (id) => {
-        const t = tiendas.find((x) => x.id === id);
-        /* D47: tienda de otro estado → la entrega pasa al C.P. predeterminado de ese estado (sin dirección guardada). */
-        const nueva = !modoFigma && t && ubicacion && t.estado !== ubicacion.estado ? ubicacionPredeterminadaDe(t.estado) : null;
-        if (nueva) {
-          setUbicacionState(nueva);
-          setDireccionId(null);
-        }
         setTiendaId(id);
         setPanel(null);
       },
       elegirTienda: (id) => {
-        const t = tiendas.find((x) => x.id === id);
-        const otroEstado = !!t && !!ubicacion && t.estado !== ubicacion.estado && !!ubicacionPredeterminadaDe(t.estado);
         setPanel(null);
-        value.conCarga(otroEstado ? 'Cambiando tu tienda y tu C.P. de entrega' : 'Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => value.setTienda(id));
+        value.conCarga('Cambiando tu tienda', 'Consultamos las existencias de la sucursal…', () => value.setTienda(id));
       },
       panel,
       abrirPanel: setPanel,
@@ -429,12 +472,14 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
         const d = direcciones.find((x) => x.id === id);
         if (!d) return [];
         const { ajustes, nuevo } = recalcularPara(ubicacionDeDireccion(d));
+        cambioDelCheckout.current = true;
         usarDireccion(d);
         setCarrito(nuevo);
         return ajustes;
       },
       cambiarUbicacionPedido: (u) => {
         const { ajustes, nuevo } = recalcularPara(u);
+        cambioDelCheckout.current = true;
         setUbicacionState(u);
         setDireccionId(null);
         setTiendaId(null);
@@ -472,11 +517,12 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
       hacerPredeterminada: setPredeterminadaId,
       agregar: (p, cantidad = 1) => {
         setMiniAbierto(true);
-        setCarrito((c) => {
-          const i = c.findIndex((l) => l.producto.id === p.id);
-          if (i < 0) return [...c, { producto: p, cantidad }];
-          return c.map((l, j) => (j === i ? { ...l, cantidad: l.cantidad + cantidad } : l));
-        });
+        const actual = carrito.find((l) => l.producto.id === p.id);
+        if (!actual) return setCarrito((c) => [...c, { producto: p, cantidad }]);
+        /* D57: si se recoge en tienda, la suma no pasa de las piezas de "Mi tienda" (y a domicilio, de la existencia en línea). */
+        const linea = topeLinea({ ...actual, cantidad: actual.cantidad + cantidad });
+        if (linea.cantidad < actual.cantidad + cantidad) mostrarAviso(linea.aviso ?? null);
+        setCarrito((c) => c.map((l) => (l.producto.id === p.id ? linea : l)));
       },
       cambiarCantidad: (id, cantidad) =>
         setCarrito((c) => c.map((l) => (l.producto.id === id ? { ...l, cantidad: Math.max(1, cantidad), aviso: undefined } : l))),
@@ -527,8 +573,11 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
           total: totales.total,
           piezas: carrito.reduce((n, l) => n + l.cantidad, 0),
           articulos: carrito.map((l) => `${l.cantidad} × ${l.producto.nombre}${l.entrega === 'tienda' && tienda ? ` (recoger en Autex ${tienda.nombre})` : ''}`),
-          direccion: envioDetalle.direccion ?? '',
+          /* D57: la dirección solo si algo va a domicilio; si algo se recoge, la tienda. */
+          direccion: carrito.some((l) => l.entrega !== 'tienda') ? envioDetalle.direccion ?? '' : '',
+          tiendaRecoge: carrito.some((l) => l.entrega === 'tienda') && tienda ? `Autex ${tienda.nombre}` : undefined,
           enTienda: pago === 'tienda',
+          tiendaPago: pago === 'tienda' ? TIENDAS_AUTOSERVICIO.flat().find((x) => x.id === pagoDetalle.tiendaId)?.nombre : undefined,
           registrado: cliente.tipo !== 'invitado',
           datos: borradorInvitado ?? undefined,
         };
@@ -542,8 +591,12 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
         setEnvioDetalle((d) => ({ ...d, direccion: undefined }));
         setPagoDetalle((d) => ({ ...d, forma: null }));
       },
+      avisoTemporal,
+      mostrarAviso,
+      tarjetaPredeterminadaId,
+      setTarjetaPredeterminada,
     };
-  }, [modoFigma, cliente, ubicacion, carrito, envio, pago, envioDetalle, pagoDetalle, ubicacionAbierta, miniAbierto, guardados, login, tienda, tiendas, panel, avisoTienda, ubicacionInicial, permiso, avisoNavegador, vehiculos, vehiculo, vehiculosAbierto, cargando, direcciones, direccion, predeterminadaId, direccionId, borradorInvitado, pedidos, ultimoPedido, numeroPedido, ajusteDireccion, pasoAlcanzado]);
+  }, [avisoTemporal, tarjetaPredeterminadaId,modoFigma, cliente, ubicacion, carrito, envio, pago, envioDetalle, pagoDetalle, ubicacionAbierta, miniAbierto, guardados, login, tienda, tiendas, panel, avisoTienda, ubicacionInicial, permiso, avisoNavegador, vehiculos, vehiculo, vehiculosAbierto, cargando, direcciones, direccion, predeterminadaId, direccionId, borradorInvitado, pedidos, ultimoPedido, numeroPedido, ajusteDireccion, pasoAlcanzado]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

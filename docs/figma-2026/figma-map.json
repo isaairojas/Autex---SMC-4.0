@@ -301,6 +301,10 @@
     "Cliente no registrado: ¿Cómo deseas continuar? y formulario de invitado": {
       "pantalla": "src/design-system/components/organisms/ComoContinuar.tsx, src/screens/checkout/FormularioInvitado.tsx",
       "nota": "Réplica de autex.com.mx (captura 2026-10-06): en el carrito, \"Proceder al pago\" sin sesión abre \"¿Cómo deseas continuar?\" (Usuario invitado / Tengo una cuenta Autex). Invitado → paso 1 con el formulario del sitio (cliente, datos fiscales, dirección con colonia por C.P.) y \"Usuario Invitado · Regístrate\"; con cuenta → inicio de sesión y paso 2. La galería conserva el Modal login (742:19087) y el formulario de Figma. D40."
+    },
+    "Revisión del flujo (D57)": {
+      "pantalla": "src/state/DemoContext.tsx, src/screens/PageShell.tsx, src/screens/checkout/*, src/mocks/fechasEntrega.ts, src/mocks/configuracion-banner.json",
+      "nota": "Leyenda temporal (Toast 2596:99563 flotante) al ajustar el carrito o regresar del checkout por artículos sin existencia; formulario del paso 1 con \"Requiero factura\" y, si todo se recoge, \"¿Quién recoge el pedido?\" sin dirección; fechas de entrega en días hábiles; franja \"Sin mínimo de compra por apertura (Aplica restricciones)\" configurable; tarjeta predeterminada (etiqueta en TarjetaGuardada y Mi cuenta → Método de pago); \"Comprados juntos\" agrega al carrito. D57."
     }
   },
   "componentes": {

@@ -18,7 +18,8 @@ import { CheckoutCard } from '../../design-system/components/organisms/CheckoutC
 import { EnvioPaqueteria } from '../../design-system/components/molecules/EnvioPaqueteria';
 import { EnviosMultiples } from '../../design-system/components/molecules/EnviosMultiples';
 import { lineaDireccion } from '../../mocks/clientes';
-import { repartirEnvios } from '../../mocks/envios';
+import { repartirEnvios, type Envio } from '../../mocks/envios';
+import { textoRango, unirRangos } from '../../mocks/fechasEntrega';
 import { costoEnvio, UMBRAL_ENVIO_GRATIS } from '../../mocks/logistica';
 import { coordenadas, estadoHorario, UBICACION_PREDETERMINADA } from '../../mocks/tiendas';
 import { useDemo, type AjusteDireccion } from '../../state/DemoContext';
@@ -49,6 +50,11 @@ export function MetodoEnvio() {
   const inmediatos = envios.filter((e) => !e.bajoPedido);
   const pedidos = envios.filter((e) => e.bajoPedido);
   const textoDireccion = registrado && direccion ? lineaDireccion(direccion) : envioDetalle.direccion;
+  /* D57: el encabezado de cada sección da las fechas de sus envíos (todo hoy → "Entrega hoy"). */
+  const encabezado = (es: Envio[]) => {
+    const r = unirRangos(es.map((e) => e.rango));
+    return r ? `${textoRango(r)}.` : '';
+  };
 
   return (
     <CheckoutLayout paso={2} sinCostoEnvio={sitio}>
@@ -117,7 +123,9 @@ export function MetodoEnvio() {
               tiempo={
                 costo > 0 && !sitio
                   ? /* figma: 901:32141 usa "2 a 4 días" en la fila de entrega inmediata (D25) */ 'Tiempo de entrega estimado de 2 a 4 días'
-                  : 'Tiempo de entrega estimado de 24 a 48 horas.'
+                  : sitio
+                    ? encabezado(inmediatos)
+                    : 'Tiempo de entrega estimado de 24 a 48 horas.'
               }
               costo={costo}
               faltante={UMBRAL_ENVIO_GRATIS - subtotal}
@@ -127,7 +135,7 @@ export function MetodoEnvio() {
             </EnvioPaqueteria>
           )}
           {(sitio ? pedidos.length > 0 : hayBajoPedido) && (
-            <EnvioPaqueteria bajoPedido tiempo="Tiempo de entrega estimado de 2 a 4 días." costo={costo} faltante={UMBRAL_ENVIO_GRATIS - subtotal} ocultarCosto={sitio}>
+            <EnvioPaqueteria bajoPedido tiempo={sitio ? encabezado(pedidos) : 'Tiempo de entrega estimado de 2 a 4 días.'} costo={costo} faltante={UMBRAL_ENVIO_GRATIS - subtotal} ocultarCosto={sitio}>
               {sitio && pedidos.length > 0 ? <EnviosMultiples envios={pedidos} total={inmediatos.length ? 0 : envios.length} /> : null}
             </EnvioPaqueteria>
           )}

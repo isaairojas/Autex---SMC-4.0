@@ -1,0 +1,8 @@
+{
+  "descripcion": "Franja superior del sitio (D57). mostrar: true/false enciende o apaga la promoción; mostrarRestricciones: true/false muestra u oculta la leyenda chica. La galería de Figma conserva su texto literal.",
+  "mostrar": true,
+  "titulo": "ENVÍO GRATIS A TODO MÉXICO",
+  "detalle": "SIN MÍNIMO DE COMPRA POR APERTURA",
+  "mostrarRestricciones": true,
+  "restricciones": "(Aplica restricciones)"
+}

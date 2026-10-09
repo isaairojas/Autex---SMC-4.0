@@ -10,7 +10,7 @@ import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import { OpcionSeleccionable } from '../molecules/OpcionSeleccionable';
 import { Modal } from './Modal';
-import { ALCANCE_MAXIMO_KM, avisoCambioEntrega, ESTADOS_CON_TIENDA, estadoHorario, formatoKm, resolverCP, textoEntrega, type TiendaCercana, type UbicacionEntrega } from '../../../mocks/tiendas';
+import { ALCANCE_MAXIMO_KM, ESTADOS_CON_TIENDA, estadoHorario, formatoKm, resolverCP, textoEntrega, type TiendaCercana, type UbicacionEntrega } from '../../../mocks/tiendas';
 import { lineaDireccion, type DireccionEntrega, type Ubicacion } from '../../../mocks/clientes';
 import styles from './UbicacionTienda.module.css';
 
@@ -306,7 +306,6 @@ export function PanelTienda({ posicion, tiendas, actual, estado, codigoPostal, o
                 <Icon name="directions" box={20} size={18} color="var(--color-primary-500)" />
                 Mostrar en Google Maps
               </a>
-              {!mia && avisoCambioEntrega(t, estado) && <p className={`${styles.cambioEntrega} text-body-2-book`}>{avisoCambioEntrega(t, estado)}</p>}
               {!mia && (
                 <Button variant="outline" className={styles.anchoCompleto} onClick={() => onSeleccionar(t.id)}>
                   Seleccionar tienda
@@ -383,7 +382,7 @@ type OtrasTiendasProps = {
   tiendas: (TiendaCercana & { piezas: number })[];
   actual: TiendaCercana | null;
   codigoPostal: string | null;
-  /** Estado de la entrega: las tiendas de otro estado avisan que la entrega cambia (D47). */
+  /** Estado de la entrega (D57: elegir una tienda de otro estado ya no cambia la entrega). */
   estado: string | null;
   producto: string;
   onSeleccionar: (id: string) => void;
@@ -446,7 +445,6 @@ export function BuscarOtraTienda({ tiendas, actual, codigoPostal, estado, produc
                   <Icon name="directions" box={20} size={18} color="var(--color-primary-500)" />
                   Mostrar en Google Maps
                 </a>
-                {!mia && avisoCambioEntrega(t, estado) && <p className={`${styles.cambioEntrega} text-body-2-book`}>{avisoCambioEntrega(t, estado)}</p>}
                 {!mia && (
                   <Button variant="outline" className={styles.anchoCompleto} onClick={() => onSeleccionar(t.id)}>
                     Seleccionar tienda

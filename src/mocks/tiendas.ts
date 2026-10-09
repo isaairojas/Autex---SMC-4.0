@@ -10,6 +10,7 @@ import config from './configuracion-servicios-smc.json';
 import { haversine } from './geo';
 import { SUCURSALES_AUTEX } from './sucursales';
 import { calleCompleta, type DireccionEntrega, type Ubicacion } from './clientes';
+import { rangoEntrega, textoRango } from './fechasEntrega';
 
 export type Servicio = (typeof config.sucursales)[number]['servicios'][number];
 
@@ -273,13 +274,6 @@ const CP_POR_ESTADO: Record<string, string> = {
   'Quintana Roo': '77500',
 };
 
-/** D47: aviso para una tienda de otro estado: "Al elegirla, tu entrega cambia a C.P. 64000, Monterrey". */
-export function avisoCambioEntrega(t: { estado: string }, estadoActual: string | null): string | null {
-  if (!estadoActual || t.estado === estadoActual) return null;
-  const u = ubicacionPredeterminadaDe(t.estado);
-  return u ? `Al elegirla, tu entrega cambia a C.P. ${u.codigoPostal}, ${u.ciudad}.` : null;
-}
-
 /** Ubicación de entrega predeterminada de un estado (su C.P. predeterminado); null si no se conoce. */
 export function ubicacionPredeterminadaDe(estado: string): UbicacionEntrega | null {
   const cp = CP_POR_ESTADO[estado] ?? delSitio.find((t) => t.estado === estado && t.cp)?.cp;
@@ -376,18 +370,18 @@ export function estadoHorario(horario: string | null, ahora = new Date()) {
 
 export const formatoKm = (n: number) => `${n.toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km`;
 
-/* ---------- Tiempo de entrega (D38) ---------- */
-
-/** Hora límite para la entrega Local el mismo día (14:00). */
-export const HORA_LIMITE_MISMO_DIA = 14;
+/* ---------- Tiempo de entrega (D38, D57) ---------- */
 
 /**
- * Texto de entrega de un servicio. Local: el mismo día si la compra se hace antes de las 2:00 p.m.; después, al día
- * siguiente. Con `general` se da la regla sin depender de la hora (panel de tiendas).
+ * Texto de entrega de un servicio con la fecha estimada en días hábiles (fechasEntrega.ts): "Entrega hoy",
+ * "Entrega mañana", "Entrega el viernes 9 de octubre" o "Entrega entre el viernes 9 y el martes 13 de octubre".
+ * Con `general` se da la regla sin fechas (panel de tiendas y sucursales).
  */
 export function textoEntrega(servicio: Servicio | null, ahora = new Date(), general = false): string {
-  if (!servicio) return 'Entrega de 2 a 4 días hábiles';
-  if (servicio.tiempoEntrega !== 'Mismo dia') return `Entrega en ${servicio.tiempoEntrega}`;
-  if (general) return 'Entrega el mismo día en compras antes de las 2:00 p.m.';
-  return ahora.getHours() < HORA_LIMITE_MISMO_DIA ? 'Entrega hoy (compra antes de las 2:00 p.m.)' : 'Entrega mañana (después de las 2:00 p.m.)';
+  if (general) {
+    if (servicio?.tiempoEntrega === 'Mismo dia') return 'Entrega el mismo día en compras antes de las 2:00 p.m.';
+    if (servicio?.tiempoEntrega === '24 horas') return 'Entrega en 2 días hábiles';
+    return 'Entrega de 2 a 4 días hábiles';
+  }
+  return textoRango(rangoEntrega(servicio, false, ahora), ahora);
 }

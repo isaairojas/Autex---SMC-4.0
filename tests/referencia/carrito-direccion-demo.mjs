@@ -20,6 +20,10 @@ async function carrito(registrado) {
     await p.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa.com.mx');
     await p.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
     await p.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
+    /* D57: al iniciar sesión se regresa a la página principal; la lupa del buscador abre el catálogo. */
+    await p.waitForURL('http://localhost:5179/');
+    await p.getByRole('search').getByRole('button', { name: 'Buscar' }).click();
+    await p.waitForURL('**/busqueda**');
   }
   await p.getByRole('status', { name: 'Cargando productos…' }).waitFor({ state: 'detached' }).catch(() => {});
   const c = p.getByLabel(`Cantidad de ${INYECTOR}`);
