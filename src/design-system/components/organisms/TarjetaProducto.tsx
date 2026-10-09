@@ -6,7 +6,7 @@
  *  - No disponible (motion_photos_off, rojo #E4092C): "Agregar a lista" al 50 % y "Avisar disponibilidad".
  * Última sincronización: 2026-10-05
  */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Icon } from '../atoms/Icon';
 import removeIcon from '../../../assets/icons/remove.svg';
 import addIcon from '../../../assets/icons/add.svg';
@@ -32,12 +32,14 @@ type Props = {
   maximo?: number;
   /** Sitio (D46): estado con la cantidad elegida; p. ej. con 1 pieza en la zona, al pedir 2 pasa a bajo pedido. */
   estadoPara?: (cantidad: number) => EstadoExistencia;
+  /** Sitio: si la cantidad escrita supera la existencia, se recalcula con la carga "Validando existencias" antes de ajustarla. */
+  validar?: (ajustar: () => void) => void;
   onAgregar: (cantidad: number) => void;
   onVer?: () => void;
   onAvisar?: () => void;
 };
 
-export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiquetaPiezas, maximo, estadoPara, onAgregar, onVer, onAvisar }: Props) {
+export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiquetaPiezas, maximo, estadoPara, validar, onAgregar, onVer, onAvisar }: Props) {
   const [cantidad, setCantidad] = useState(1);
   const estado = estadoPara && estadoBase !== 'sin-existencia' ? estadoPara(cantidad) : estadoBase;
   const [texto, setTexto] = useState('1');
@@ -53,6 +55,18 @@ export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiqueta
     } else setAviso(null);
     setCantidad(c);
     setTexto(String(c));
+  };
+  /* Cantidad escrita: si supera la existencia, primero se validan las existencias (carga) y luego se ajusta. */
+  const validando = useRef(false);
+  const confirmar = () => {
+    const n = Math.max(1, Math.floor(Number(texto)) || 1);
+    if (!(limitado && maximo > 0 && n > maximo && validar)) return fijar(n);
+    if (validando.current) return;
+    validando.current = true;
+    validar(() => {
+      validando.current = false;
+      fijar(n);
+    });
   };
   const [avisado, setAvisado] = useState(false);
   const [entero, centavos] = producto.precio.toFixed(2).split('.');
@@ -120,8 +134,8 @@ export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiqueta
                   aria-label={`Cantidad de ${producto.nombre}`}
                   disabled={sinExistencia || agotado}
                   onChange={(e) => setTexto(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                  onBlur={() => fijar(Number(texto))}
-                  onKeyDown={(e) => e.key === 'Enter' && fijar(Number(texto))}
+                  onBlur={() => Number(texto) !== cantidad && confirmar()}
+                  onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
                 />
               ) : (
                 <span className={`${styles.qtyValor} text-body-1-book`}>{cantidad}</span>
@@ -151,11 +165,10 @@ export function TarjetaProducto({ producto, estado: estadoBase, piezas, etiqueta
               className={`${styles.carrito} text-body-1-book`}
               disabled={agotado}
               onClick={() => {
-                /* La cantidad escrita sin confirmar también se valida contra la existencia. */
+                /* La cantidad escrita sin confirmar también se valida contra la existencia: si la supera, se ajusta sin agregar. */
                 const n = Math.max(1, Math.floor(Number(texto)) || 1);
-                const c = limitado && n > maximo ? maximo : n;
-                if (c !== n) fijar(n);
-                if (c > 0) onAgregar(c);
+                if (limitado && n > maximo) return confirmar();
+                onAgregar(n);
               }}
             >
               Agregar al carrito

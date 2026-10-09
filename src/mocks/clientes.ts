@@ -123,3 +123,24 @@ export const DIRECCIONES_ENTREGA: DireccionEntrega[] = [
 export const calleCompleta = (d: Pick<DireccionEntrega, 'calle' | 'numeroExterior' | 'numeroInterior'>) =>
   `${d.calle} ${d.numeroExterior}${d.numeroInterior ? ` Int. ${d.numeroInterior}` : ''}`;
 export const lineaDireccion = (d: DireccionEntrega) => `${calleCompleta(d)}, ${d.colonia}, C.P. ${d.codigoPostal}, ${d.ciudad}, ${d.estado}`;
+
+/**
+ * D51: último pedido del cliente registrado de la demo (anterior a la sesión). Llena el formulario del paso 1 cuando aún
+ * no hay pedidos en la sesión; después se usa el último pedido hecho.
+ */
+export const PEDIDO_ANTERIOR_REGISTRADO: Record<string, string> = {
+  nombre: 'Ernesto',
+  apellido: 'Quiñonez',
+  correo: 'ernesto@empresa.com.mx',
+  telefono: '6693318596',
+  regimen: 'Persona física con actividad empresarial',
+  cfdi: 'G01 Adquisición de mercancías',
+  calle: 'Av. Guadalupe',
+  numeroExterior: '1144',
+  numeroInterior: '',
+  entreCalle1: 'Av. de las Rosas',
+  entreCalle2: 'Calle Tepeyac',
+  senas: 'Portón azul',
+  codigoPostal: '45040',
+  colonia: 'Chapalita',
+};

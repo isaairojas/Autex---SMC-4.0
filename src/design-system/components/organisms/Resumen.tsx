@@ -30,9 +30,20 @@ type ResumenProps = {
   onConfirmar?: () => void;
   /** Sitio, paso 2 (sin respaldo en Figma, D35): sin la fila "Envío". */
   sinEnvio?: boolean;
+  /** Sitio (D54, sin respaldo en Figma): productos separados por envío y "Recoger en tienda", con su encabezado. */
+  grupos?: { titulo: string; detalle?: string; lineas: LineaCarrito[] }[] | null;
 };
 
-export function Resumen({ totales = TOTALES_FIGMA, lineas, estado, cantidadVisible, onConfirmar, sinEnvio = false }: ResumenProps) {
+export function Resumen({ totales = TOTALES_FIGMA, lineas, estado, cantidadVisible, onConfirmar, sinEnvio = false, grupos }: ResumenProps) {
+  const item = (l: LineaCarrito, clave: string) => (
+    <div key={clave} className={styles.item}>
+      <img src={l.producto.imagen[l.producto.imagen.length - 1].src} alt="" width={50} height={41} className={styles.miniatura} />
+      <span className={`${styles.nombre} text-os-body-2`}>{l.producto.nombre}</span>
+      <span className={`${styles.qty} text-os-body-2`}>x{cantidadVisible ? cantidadVisible(l) : l.cantidad}</span>
+      <span className={`${styles.precio} text-body-2-medium`}>{formatoMXN(l.producto.precio * l.cantidad)}</span>
+      {estado?.(l.producto.id) === 'bajo-pedido' && <ChipBajoPedido chico />}
+    </div>
+  );
   return (
     <aside className={styles.columna}>
       <div className={styles.detalle}>
@@ -67,15 +78,17 @@ export function Resumen({ totales = TOTALES_FIGMA, lineas, estado, cantidadVisib
       <div className={styles.productos}>
         <p className={`${styles.productosTitulo} text-body-1-medium`}>Resumen de productos</p>
         <div className={styles.lista}>
-          {lineas.map((l) => (
-            <div key={l.producto.id} className={styles.item}>
-              <img src={l.producto.imagen[l.producto.imagen.length - 1].src} alt="" width={50} height={41} className={styles.miniatura} />
-              <span className={`${styles.nombre} text-os-body-2`}>{l.producto.nombre}</span>
-              <span className={`${styles.qty} text-os-body-2`}>x{cantidadVisible ? cantidadVisible(l) : l.cantidad}</span>
-              <span className={`${styles.precio} text-body-2-medium`}>{formatoMXN(l.producto.precio * l.cantidad)}</span>
-              {estado?.(l.producto.id) === 'bajo-pedido' && <ChipBajoPedido chico />}
-            </div>
-          ))}
+          {grupos
+            ? grupos.map((g, i) => (
+                <section key={g.titulo} className={styles.grupo} aria-label={g.titulo}>
+                  <p className={styles.grupoCabecera}>
+                    <span className="text-body-2-medium">{g.titulo}</span>
+                    {g.detalle && <span className={`${styles.grupoDetalle} text-caption-book`}>{g.detalle}</span>}
+                  </p>
+                  {g.lineas.map((l) => item(l, `${i}-${l.producto.id}`))}
+                </section>
+              ))
+            : lineas.map((l) => item(l, l.producto.id))}
         </div>
       </div>
     </aside>

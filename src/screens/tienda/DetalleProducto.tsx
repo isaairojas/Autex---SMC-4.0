@@ -4,14 +4,13 @@
  * Tabs - Especificaciones 12849:113561 · Sustitutos 12849:113606 · Relacionados 12849:113622
  * Última sincronización: 2026-10-02
  */
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '../../design-system/components/atoms/Icon';
 import { Breadcrumbs } from '../../design-system/components/molecules/Breadcrumbs';
 import { Tabs } from '../../design-system/components/molecules/Tabs';
 import { BuscadorVehiculo } from '../../design-system/components/organisms/BuscadorVehiculo';
 import { BuscarOtraTienda } from '../../design-system/components/organisms/UbicacionTienda';
-import { ALCANCE_MAXIMO_KM } from '../../mocks/tiendas';
 import removeIcon from '../../assets/icons/remove.svg';
 import addIcon from '../../assets/icons/add.svg';
 import playIcon from '../../assets/icons/video-play.svg';
@@ -36,7 +35,7 @@ import r3 from '../../assets/images/rel-3.png';
 import r4 from '../../assets/images/rel-4.png';
 import { CATALOGO_SITIO } from '../../mocks/catalogo';
 import { formatoMXN } from '../../mocks/productos';
-import { esPedidoForaneo, esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, existenciaLocal, maximoVenta } from '../../mocks/existencias';
+import { esPedidoForaneo, esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, existenciaLocal, maximoVenta, tiendasQueSurten } from '../../mocks/existencias';
 import { LEYENDA_FORANEA } from '../../design-system/components/organisms/EntregaCarrito';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
@@ -76,12 +75,19 @@ const ESPECIFICACIONES = [
 export function DetalleProducto() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { agregar, ubicacion, abrirUbicacion, disponibilidad, modoFigma, tienda, tiendas, abrirPanel, carrito, elegirTienda } = useDemo();
+  const { agregar, ubicacion, abrirUbicacion, disponibilidad, modoFigma, tienda, tiendas, abrirPanel, carrito, elegirTienda, validarExistencias } = useDemo();
   /* D43: barra lateral "Buscar en otras tiendas". */
   const [otrasTiendas, setOtrasTiendas] = useState(false);
   const producto = CATALOGO_SITIO.find((p) => p.id === id) ?? CATALOGO_SITIO[0];
   const [entero, centavos] = (producto.precio * cantidadInicial(modoFigma)).toFixed(2).split('.');
-  const [cantidad, setCantidad] = useState(modoFigma ? 16 : 1);
+  const [cantidad, setCantidadValor] = useState(modoFigma ? 16 : 1);
+  /* Sitio: la cantidad también se escribe, como en la tarjeta del catálogo. */
+  const [texto, setTexto] = useState(String(cantidadInicial(modoFigma)));
+  const setCantidad = (n: number) => {
+    setCantidadValor(n);
+    setTexto(String(n));
+  };
+  const validando = useRef(false);
   const [mini, setMini] = useState(0);
   const [tab, setTab] = useState(0);
   const disp = disponibilidad(producto.id);
@@ -100,13 +106,31 @@ export function DetalleProducto() {
       ? 'Ya tienes en tu carrito todas las piezas disponibles para compra en línea.'
       : `Solo hay ${maximo} ${maximo === 1 ? 'pieza disponible' : 'piezas disponibles'} para compra en línea.`;
 
+  /* Cantidad escrita: si supera la existencia, se validan las existencias (carga) y vuelve a la cantidad disponible. */
+  const confirmar = (alTerminar?: (c: number) => void) => {
+    const n = Math.max(1, Math.floor(Number(texto)) || 1);
+    if (modoFigma || n <= maximo || maximo <= 0) {
+      setCantidad(n);
+      return alTerminar?.(n);
+    }
+    if (validando.current) return;
+    validando.current = true;
+    validarExistencias(() => {
+      validando.current = false;
+      setCantidad(maximo);
+    });
+  };
+
   const onAgregar = () => {
     if (!ubicacion) {
       abrirUbicacion();
       return;
     }
-    agregar(producto, Math.min(cantidad, maximo));
-    if (!modoFigma) setCantidad(1);
+    /* Con una cantidad mayor a la existencia solo se ajusta; el cliente vuelve a dar "Añadir al carrito". */
+    confirmar((c) => {
+      agregar(producto, Math.min(c, maximo));
+      if (!modoFigma) setCantidad(1);
+    });
   };
 
   return (
@@ -226,7 +250,20 @@ export function DetalleProducto() {
                 <button type="button" className={styles.qtyBtn} onClick={() => setCantidad(Math.max(1, cantidad - 1))} aria-label="Quitar uno">
                   <img src={removeIcon} alt="" width={16} height={16} />
                 </button>
-                <span className={styles.qtyValue}>{cantidad}</span>
+                {modoFigma ? (
+                  <span className={styles.qtyValue}>{cantidad}</span>
+                ) : (
+                  <input
+                    className={`${styles.qtyValue} ${styles.qtyInput}`}
+                    inputMode="numeric"
+                    value={texto}
+                    aria-label={`Cantidad de ${producto.nombre}`}
+                    disabled={!disp.ok || maximo <= 0}
+                    onChange={(e) => setTexto(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                    onBlur={() => Number(texto) !== cantidad && confirmar()}
+                    onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+                  />
+                )}
                 <button type="button" className={`${styles.qtyBtn} ${styles.qtyRight}`} onClick={() => setCantidad(cantidad + 1)} aria-label="Agregar uno" disabled={tope}>
                   <img src={addIcon} alt="" width={16} height={16} />
                 </button>
@@ -261,9 +298,9 @@ export function DetalleProducto() {
       )}
       {!modoFigma && otrasTiendas && (
         <BuscarOtraTienda
-          /* Tiendas que alcanzan la entrega (Foráneo, 350 km) con piezas del producto; "Mi tienda" siempre aparece. */
+          /* D49: tiendas de la red de búsqueda (locales + la foránea más cercana) con piezas; "Mi tienda" siempre aparece. */
           tiendas={tiendas
-            .filter((t) => t.km <= ALCANCE_MAXIMO_KM || t.id === tienda?.id)
+            .filter((t) => tiendasQueSurten(producto.id, cp).some((s) => s.id === t.id) || t.id === tienda?.id)
             .map((t) => ({ ...t, piezas: existenciaEnTienda(producto.id, t.id) }))
             .filter((t) => t.piezas > 0 || t.id === tienda?.id)}
           actual={tienda}

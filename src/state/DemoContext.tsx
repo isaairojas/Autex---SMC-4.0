@@ -9,7 +9,7 @@ import type { DatosTarjeta, FormaSeleccionada } from '../design-system/component
 import { esPedidoForaneo, estadoExistencia, existenciaEnTienda, maximoVenta } from '../mocks/existencias';
 import { costoEnvio } from '../mocks/logistica';
 import { CLIENTE_INVITADO, CLIENTES, DIRECCIONES_ENTREGA, UBICACION_FIGMA, type Cliente, type DireccionEntrega, type Ubicacion } from '../mocks/clientes';
-import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, ubicacionPredeterminadaDe, type TiendaCercana } from '../mocks/tiendas';
+import { coordenadas, tiendasCercanas, ubicacionDesdeCoordenadas, UBICACION_PREDETERMINADA, UBICACION_SIMULADA, ubicacionDeDireccion, ubicacionPredeterminadaDe, type TiendaCercana, type UbicacionEntrega } from '../mocks/tiendas';
 import { idVehiculo, type Vehiculo } from '../mocks/vehiculos';
 
 export type MetodoEnvio = 'sucursal' | 'domicilio' | null;
@@ -33,6 +33,8 @@ export type Pedido = {
   direccion: string;
   enTienda: boolean;
   registrado: boolean;
+  /** D51: datos del formulario del paso 1 (cliente, fiscales y dirección) para llenar el siguiente pedido. */
+  datos?: Record<string, string>;
 };
 
 export type PagoDetalle = {
@@ -42,6 +44,9 @@ export type PagoDetalle = {
 };
 
 export const TARJETA_FIGMA: DatosTarjeta = { titular: 'Ernesto Quiñonez', numero: '4215896374124485', vigencia: '05/26', cvv: '***' };
+
+/** D50: resultado del recálculo de un artículo al cambiar la dirección (ahora 0: sin existencia en la nueva ubicación). */
+export type AjusteDireccion = { id: string; nombre: string; entrega: ModoEntrega; antes: number; ahora: number; tienda?: string };
 
 type DemoState = {
   /** true: se muestran los textos y totales literales de Figma. */
@@ -110,10 +115,25 @@ type DemoState = {
   cargando: { titulo: string; texto: string } | null;
   /** Muestra la carga, espera y ejecuta la acción (en la galería la ejecuta de inmediato). */
   conCarga: (titulo: string, texto: string, accion: () => void, ms?: number) => void;
+  /** Sitio: cantidad escrita mayor a la existencia; recalcula con la carga "Validando existencias" y luego ajusta. */
+  validarExistencias: (ajustar: () => void) => void;
   /** Direcciones de entrega guardadas (cliente registrado) y la elegida en "Entrega en" (null: C.P. suelto). */
   direcciones: DireccionEntrega[];
   direccion: DireccionEntrega | null;
   elegirDireccion: (id: string) => void;
+  /**
+   * D50: cambia la dirección de entrega del pedido (paso 2) y recalcula cada artículo con su opción: a domicilio con la
+   * existencia en línea de la nueva ubicación y "Recoger en tienda" con la nueva "Mi tienda". Devuelve lo que cambió.
+   */
+  cambiarDireccionPedido: (id: string) => AjusteDireccion[];
+  /** D51: igual que cambiarDireccionPedido con una dirección capturada en el formulario (invitado o registrado). */
+  cambiarUbicacionPedido: (u: UbicacionEntrega) => AjusteDireccion[];
+  /** D50/D51: resultado del último cambio de dirección en el checkout; Método de envío lo muestra. */
+  ajusteDireccion: AjusteDireccion[] | null;
+  setAjusteDireccion: (a: AjusteDireccion[] | null) => void;
+  /** D53: paso más avanzado que el cliente ha abierto en este checkout (0 fuera del checkout); hasta ahí puede ir y volver. */
+  pasoAlcanzado: number;
+  setPasoAlcanzado: (n: number) => void;
   /** Dirección predeterminada: la que se usa al iniciar sesión ("Utilizar esta dirección como predeterminada"). */
   predeterminadaId: string | null;
   /** usar: la nueva dirección pasa a ser la de entrega aunque no sea la predeterminada (alta desde el checkout). */
@@ -187,6 +207,8 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
   const [vehiculosAbierto, setVehiculosAbierto] = useState(false);
   const [cargando, setCargando] = useState<{ titulo: string; texto: string } | null>(null);
   const [borradorInvitado, setBorradorInvitado] = useState<Record<string, string> | null>(null);
+  const [ajusteDireccion, setAjusteDireccion] = useState<AjusteDireccion[] | null>(null);
+  const [pasoAlcanzado, setPasoAlcanzado] = useState(0);
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
   const [ultimoPedido, setUltimoPedido] = useState<Pedido | null>(null);
   const vehiculo = vehiculos.find((v) => v.id === vehiculoId) ?? null;
@@ -235,6 +257,36 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
     tiendaPrevia.current = tienda?.id;
     setCarrito((c) => c.map((l) => (l.entrega === 'tienda' ? ajustarEntrega(l, 'tienda') : { ...l, aviso: undefined })));
   }, [tienda?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /**
+   * D50: recalcula cada artículo para una nueva ubicación de entrega con su opción: a domicilio contra la existencia en
+   * línea del nuevo C.P. y "Recoger en tienda" contra la nueva "Mi tienda" (la más cercana); si la tienda no lo tiene,
+   * pasa a domicilio. Sin piezas se conserva la cantidad: el artículo queda "sin existencia" y bloquea el pago.
+   */
+  const recalcularPara = (u: UbicacionEntrega) => {
+    const nuevaTienda = tiendasCercanas(coordenadas(u) ?? u)[0] ?? null;
+    const ajustes: AjusteDireccion[] = [];
+    const nuevo = carrito.map((l): LineaCarrito => {
+      const base = { id: l.producto.id, nombre: l.producto.nombre, antes: l.cantidad };
+      if (l.entrega === 'tienda') {
+        const n = nuevaTienda ? existenciaEnTienda(l.producto.id, nuevaTienda.id) : 0;
+        const tiendaNombre = nuevaTienda ? `Autex ${nuevaTienda.nombre}` : undefined;
+        if (n >= l.cantidad) return { ...l, aviso: undefined };
+        if (n > 0) {
+          ajustes.push({ ...base, entrega: 'tienda', ahora: n, tienda: tiendaNombre });
+          return { ...l, cantidad: n, aviso: undefined };
+        }
+        const m = maximoVenta(l.producto.id, u.codigoPostal);
+        ajustes.push({ ...base, entrega: 'domicilio', ahora: Math.min(m, l.cantidad), tienda: tiendaNombre });
+        return { ...l, entrega: 'domicilio', cantidad: m > 0 ? Math.min(m, l.cantidad) : l.cantidad, aviso: undefined };
+      }
+      const m = maximoVenta(l.producto.id, u.codigoPostal);
+      if (m >= l.cantidad) return { ...l, aviso: undefined };
+      ajustes.push({ ...base, entrega: 'domicilio', ahora: m });
+      return { ...l, cantidad: m > 0 ? m : l.cantidad, aviso: undefined };
+    });
+    return { ajustes, nuevo };
+  };
 
   const value = useMemo<DemoState>(() => {
     const subtotal = carrito.reduce((s, l) => s + l.producto.precio * l.cantidad, 0);
@@ -366,12 +418,33 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
           setCargando(null);
         }, ms);
       },
+      validarExistencias: (ajustar) => value.conCarga('Validando existencias', 'Recalculamos las piezas disponibles para compra en línea…', ajustar, 900),
       direcciones,
       direccion,
       elegirDireccion: (id) => {
         const d = direcciones.find((x) => x.id === id);
         if (d) usarDireccion(d);
       },
+      cambiarDireccionPedido: (id) => {
+        const d = direcciones.find((x) => x.id === id);
+        if (!d) return [];
+        const { ajustes, nuevo } = recalcularPara(ubicacionDeDireccion(d));
+        usarDireccion(d);
+        setCarrito(nuevo);
+        return ajustes;
+      },
+      cambiarUbicacionPedido: (u) => {
+        const { ajustes, nuevo } = recalcularPara(u);
+        setUbicacionState(u);
+        setDireccionId(null);
+        setTiendaId(null);
+        setCarrito(nuevo);
+        return ajustes;
+      },
+      ajusteDireccion,
+      setAjusteDireccion,
+      pasoAlcanzado,
+      setPasoAlcanzado,
       predeterminadaId,
       agregarDireccion: (d, predeterminada, usar = false) => {
         const nueva = { ...d, id: `dir-${Date.now()}` };
@@ -457,8 +530,11 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
           direccion: envioDetalle.direccion ?? '',
           enTienda: pago === 'tienda',
           registrado: cliente.tipo !== 'invitado',
+          datos: borradorInvitado ?? undefined,
         };
         setPedidos((l) => [pedido, ...l]);
+        setAjusteDireccion(null);
+        setPasoAlcanzado(0);
         setUltimoPedido(pedido);
         setCarrito([]);
         setEnvio(null);
@@ -467,7 +543,7 @@ export function DemoProvider({ children, inicial = {} }: { children: ReactNode; 
         setPagoDetalle((d) => ({ ...d, forma: null }));
       },
     };
-  }, [modoFigma, cliente, ubicacion, carrito, envio, pago, envioDetalle, pagoDetalle, ubicacionAbierta, miniAbierto, guardados, login, tienda, tiendas, panel, avisoTienda, ubicacionInicial, permiso, avisoNavegador, vehiculos, vehiculo, vehiculosAbierto, cargando, direcciones, direccion, predeterminadaId, direccionId, borradorInvitado, pedidos, ultimoPedido, numeroPedido]);
+  }, [modoFigma, cliente, ubicacion, carrito, envio, pago, envioDetalle, pagoDetalle, ubicacionAbierta, miniAbierto, guardados, login, tienda, tiendas, panel, avisoTienda, ubicacionInicial, permiso, avisoNavegador, vehiculos, vehiculo, vehiculosAbierto, cargando, direcciones, direccion, predeterminadaId, direccionId, borradorInvitado, pedidos, ultimoPedido, numeroPedido, ajusteDireccion, pasoAlcanzado]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

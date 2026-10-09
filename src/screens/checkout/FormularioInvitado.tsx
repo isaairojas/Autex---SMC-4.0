@@ -2,8 +2,14 @@
  * SIN RESPALDO EN FIGMA (D40). Formulario del cliente invitado de autex.com.mx (/PasarelaPago/DatosUsuario,
  * captura 2026-10-06): Datos del cliente, Datos fiscales y Dirección de envío, con los obligatorios del sitio;
  * la colonia se habilita con el C.P. y ciudad / estado se llenan solos.
+ * D51: "Buscar dirección" sugiere direcciones mientras se escribe (autocompletado simulado de Google) y llena calle,
+ * número, C.P. y colonia; el registrado ve arriba sus direcciones guardadas para llenar la dirección con una de ellas.
  */
+import { useState } from 'react';
 import { Icon } from '../../design-system/components/atoms/Icon';
+import { AutocompletarDireccion } from '../../design-system/components/molecules/AutocompletarDireccion';
+import { OpcionSeleccionable } from '../../design-system/components/molecules/OpcionSeleccionable';
+import { sugerirDirecciones } from '../../mocks/direcciones-sugeridas';
 import { coloniasDe } from '../../mocks/colonias';
 import { resolverCP } from '../../mocks/tiendas';
 import styles from './FormularioInvitado.module.css';
@@ -37,7 +43,18 @@ export function validarInvitado(d: DatosInvitado) {
   return resolverCP(d.codigoPostal);
 }
 
-export function FormularioInvitado({ datos, onCambiar }: { datos: DatosInvitado; onCambiar: (d: DatosInvitado) => void }) {
+/** Dirección guardada que llena la sección "Dirección de envío" (cliente registrado, D51). */
+export type DireccionParaFormulario = { id: string; nombre: string; descripcion: string; campos: Pick<DatosInvitado, 'calle' | 'numeroExterior' | 'numeroInterior' | 'entreCalle1' | 'entreCalle2' | 'senas' | 'codigoPostal' | 'colonia'> };
+
+/** La dirección del formulario coincide con una guardada (mismos calle, número, C.P. y colonia). */
+export const esLaMisma = (d: DatosInvitado, g: DireccionParaFormulario['campos']) =>
+  (['calle', 'numeroExterior', 'numeroInterior', 'codigoPostal', 'colonia'] as const).every((k) => d[k].trim() === g[k].trim());
+
+type FormularioProps = { datos: DatosInvitado; onCambiar: (d: DatosInvitado) => void; guardadas?: DireccionParaFormulario[] };
+
+export function FormularioInvitado({ datos, onCambiar, guardadas }: FormularioProps) {
+  const [busqueda, setBusqueda] = useState('');
+  const sugerencias = sugerirDirecciones(busqueda);
   const zona = datos.codigoPostal.length === 5 ? resolverCP(datos.codigoPostal) : null;
   const set = (k: keyof DatosInvitado, v: string) => onCambiar({ ...datos, [k]: v });
   const campo = (k: keyof DatosInvitado, etiqueta: string, placeholder = etiqueta, opciones?: { obligatorio?: boolean; numerico?: number }) => (
@@ -91,7 +108,28 @@ export function FormularioInvitado({ datos, onCambiar }: { datos: DatosInvitado;
         {lista('cfdi', 'Uso del CFDI', 'Uso del CFDI', USOS_CFDI)}
       </div>
       <p className={`${styles.seccion} text-subheadline-book`}>Dirección de envío</p>
+      {guardadas && guardadas.length > 0 && (
+        <div className={styles.guardadas} role="radiogroup" aria-label="Tus direcciones guardadas">
+          <p className="text-body-2-book">Tus direcciones guardadas</p>
+          {guardadas.map((g) => (
+            <OpcionSeleccionable key={g.id} bordeGrueso selected={esLaMisma(datos, g.campos)} onSelect={() => onCambiar({ ...datos, ...g.campos })} titulo={g.nombre} descripcion={g.descripcion} />
+          ))}
+        </div>
+      )}
       <div className={styles.rejilla}>
+        <AutocompletarDireccion
+          etiqueta="Buscar dirección"
+          placeholder="Empieza a escribir tu calle y número, p. ej. Av. Guadalupe 1144"
+          valor={busqueda}
+          onCambiar={setBusqueda}
+          sugerencias={sugerencias}
+          pie="Sugerencias de Google Maps (simuladas en la demo)"
+          onElegir={(i) => {
+            const s = sugerencias[i];
+            setBusqueda(`${s.principal}, ${s.secundario}`);
+            onCambiar({ ...datos, calle: s.calle, numeroExterior: s.numeroExterior, codigoPostal: s.codigoPostal, colonia: s.colonia });
+          }}
+        />
         {campo('calle', 'Calle')}
         {campo('numeroExterior', 'Número exterior')}
         {campo('numeroInterior', 'Número interior', 'Número interior', { obligatorio: false })}

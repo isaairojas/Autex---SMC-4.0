@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../design-system/components/organisms/Navbar';
 import { Navbar2026 } from '../design-system/components/organisms/Navbar2026';
 import { Footer } from '../design-system/components/organisms/Footer';
+import { EncabezadoPasarela } from '../design-system/components/organisms/EncabezadoPasarela';
 import { Ubicacion } from '../design-system/components/organisms/Ubicacion';
 import { MiniCarrito } from '../design-system/components/organisms/Carrito';
 import { CargaPagina } from '../design-system/components/molecules/CargaPagina';
@@ -50,9 +51,11 @@ type PageShellProps = {
   version2026?: boolean;
   /** Enlace activo de la Navbar 2026. */
   enlaceActivo?: 'Inicio' | 'Catálogo' | 'Marcas' | 'Promociones' | null;
+  /** D52: pasarela de pago del sitio; sin franja ni barra de navegación, solo el logo y "Volver al carrito". */
+  pasarela?: boolean;
 };
 
-export function PageShell({ children, version2026 = false, enlaceActivo = 'Catálogo' }: PageShellProps) {
+export function PageShell({ children, version2026 = false, enlaceActivo = 'Catálogo', pasarela = false }: PageShellProps) {
   const navigate = useNavigate();
   const demo = useDemo();
   const { ubicacion, cliente, carrito, abrirUbicacion, ubicacionAbierta, cerrarUbicacion, setUbicacion, miniAbierto, cerrarMini, abrirMini, quitar } = demo;
@@ -80,7 +83,9 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
   };
   return (
     <div ref={marco} style={{ width: ANCHO, margin: '0 auto', background: 'var(--color-nativo-blanco)', position: 'relative', zoom: escala, ['--escala' as string]: escala }}>
-      {version2026 ? (
+      {pasarela ? (
+        <EncabezadoPasarela onVolver={() => navigate('/carrito')} />
+      ) : version2026 ? (
         <Navbar2026
           /* En la galería se muestran los textos literales del Head 2026 (I673:18975;606:13284, badge "99+"). */
           ubicacion={demo.modoFigma ? 'Calz. del Federalismo N' : tienda ? `Autex ${tienda.nombre}` : 'Elige tu tienda'}

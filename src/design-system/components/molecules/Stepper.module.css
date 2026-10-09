@@ -46,3 +46,15 @@
 .pending .label {
   color: var(--color-neutral-700);
 }
+
+/* D51: paso completado como botón (sitio) */
+.boton {
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.boton:hover .label {
+  text-decoration: underline;
+}

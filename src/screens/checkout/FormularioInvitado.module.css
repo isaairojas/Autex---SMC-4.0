@@ -94,3 +94,10 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+/* D51: direcciones guardadas del cliente registrado */
+.guardadas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

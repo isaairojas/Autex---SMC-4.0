@@ -7,6 +7,7 @@
  * sucursales foráneas; lo que únicamente tiene CEDIS queda sin existencia. Su fila se conserva como referencia.
  */
 import type { Ubicacion } from './clientes';
+import reglas from './configuracion-existencias.json';
 import { haversine } from './geo';
 import { ALCANCE_MAXIMO_KM, resolverCP, SERVICIOS, TIENDAS } from './tiendas';
 
@@ -31,6 +32,9 @@ export const EXISTENCIAS: Record<string, Record<string, number>> = {
      piezas en Guadalajara y más en León. */
   tesistan: { 'filtro-aire': 1, 'faro-derecho': 1, 'faro-ai3922': 1, 'filtro-gasolina-bosch': 1, 'bujia-motor-pequeno': 1 },
   'leon-moto-partes': { marcha: 4, 'kit-clutch-sachs': 6, 'filtro-aire': 6, 'faro-derecho': 3, 'faro-ai3922': 2, 'filtro-gasolina-bosch': 5, 'bujia-motor-pequeno': 8 },
+  /* D49: Zamora es la sucursal foránea más cercana a Guadalajara y Zapopan, la única que cuenta para esa zona; tiene
+     las piezas que antes salían de las dos tiendas de León. */
+  zamora: { marcha: 7, 'kit-clutch-sachs': 12, 'filtro-aire': 10, 'faro-derecho': 5, 'faro-ai3922': 5, 'filtro-gasolina-bosch': 9, 'bujia-motor-pequeno': 14 },
   'leon-torres-landa': { marcha: 3, 'kit-clutch-sachs': 6, 'filtro-aire': 4, 'faro-derecho': 2, 'faro-ai3922': 3, 'filtro-gasolina-bosch': 4, 'bujia-motor-pequeno': 6 },
   'cedis-41': { 'switch-encendido': 0, 'cuerpo-aceleracion': 80, 'filtro-aire': 25, 'faro-derecho': 6, 'marcha': 0, 'alternador': 40, 'bomba-gasolina': 0, 'modulo-bomba': 0, 'ventilador': 15, 'switch-luces': 10, 'inyector-ai3922': 30, 'faro-ai3922': 4, 'bosch-x5dc': 100, 'kem-l2113': 50, 'autolite-ai5703': 80, 'kgp-1451': 10, 'duralast-31t': 15, 'eagle-7352': 5, 'autolite-app5363': 40, 'sachs-3000990492': 3, 'bateria-duralast-platinum': 30, 'bateria-duralast-gold': 20, 'alternador-90a': 20, 'alternador-150a': 6, 'aceite-eneos-10w40': 200, 'liqui-moly-flush': 40, 'foco-h7': 50, 'filtro-gasolina-bosch': 15, 'kit-clutch-sachs': 3, 'cables-bujia-kem': 50, 'bujia-incandescente': 0, 'cinta-aislante': 500, 'relevador-12v': 60, 'faro-trabajo-led': 10, 'juego-llaves': 10, 'bujia-moto-iridium': 60, 'bujia-motor-pequeno': 20, 'chaleco-reflejante': 100, 'guantes-nitrilo': 0 },
 };
@@ -70,15 +74,35 @@ export const CODIGOS_POSTALES: CodigoPostal[] = [
  */
 export const esSoloLocal = (productoId: string) => productoId.startsWith('bateria-');
 export const alcanceLocalKm = () => Math.max(...SERVICIOS.filter((s) => s.nivel !== 'Foraneo').map((s) => s.distanciaMaximaKm));
-/** Distancia máxima desde la que una tienda surte un producto: Foráneo (350 km); baterías, Local Extendido. */
-export const alcanceKm = (productoId: string) => (esSoloLocal(productoId) ? alcanceLocalKm() : ALCANCE_MAXIMO_KM);
 
-/** Tiendas (sin CEDIS) que pueden surtir un producto a un C.P.; sin C.P., todas. */
+/**
+ * D49 (decisión del usuario): sucursales foráneas que cuentan para una entrega, además de las locales. Parametrizable
+ * en configuracion-existencias.json (sucursalesForaneasMaximo).
+ */
+export const SUCURSALES_FORANEAS_MAXIMO: number = reglas.sucursalesForaneasMaximo;
+
+export type SucursalCercana = SucursalRed & { km: number };
+
+/**
+ * Red de búsqueda de una entrega (D49): las tiendas Local y Local Extendido (hasta 30 km) más las
+ * SUCURSALES_FORANEAS_MAXIMO foráneas más cercanas dentro del alcance Foráneo (350 km), ordenadas por distancia.
+ * Baterías: solo las locales. Así el pedido sale cuando mucho de esa(s) foránea(s).
+ */
+export function redDeEntrega(u: { lat: number; lon: number }, productoId = ''): SucursalCercana[] {
+  const todas = SUCURSALES_RED.map((s) => ({ ...s, km: haversine(u.lat, u.lon, s.lat, s.lon) }))
+    .filter((s) => s.km <= ALCANCE_MAXIMO_KM)
+    .sort((a, b) => a.km - b.km);
+  const locales = todas.filter((s) => s.km <= alcanceLocalKm());
+  if (esSoloLocal(productoId)) return locales;
+  return [...locales, ...todas.filter((s) => s.km > alcanceLocalKm()).slice(0, SUCURSALES_FORANEAS_MAXIMO)];
+}
+
+/** Tiendas (sin CEDIS) que pueden surtir un producto a un C.P. (red de búsqueda, D49); sin C.P., todas. */
 export function tiendasQueSurten(productoId: string, cp: string | null): SucursalRed[] {
   if (cp === null) return SUCURSALES_RED;
   const u = resolverCP(cp);
   if (!u) return [];
-  return SUCURSALES_RED.filter((s) => haversine(u.lat, u.lon, s.lat, s.lon) <= alcanceKm(productoId));
+  return redDeEntrega(u, productoId);
 }
 
 /** Cobertura de un C.P.: alguna tienda dentro del alcance Foráneo (configuracion-servicios-smc.json, 350 km). */

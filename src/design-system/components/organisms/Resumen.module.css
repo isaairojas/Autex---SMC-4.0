@@ -109,3 +109,22 @@
   text-align: right;
   color: var(--color-neutral-900);
 }
+
+/* D54: productos separados por envío y "Recoger en tienda" (sin respaldo en Figma) */
+.grupo {
+  display: flex;
+  flex-direction: column;
+}
+
+.grupoCabecera {
+  margin: 0;
+  padding: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--color-primary-500);
+}
+
+.grupoDetalle {
+  color: var(--color-neutral-600);
+}

@@ -10,25 +10,21 @@
  * Sitio (D43): lo que el cliente eligió recoger en "Mi tienda" no entra en los envíos y se muestra en "Recoger en tienda".
  * Última sincronización: 2026-10-05
  */
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../design-system/components/atoms/Button';
 import { Icon } from '../../design-system/components/atoms/Icon';
 import { ProductThumb } from '../../design-system/components/atoms/ProductThumb';
 import { CheckoutCard } from '../../design-system/components/organisms/CheckoutCard';
-import { Modal } from '../../design-system/components/organisms/Modal';
 import { EnvioPaqueteria } from '../../design-system/components/molecules/EnvioPaqueteria';
 import { EnviosMultiples } from '../../design-system/components/molecules/EnviosMultiples';
-import { OpcionSeleccionable } from '../../design-system/components/molecules/OpcionSeleccionable';
 import { lineaDireccion } from '../../mocks/clientes';
 import { repartirEnvios } from '../../mocks/envios';
 import { costoEnvio, UMBRAL_ENVIO_GRATIS } from '../../mocks/logistica';
 import { coordenadas, estadoHorario, UBICACION_PREDETERMINADA } from '../../mocks/tiendas';
-import { useDemo } from '../../state/DemoContext';
+import { useDemo, type AjusteDireccion } from '../../state/DemoContext';
+import { AVISO_CAMBIO, useCambioDireccion } from './CambioDireccion';
 import { CheckoutLayout } from './CheckoutLayout';
 import styles from './MetodoEnvio.module.css';
-
-const AVISO_CAMBIO = 'La fecha estimada de entrega y el envío están basados en la dirección seleccionada. Si la cambias, tu pedido podría verse afectado.';
 
 export function MetodoEnvio() {
   const navigate = useNavigate();
@@ -43,7 +39,10 @@ export function MetodoEnvio() {
   const hayBajoPedido = aDomicilio.some((l) => disponibilidad(l.producto.id).estado === 'bajo-pedido');
   const hayInmediata = aDomicilio.some((l) => disponibilidad(l.producto.id).estado === 'disponible');
   const registrado = sitio && cliente.tipo !== 'invitado';
-  const [cambiando, setCambiando] = useState(false);
+  /* D50/D51: cambio de dirección con confirmación; el resultado (de este paso o de otro) se muestra aquí. */
+  const cambio = useCambioDireccion();
+  const ajustes = demo.ajusteDireccion;
+  const sinExistencia = sitio ? aDomicilio.filter((l) => disponibilidad(l.producto.id).estado === 'sin-existencia') : [];
 
   /* Envíos por sucursal desde la ubicación de entrega. */
   const envios = sitio ? repartirEnvios(aDomicilio, (ubicacion && coordenadas(ubicacion)) || UBICACION_PREDETERMINADA, (id) => disponibilidad(id).estado) : [];
@@ -58,9 +57,15 @@ export function MetodoEnvio() {
         intro="Verifica el envío"
         actions={
           <>
+            {/* D53: el registrado también puede regresar a sus datos. */}
+            {registrado && (
+              <Button variant="outline" onClick={() => navigate('/checkout/datos')}>
+                Regresar
+              </Button>
+            )}
             {registrado ? (
               <span className={styles.conAyuda}>
-                <Button variant="outline" icon={<Icon name="edit_location_alt" />} onClick={() => setCambiando(true)} aria-describedby="aviso-cambio">
+                <Button variant="outline" icon={<Icon name="edit_location_alt" />} onClick={cambio.cambiar} aria-describedby="aviso-cambio">
                   Cambiar dirección de entrega
                 </Button>
                 <span id="aviso-cambio" role="tooltip" className={`${styles.ayuda} text-body-2-book`}>
@@ -73,6 +78,7 @@ export function MetodoEnvio() {
               </Button>
             )}
             <Button
+              disabled={sinExistencia.length > 0}
               onClick={() => {
                 setEnvio('domicilio');
                 if (registrado && direccion) setEnvioDetalle({ ...envioDetalle, direccion: lineaDireccion(direccion) });
@@ -94,8 +100,19 @@ export function MetodoEnvio() {
             </div>
           </div>
         )}
+        {sitio && ajustes && (
+          <AvisoNuevaDireccion
+            ajustes={ajustes}
+            total={carrito.length}
+            sinExistencia={sinExistencia.length}
+            onQuitar={() => sinExistencia.forEach((l) => demo.quitar(l.producto.id))}
+            onOtraDireccion={cambio.cambiar}
+            onCarrito={() => navigate('/carrito')}
+          />
+        )}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {aDomicilio.length > 0 && (hayInmediata || !hayBajoPedido) && (
+          {/* D49: un artículo bajo pedido también puede tener envíos inmediatos con lo que hay en las tiendas locales. */}
+          {aDomicilio.length > 0 && (sitio ? inmediatos.length > 0 : hayInmediata || !hayBajoPedido) && (
             <EnvioPaqueteria
               tiempo={
                 costo > 0 && !sitio
@@ -109,7 +126,7 @@ export function MetodoEnvio() {
               {sitio && inmediatos.length > 0 ? <EnviosMultiples envios={inmediatos} total={envios.length} /> : null}
             </EnvioPaqueteria>
           )}
-          {hayBajoPedido && (
+          {(sitio ? pedidos.length > 0 : hayBajoPedido) && (
             <EnvioPaqueteria bajoPedido tiempo="Tiempo de entrega estimado de 2 a 4 días." costo={costo} faltante={UMBRAL_ENVIO_GRATIS - subtotal} ocultarCosto={sitio}>
               {sitio && pedidos.length > 0 ? <EnviosMultiples envios={pedidos} total={inmediatos.length ? 0 : envios.length} /> : null}
             </EnvioPaqueteria>
@@ -141,62 +158,72 @@ export function MetodoEnvio() {
           )}
         </div>
       </CheckoutCard>
-      {cambiando && <CambiarDireccion onClose={() => setCambiando(false)} />}
+      {cambio.modales}
     </CheckoutLayout>
   );
 }
 
-/** Modal "Cambiar dirección de entrega": direcciones guardadas del cliente, con el aviso de que el pedido puede cambiar. */
-function CambiarDireccion({ onClose }: { onClose: () => void }) {
-  const navigate = useNavigate();
-  const { direcciones, direccion, elegirDireccion, predeterminadaId, conCarga } = useDemo();
-  const [sel, setSel] = useState(direccion?.id ?? direcciones[0]?.id ?? '');
+/**
+ * SIN RESPALDO EN FIGMA (D50). Resultado de cambiar la dirección de entrega: si todo sigue disponible, una nota; si no
+ * se completan las piezas, la leyenda amarilla con cada artículo ajustado; si nada tiene existencia, el aviso de que la
+ * nueva ubicación no arroja existencias.
+ */
+type AvisoProps = { ajustes: AjusteDireccion[]; total: number; sinExistencia: number; onQuitar: () => void; onOtraDireccion: () => void; onCarrito: () => void };
+
+function AvisoNuevaDireccion({ ajustes, total, sinExistencia, onQuitar, onOtraDireccion, onCarrito }: AvisoProps) {
+  const pz = (n: number) => (n === 1 ? '1 pieza' : `${n} piezas`);
+  if (!ajustes.length)
+    return (
+      <p className={`${styles.nota} ${styles.notaResultado} text-body-1-book`} role="status">
+        <Icon name="check_circle" color="var(--color-green-700)" />
+        Actualizamos las existencias para la nueva dirección: todos tus productos siguen disponibles.
+      </p>
+    );
+  const ninguno = total > 0 && sinExistencia >= total;
+  const detalle = (a: AjusteDireccion) => {
+    if (a.ahora === 0) return a.tienda ? `${a.tienda} no lo tiene y tampoco hay piezas para envío a domicilio en la nueva ubicación.` : 'sin existencia en la nueva ubicación.';
+    if (a.entrega === 'tienda') return `ajustamos la cantidad de ${pz(a.antes)} a ${pz(a.ahora)} disponibles para recoger en ${a.tienda}.`;
+    if (a.tienda) return `${a.tienda} no lo tiene; pasa a envío a domicilio con ${pz(a.ahora)}${a.ahora < a.antes ? ` (de ${pz(a.antes)})` : ''}.`;
+    return `ajustamos la cantidad de ${pz(a.antes)} a ${pz(a.ahora)} disponibles para envío a domicilio.`;
+  };
   return (
-    <Modal
-      titulo="Cambiar dirección de entrega"
-      onClose={onClose}
-      ancho={720}
-      top={200}
-      pieIzquierda={
-        <Button variant="text" icon={<Icon name="add_circle_outline" color="var(--color-primary-500)" />} onClick={() => navigate('/configuracion/direcciones/nueva', { state: { volver: '/checkout/envio' } })}>
-          Agregar nueva dirección
-        </Button>
-      }
-      acciones={
-        <>
-          <Button variant="outline" onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button
-            disabled={!sel}
-            onClick={() => {
-              onClose();
-              conCarga('Actualizando tu dirección de entrega', 'Recalculamos los envíos y tiempos de entrega…', () => elegirDireccion(sel));
-            }}
-          >
-            Usar esta dirección
-          </Button>
-        </>
-      }
-    >
-      <div className={styles.modal}>
-        <p className={`${styles.nota} text-body-1-book`}>
-          <Icon name="info" color="var(--color-primary-500)" />
-          {AVISO_CAMBIO}
+    <div className={styles.avisoAmarillo} role="alert">
+      <Icon name="warning" color="var(--color-amarillo-aviso-icono)" />
+      <div className={styles.avisoCuerpo}>
+        <p className="text-body-1-medium">
+          {ninguno ? 'La nueva ubicación no arroja existencias para los productos de tu pedido.' : 'La totalidad de los productos no está disponible para la nueva ubicación seleccionada.'}
         </p>
-        {direcciones.map((d) => (
-          <OpcionSeleccionable
-            key={d.id}
-            bordeGrueso
-            selected={d.id === sel}
-            onSelect={() => setSel(d.id)}
-            titulo={d.nombre}
-            extra={d.id === predeterminadaId ? 'Predeterminada' : undefined}
-            extraTono="secondary"
-            descripcion={lineaDireccion(d)}
-          />
-        ))}
+        {ninguno ? (
+          <p className="text-body-1-book">Ninguno de tus productos tiene piezas en las sucursales que surten esta dirección. Elige otra dirección de entrega o regresa al carrito.</p>
+        ) : (
+          <ul className={`${styles.avisoLista} text-body-1-book`}>
+            {ajustes.map((a) => (
+              <li key={a.id}>
+                <b>{a.nombre}</b>: {detalle(a)}
+              </li>
+            ))}
+          </ul>
+        )}
+        {sinExistencia > 0 && !ninguno && <p className="text-body-1-book">Quita los productos sin existencia para continuar con tu compra.</p>}
+        {(sinExistencia > 0 || ninguno) && (
+          <div className={styles.avisoAcciones}>
+            {ninguno ? (
+              <>
+                <Button variant="outline" onClick={onOtraDireccion}>
+                  Elegir otra dirección
+                </Button>
+                <Button variant="outline" onClick={onCarrito}>
+                  Regresar al carrito
+                </Button>
+              </>
+            ) : (
+              <Button variant="outline" onClick={onQuitar}>
+                Quitar productos sin existencia
+              </Button>
+            )}
+          </div>
+        )}
       </div>
-    </Modal>
+    </div>
   );
 }

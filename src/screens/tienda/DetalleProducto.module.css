@@ -694,6 +694,19 @@
 }
 
 /* Sitio (D39): tope de piezas para compra en línea */
+.qtyInput {
+  width: auto;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+}
+
+.qtyInput:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+}
+
 .qtyBtn:disabled {
   opacity: 0.4;
   cursor: not-allowed;

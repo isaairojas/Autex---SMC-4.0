@@ -53,7 +53,7 @@ const sinAcentos = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toL
 
 export function Inicio() {
   const navigate = useNavigate();
-  const { modoFigma, agregar, ubicacion, abrirUbicacion, carrito } = useDemo();
+  const { modoFigma, agregar, ubicacion, abrirUbicacion, carrito, validarExistencias } = useDemo();
   const enCarrito = (id: string) => carrito.find((l) => l.producto.id === id)?.cantidad ?? 0;
   const [params] = useSearchParams();
   const [filtros, setFiltros] = useState<Set<string>>(new Set());
@@ -170,6 +170,7 @@ export function Inicio() {
                 piezas={modoFigma ? 104 : piezasEnTiendas(p.id)}
                 etiquetaPiezas={modoFigma ? undefined : etiquetaExistencia(existenciaEnLinea(p.id, ubicacion?.codigoPostal ?? null))}
                 maximo={modoFigma ? undefined : maximoVenta(p.id, ubicacion?.codigoPostal ?? null) - enCarrito(p.id)}
+                validar={validarExistencias}
                 onAgregar={(c) => onAgregar(p, c)}
                 onVer={() => navigate(`/producto/${p.id}`)}
               />

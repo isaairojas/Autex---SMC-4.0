@@ -26,3 +26,4 @@ cada nodo (F3/F4), con el comentario `/* figma: <nodeId> */`, y se listarán aqu
 
 | `--color-navegador-fondo`, `--color-navegador-texto`, `--color-navegador-boton`, `--color-navegador-texto-boton` | #2B2B2B, #E3E3E3, #0B4F7D, #D3E3FD | Sin nodo: aviso de ubicación de Chrome simulado (ejemplo del usuario, D31) |
 | `--font-family-navegador` | Segoe UI, system-ui | Sin nodo: aviso de ubicación de Chrome simulado (D31) |
+| `--color-amarillo-aviso-fondo`, `--color-amarillo-aviso-borde`, `--color-amarillo-aviso-icono` | #FFF8E1, #F2C230, #B88600 | Sin nodo: leyenda amarilla de disponibilidad al cambiar la dirección de entrega (D50) |

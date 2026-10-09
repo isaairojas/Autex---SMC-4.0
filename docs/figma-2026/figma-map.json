@@ -178,6 +178,22 @@
     }
   },
   "sinRespaldoEnFigma": {
+    "Encabezado de la pasarela": {
+      "pantalla": "src/design-system/components/organisms/EncabezadoPasarela.tsx",
+      "nota": "Sin respaldo en Figma (D52). Checkout sin franja ni barra de navegación: logo y Volver al carrito; registrado con un solo envío entra directo a Confirmación."
+    },
+    "Cantidad escrita y \"Validando existencias\"": {
+      "pantalla": "src/screens/tienda/DetalleProducto.tsx",
+      "nota": "Sin respaldo en Figma (D48). Cantidad escrita en el detalle y el catálogo; si supera la existencia, carga \"Validando existencias\" y ajuste."
+    },
+    "Cambio de dirección en el checkout": {
+      "pantalla": "src/screens/checkout/CambioDireccion.tsx",
+      "nota": "Sin respaldo en Figma (D50/D51). Confirmación, recálculo de existencias y leyenda amarilla en Método de envío; en todas las etapas."
+    },
+    "Buscar dirección (autocompletado)": {
+      "pantalla": "src/design-system/components/molecules/AutocompletarDireccion.tsx",
+      "nota": "Sin respaldo en Figma (D51). Sugerencias de dirección al escribir, simulando Google Places."
+    },
     "Entrega por artículo / Recoger en tienda (carrito)": {
       "pantalla": "src/design-system/components/organisms/EntregaCarrito.tsx",
       "nota": "Sin respaldo en Figma (D43). Ejemplo de Home Depot del usuario: Enviar a domicilio / Recoger en tienda por artículo, Método de entrega y Zona de entrega en el carrito."

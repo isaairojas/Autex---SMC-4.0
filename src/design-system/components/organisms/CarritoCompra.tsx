@@ -7,7 +7,7 @@
  *  - ProductosGuardados: Content_Saved items 668:18472
  * Última sincronización: 2026-10-05
  */
-import { Fragment, type ReactNode } from 'react';
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import removeIcon from '../../../assets/icons/remove.svg';
@@ -82,23 +82,58 @@ type CardProps = {
   maximo?: number;
   /** Sitio (D43): selector "Enviar a domicilio" / "Recoger en tienda" bajo las acciones. */
   entrega?: ReactNode;
+  /**
+   * Sitio (D55): con este valor la cantidad también se escribe, como en el detalle y el catálogo; si supera las piezas
+   * disponibles, primero se validan las existencias (carga) y luego se ajusta al máximo.
+   */
+  validar?: (ajustar: () => void) => void;
+  /** Sitio (D56): la imagen y el nombre abren el detalle del producto. */
+  onVer?: () => void;
 };
 
-export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onGuardar, maximo, entrega }: CardProps) {
+export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onGuardar, maximo, entrega, validar, onVer }: CardProps) {
   const { producto, cantidad } = linea;
   const tope = maximo !== undefined && cantidad >= maximo;
+  const [texto, setTexto] = useState(String(cantidad));
+  useEffect(() => setTexto(String(cantidad)), [cantidad]);
+  const validando = useRef(false);
+  const confirmar = () => {
+    const n = Math.max(1, Math.floor(Number(texto)) || 1);
+    if (n === cantidad) return setTexto(String(cantidad));
+    if (maximo === undefined || n <= maximo || !validar) return onCantidad(maximo !== undefined ? Math.min(n, maximo) : n);
+    if (validando.current) return;
+    validando.current = true;
+    validar(() => {
+      validando.current = false;
+      setTexto(String(maximo));
+      onCantidad(maximo);
+    });
+  };
   const bajo = estado === 'bajo-pedido';
   return (
     <div className={bajo ? `${styles.card} ${styles.cardBajo}` : styles.card}>
       <div className={styles.cardContenido}>
-        <div className={styles.cardImagen}>
-          <img src={producto.imagen[producto.imagen.length - 1].src} alt="" width={198} height={163} />
-          {bajo && <ChipBajoPedido />}
-        </div>
+        {onVer ? (
+          <button type="button" className={`${styles.cardImagen} ${styles.ver}`} onClick={onVer} aria-label={`Ver ${producto.nombre}`}>
+            <img src={producto.imagen[producto.imagen.length - 1].src} alt="" width={198} height={163} />
+            {bajo && <ChipBajoPedido />}
+          </button>
+        ) : (
+          <div className={styles.cardImagen}>
+            <img src={producto.imagen[producto.imagen.length - 1].src} alt="" width={198} height={163} />
+            {bajo && <ChipBajoPedido />}
+          </div>
+        )}
         <div className={styles.cardInfo}>
           <div className={styles.cardDesc}>
             <div className={styles.cardMain}>
-              <p className={`${styles.nombre} text-body-1-book`}>{producto.nombre}</p>
+              {onVer ? (
+                <button type="button" className={`${styles.nombre} ${styles.ver} ${styles.verNombre} text-body-1-book`} onClick={onVer}>
+                  {producto.nombre}
+                </button>
+              ) : (
+                <p className={`${styles.nombre} text-body-1-book`}>{producto.nombre}</p>
+              )}
               <div className={`${styles.sku} text-os-body-2`}>
                 <span>{producto.skuCarrito ?? `SKU #${producto.sku}`}</span>
                 <span>{producto.noOriginal ?? `No. Original ${producto.sku}`}</span>
@@ -111,7 +146,19 @@ export function CardProductoCarrito({ linea, estado, onCantidad, onEliminar, onG
               <button type="button" className={styles.qtyBtn} onClick={() => onCantidad(cantidad - 1)} aria-label="Quitar uno">
                 <img src={removeIcon} alt="" width={16} height={16} />
               </button>
-              <span className={styles.qtyValor}>{cantidad}</span>
+              {validar ? (
+                <input
+                  className={`${styles.qtyValor} ${styles.qtyInput}`}
+                  inputMode="numeric"
+                  value={texto}
+                  aria-label={`Cantidad de ${producto.nombre}`}
+                  onChange={(e) => setTexto(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                  onBlur={confirmar}
+                  onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+                />
+              ) : (
+                <span className={styles.qtyValor}>{cantidad}</span>
+              )}
               <button type="button" className={`${styles.qtyBtn} ${styles.qtyDer}`} onClick={() => onCantidad(cantidad + 1)} aria-label="Agregar uno" disabled={tope}>
                 <img src={addIcon} alt="" width={16} height={16} />
               </button>

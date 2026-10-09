@@ -8,7 +8,7 @@
  * existencias); en la columna derecha, "Método de entrega" para todo el pedido y "Zona de entrega".
  * Última sincronización: 2026-10-05
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../design-system/components/atoms/Button';
 import {
@@ -25,12 +25,21 @@ import type { ModoEntrega } from '../../mocks/productos';
 import { formatoMXN } from '../../mocks/productos';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
+import { useIrAlCheckout } from '../checkout/inicioCheckout';
+import { lineaDireccion } from '../../mocks/clientes';
 import { ComoContinuar } from '../../design-system/components/organisms/ComoContinuar';
 import styles from './CarritoPagina.module.css';
 
 export function CarritoPagina() {
   const navigate = useNavigate();
   const demo = useDemo();
+  /* D51: el resultado de un cambio de dirección del checkout anterior no se arrastra a la siguiente compra. */
+  /* D53: también se reinician los pasos visitados del checkout. */
+  useEffect(() => {
+    demo.setAjusteDireccion(null);
+    demo.setPasoAlcanzado(0);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const irAlCheckout = useIrAlCheckout();
   const { carrito, cambiarCantidad, quitar, disponibilidad, ubicacion, abrirUbicacion, modoFigma, guardados, guardar, moverAlCarrito, cliente, abrirLogin } = demo;
   const [comoContinuar, setComoContinuarState] = useState(false);
   /* El modal se dibuja arriba de la página: al abrirlo se sube para que quede a la vista. */
@@ -58,8 +67,8 @@ export function CarritoPagina() {
           : setComoContinuar(true)
         : modoFigma
           ? navigate('/checkout/datos')
-          : /* Sin direcciones guardadas: paso 1 para añadir una. */
-            demo.conCarga('Preparando tu pedido', 'Calculamos los envíos para tu dirección de entrega…', () => navigate(demo.direcciones.length ? '/checkout/envio' : '/checkout/datos'));
+          : /* D52: con su información completa y un solo envío, directo a Confirmación; sin direcciones, paso 1. */
+            irAlCheckout();
   /* Sitio (D39/D43): la cantidad no supera las piezas para compra en línea del C.P. o, si se recoge, las de "Mi tienda". */
   const cp = ubicacion?.codigoPostal ?? null;
   const { tienda } = demo;
@@ -102,6 +111,10 @@ export function CarritoPagina() {
       onCantidad={(n) => (n < 1 ? quitar(linea.producto.id) : cambiarCantidad(linea.producto.id, Math.min(n, maximo(linea.producto.id) ?? n)))}
       onEliminar={() => quitar(linea.producto.id)}
       onGuardar={() => guardar(linea.producto.id)}
+      /* D55: cantidad escrita con "Validando existencias", como en el detalle y el catálogo. */
+      validar={modoFigma ? undefined : demo.validarExistencias}
+      /* D56: la imagen y el nombre abren el detalle del producto. */
+      onVer={modoFigma ? undefined : () => navigate(`/producto/${linea.producto.id}`)}
     />
   );
 
@@ -144,7 +157,13 @@ export function CarritoPagina() {
             )}
             {/* D44: secciones separadas según cómo se recibe: a domicilio (zona) y/o en tienda (sucursal). */}
             {ubicacion && (carrito.length === 0 || carrito.some((l) => l.entrega !== 'tienda')) && (
-              <ZonaEntregaCarrito zona={zonaEntrega(ubicacion)} codigoPostal={ubicacion.codigoPostal} onCambiar={() => abrirArriba('entrega')} />
+              <ZonaEntregaCarrito
+                zona={zonaEntrega(ubicacion)}
+                codigoPostal={ubicacion.codigoPostal}
+                /* D55: el registrado con dirección de entrega guardada ve esa dirección; sin direcciones, la zona por C.P. */
+                direccion={cliente.tipo !== 'invitado' && demo.direccion ? { nombre: demo.direccion.nombre, linea: lineaDireccion(demo.direccion) } : null}
+                onCambiar={() => abrirArriba('entrega')}
+              />
             )}
             {tienda && carrito.some((l) => l.entrega === 'tienda') && (
               <RecoleccionCarrito

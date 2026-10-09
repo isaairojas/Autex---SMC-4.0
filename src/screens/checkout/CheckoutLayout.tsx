@@ -6,12 +6,14 @@
  * Sin migas de pan (a diferencia del archivo anterior).
  * Última sincronización: 2026-10-05
  */
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../design-system/components/atoms/Icon';
 import { Stepper } from '../../design-system/components/molecules/Stepper';
 import { Resumen } from '../../design-system/components/organisms/Resumen';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
+import { useGruposPedido } from './gruposPedido';
 import styles from './CheckoutLayout.module.css';
 
 type CheckoutLayoutProps = {
@@ -27,15 +29,25 @@ type CheckoutLayoutProps = {
   sinCostoEnvio?: boolean;
 };
 
+/** D51/D53: rutas de los pasos (el sitio permite ir a cualquier paso ya visitado desde el indicador). */
+const RUTAS_PASO = { 1: '/checkout/datos', 2: '/checkout/envio', 3: '/checkout/pago', 4: '/checkout/confirmacion' } as const;
+
 export function CheckoutLayout({ paso, children, overlay, resumen, onConfirmar, sinCostoEnvio }: CheckoutLayoutProps) {
-  const { carrito, cliente, totales, disponibilidad, modoFigma, numeroPedido } = useDemo();
+  const navigate = useNavigate();
+  const { carrito, cliente, totales, disponibilidad, modoFigma, numeroPedido, pasoAlcanzado, setPasoAlcanzado } = useDemo();
   const version2026 = paso === 1;
   const registrado = cliente.tipo === 'b2c' || cliente.tipo === 'b2b';
+  const { grupos } = useGruposPedido();
+  /* D53: el paso abierto queda como visitado para poder volver a él desde cualquier otro. */
+  useEffect(() => {
+    if (paso > pasoAlcanzado) setPasoAlcanzado(paso);
+  }, [paso]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <PageShell version2026={version2026} enlaceActivo={null}>
+    <PageShell version2026={version2026} enlaceActivo={null} pasarela={!modoFigma}>
       <div className={styles.headline} style={{ marginTop: version2026 ? 20 : 26 }}>
-        <h1 className={`${styles.title} text-heading-3-strong`}>Pago del pedido {numeroPedido} </h1>
-        <Stepper activo={paso} />
+        {/* D53: en el sitio aún no hay número de pedido (se asigna al pagar y se muestra en la página de gracias). */}
+        <h1 className={`${styles.title} text-heading-3-strong`}>{modoFigma ? `Pago del pedido ${numeroPedido} ` : 'Pago del pedido'}</h1>
+        <Stepper activo={paso} alcanzado={pasoAlcanzado} onPaso={modoFigma ? undefined : (n) => navigate(RUTAS_PASO[n])} />
       </div>
       <div className={styles.section} style={{ marginTop: version2026 ? 20 : 26, marginBottom: version2026 ? 20 : 26 }}>
         {paso === 4 && registrado && (
@@ -58,6 +70,8 @@ export function CheckoutLayout({ paso, children, overlay, resumen, onConfirmar, 
               onConfirmar={onConfirmar}
               /* Sitio (D35): sin fila de envío en ningún paso. */
               sinEnvio={sinCostoEnvio || !modoFigma}
+              /* D54: desde el paso 2 (ya con dirección) los productos van separados por envío y "Recoger en tienda". */
+              grupos={paso > 1 ? grupos : null}
             />
           )}
         </div>

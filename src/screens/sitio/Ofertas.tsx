@@ -20,7 +20,7 @@ const EN_OFERTA = ['ventilador', 'switch-luces', 'cuerpo-aceleracion'];
 
 export function Ofertas() {
   const navigate = useNavigate();
-  const { ubicacion, agregar, abrirUbicacion, carrito } = useDemo();
+  const { ubicacion, agregar, abrirUbicacion, carrito, validarExistencias } = useDemo();
   const [verNoDisponibles, setVerNoDisponibles] = useState(false);
   /* Carga de productos (D36). */
   const [cargando, setCargando] = useState(true);
@@ -59,6 +59,7 @@ export function Ofertas() {
                   piezas={piezasEnTiendas(p.id)}
                   etiquetaPiezas={etiquetaExistencia(existenciaEnLinea(p.id, ubicacion?.codigoPostal ?? null))}
                   maximo={maximoVenta(p.id, ubicacion?.codigoPostal ?? null) - (carrito.find((l) => l.producto.id === p.id)?.cantidad ?? 0)}
+                  validar={validarExistencias}
                   onAgregar={(c) => (ubicacion ? agregar(p, c) : abrirUbicacion())}
                   onVer={() => navigate(`/producto/${p.id}`)}
                 />

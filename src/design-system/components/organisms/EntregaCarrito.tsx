@@ -126,10 +126,29 @@ type ZonaProps = {
   zona: string;
   codigoPostal: string;
   onCambiar: () => void;
+  /** D55: cliente registrado con dirección de entrega guardada: se muestra esa dirección en lugar de la zona. */
+  direccion?: { nombre: string; linea: string } | null;
 };
 
 /** D43/D44: "Zona de entrega" — solo cuando algún artículo va a domicilio: "<ciudad> y sus alrededores" y el C.P. */
-export function ZonaEntregaCarrito({ zona, codigoPostal, onCambiar }: ZonaProps) {
+export function ZonaEntregaCarrito({ zona, codigoPostal, onCambiar, direccion }: ZonaProps) {
+  if (direccion)
+    return (
+      <section className={styles.tarjeta} aria-label="Dirección de entrega">
+        <p className={`${styles.titulo} text-body-1-medium`}>Dirección de entrega</p>
+        <div className={styles.fila}>
+          <Icon name="location_on" color="var(--color-secondary-500)" />
+          <div className={styles.filaTexto}>
+            <p className="text-body-1-medium">{direccion.nombre}</p>
+            <p className="text-body-1-book">{direccion.linea}</p>
+            <p className={`${styles.gris} text-body-2-book`}>Envío a domicilio a esta dirección</p>
+          </div>
+          <button type="button" className={`${styles.cambiar} text-body-1-book`} onClick={onCambiar} aria-label="Cambiar dirección de entrega">
+            Cambiar
+          </button>
+        </div>
+      </section>
+    );
   return (
     <section className={styles.tarjeta} aria-label="Zona de entrega">
       <p className={`${styles.titulo} text-body-1-medium`}>Zona de entrega</p>

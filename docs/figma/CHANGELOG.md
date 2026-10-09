@@ -1,5 +1,33 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-09 — Detalle desde el carrito, envíos compactos y mismo C.P. sin aviso (sin respaldo en Figma, D56)
+- Carrito: imagen y nombre abren el detalle. Confirmación: envíos plegables y artículos de recoger plegados. Registrado: con el mismo C.P. no se pide confirmación del cambio de dirección.
+
+## 2026-10-08 — Carrito: dirección guardada y cantidad escrita (sin respaldo en Figma, D55)
+- El registrado con dirección guardada la ve en lugar de "Zona de entrega"; la cantidad del carrito se escribe con "Validando existencias". Prueba `tests/referencia/carrito-direccion-demo.mjs`.
+
+## 2026-10-08 — Confirmación separada por envíos y facturación (sin respaldo en Figma, D54)
+- "Método de envío" con cada envío (sucursal, tiempo, artículos) y "Recoger en tienda" aparte; sin "Acerca del pedido"; nuevo bloque "Facturación". Resumen de productos agrupado por envío y recoger. Prueba `tests/referencia/confirmacion-envios-demo.mjs`.
+
+## 2026-10-08 — Navegación libre entre pasos y sin número de pedido (sin respaldo en Figma, D53)
+- El indicador abre cualquier paso ya visitado; "Regresar" en Método de envío del registrado. Sin número de pedido antes de pagar (título "Pago del pedido"; Confirmación sin "Número de pedido").
+
+## 2026-10-08 — Pasarela sin encabezado y confirmación directa (sin respaldo en Figma, D52)
+- Checkout sin franja ni barra de navegación: logo y "Volver al carrito". El registrado con información completa y un solo envío pasa del carrito directo a Confirmación. Prueba `tests/referencia/etapas-direccion-demo.mjs`.
+
+## 2026-10-08 — Cambio de dirección en todas las etapas y autocompletado (sin respaldo en Figma, D51)
+- Confirmación "…podrían cambiar, ¿desea continuar?" en datos, envío, pago y confirmación; siempre regresa a Método de envío. Ubicación del encabezado deshabilitada en el checkout; pasos completados clicables.
+- Registrado: formulario del paso 1 lleno con su pedido anterior y sus direcciones guardadas. "Buscar dirección" con sugerencias (autocompletado de Google simulado). Prueba `tests/referencia/etapas-direccion-demo.mjs`.
+
+## 2026-10-08 — Cambio de dirección con confirmación y recálculo de existencias (sin respaldo en Figma, D50)
+- Paso 2: confirmación antes de cambiar la dirección; recálculo por opción de entrega; leyenda amarilla cuando no se completan las piezas o la nueva ubicación no arroja existencias; "Continuar" bloqueado con artículos sin existencia. Prueba `tests/referencia/cambio-direccion-demo.mjs`.
+
+## 2026-10-08 — Red de búsqueda: locales + una sucursal foránea (sin respaldo en Figma, D49)
+- Existencias en línea, "Buscar en otras tiendas" y envíos usan las tiendas Local y Local Extendido más la foránea más cercana (`sucursalesForaneasMaximo`, 1). Cuando mucho un envío foráneo; lo local de un artículo bajo pedido sale con su tiempo normal. Prueba `tests/referencia/foranea-unica-demo.mjs`.
+
+## 2026-10-08 — Cantidad escrita y "Validando existencias" (sin respaldo en Figma, D48)
+- Detalle: la cantidad se escribe como en la tarjeta del catálogo. En ambos, una cantidad mayor a la existencia en línea muestra la carga "Validando existencias" y vuelve a la máxima disponible con aviso. Prueba `tests/referencia/validar-existencias-demo.mjs`.
+
 ## 2026-10-07 — Tienda de otro estado cambia el C.P. de entrega (sin respaldo en Figma, D47)
 - Elegir una tienda de otro estado pasa la entrega al C.P. predeterminado de ese estado (también para el registrado), con aviso en la tienda y carga "Cambiando tu tienda y tu C.P. de entrega". Prueba `tests/referencia/otro-estado-demo.mjs`.
 

@@ -1,0 +1,4 @@
+{
+  "descripcion": "Red de búsqueda de existencias por ubicación de entrega: sucursales Local y Local Extendido + las N sucursales foráneas más cercanas (dentro del alcance Foráneo).",
+  "sucursalesForaneasMaximo": 1
+}

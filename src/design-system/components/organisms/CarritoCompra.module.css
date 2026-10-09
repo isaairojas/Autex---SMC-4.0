@@ -447,3 +447,40 @@
 .guardado > span {
   flex: 1 1 0;
 }
+
+/* D55: cantidad escrita en el carrito */
+.qtyInput {
+  width: auto;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  text-align: center;
+}
+
+.qtyInput:focus {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+}
+
+/* D55: el aviso de tope no encoge el selector de cantidad */
+.qty {
+  flex-shrink: 0;
+}
+
+.avisoTope {
+  min-width: 220px;
+}
+
+/* D56: imagen y nombre abren el detalle del producto */
+.ver {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.verNombre:hover {
+  color: var(--color-primary-500);
+  text-decoration: underline;
+}

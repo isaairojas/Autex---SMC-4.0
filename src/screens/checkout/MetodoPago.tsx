@@ -16,6 +16,7 @@ import { FormasDePago2026, TARJETAS_2026, TarjetaGuardada, type FormaPago2026 } 
 import { Modal } from '../../design-system/components/organisms/Modal';
 import { TiendasAutoservicio } from '../../design-system/components/organisms/TiendasAutoservicio';
 import { TARJETA_FIGMA, useDemo } from '../../state/DemoContext';
+import { BloqueDireccion, useCambioDireccion } from './CambioDireccion';
 import { CheckoutLayout } from './CheckoutLayout';
 
 export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean }) {
@@ -27,6 +28,8 @@ export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean })
   const [tienda, setTienda] = useState(pagoDetalle.tiendaId);
   const [registrada, setRegistrada] = useState('visa-4485');
   const [nueva, setNueva] = useState(!registrado);
+  /* D51: la dirección también se cambia desde este paso (con confirmación; regresa a Método de envío). */
+  const cambio = useCambioDireccion();
   /* Sitio: la tarjeta nueva empieza vacía (sin los datos de Figma), con el nombre del cliente como titular. */
   useEffect(() => {
     if (!modoFigma && nueva && pagoDetalle.tarjeta === TARJETA_FIGMA)
@@ -56,7 +59,9 @@ export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean })
     <CheckoutLayout
       paso={3}
       overlay={
-        modal && (
+        <>
+        {cambio.modales}
+        {modal && (
           <Modal
             titulo="Pago en tiendas de autoservicio"
             onClose={() => setModal(false)}
@@ -78,7 +83,8 @@ export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean })
           >
             <TiendasAutoservicio seleccion={tienda} onSelect={setTienda} />
           </Modal>
-        )
+        )}
+        </>
       }
     >
       <CheckoutCard
@@ -95,6 +101,7 @@ export function MetodoPago({ modalTiendas = false }: { modalTiendas?: boolean })
           </>
         }
       >
+        {!modoFigma && <BloqueDireccion onCambiar={cambio.cambiar} />}
         <FormasDePago2026
           valor={forma}
           onChange={(f) => {

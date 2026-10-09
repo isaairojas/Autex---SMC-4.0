@@ -1,0 +1,75 @@
+/* SIN RESPALDO EN FIGMA (D51): búsqueda de dirección con sugerencias */
+.campo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  grid-column: 1 / -1;
+  color: var(--color-neutral-900);
+}
+
+.caja {
+  height: 52px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 0 0 1px var(--color-neutral-200);
+}
+
+.caja:focus-within {
+  box-shadow: inset 0 0 0 1px var(--color-primary-400);
+}
+
+.caja input {
+  flex: 1 1 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  color: inherit;
+}
+
+.lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  margin: 4px 0 0;
+  padding: 4px 0;
+  list-style: none;
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  box-shadow: var(--shadow-blur-base-00);
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.activa {
+  background: var(--color-neutral-100);
+}
+
+.textos {
+  display: flex;
+  flex-direction: column;
+}
+
+.secundario {
+  color: var(--color-neutral-600);
+}
+
+.pie {
+  padding: 8px 16px 4px;
+  text-align: right;
+  color: var(--color-neutral-500);
+}

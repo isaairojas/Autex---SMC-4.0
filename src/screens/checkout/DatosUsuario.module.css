@@ -37,3 +37,8 @@
   width: 100%;
   display: flex;
 }
+
+/* D51: dirección nueva en la confirmación */
+.gris {
+  color: var(--color-neutral-600);
+}

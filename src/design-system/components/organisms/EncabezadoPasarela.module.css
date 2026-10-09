@@ -1,0 +1,11 @@
+/* SIN RESPALDO EN FIGMA (D52): encabezado de la pasarela de pago */
+.encabezado {
+  height: 96px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 80px;
+  background: var(--color-nativo-blanco);
+  box-shadow: inset 0 -1px 0 var(--color-neutral-200);
+}

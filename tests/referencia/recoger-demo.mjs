@@ -65,7 +65,7 @@ await p.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa
 await p.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
 await p.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
 await p.waitForURL('**/checkout/envio');
-await p.getByText('Recoger en tienda', { exact: true }).waitFor();
+await p.getByText('Recoger en tienda', { exact: true }).first().waitFor();
 await p.screenshot({ path: `${OUT}/3-paso2.png`, fullPage: true });
 ok('Paso 2: el ventilador en envíos y el inyector en "Recoger en tienda"');
 await p.goBack();
@@ -102,7 +102,7 @@ const MARCHA = 'Motor de arranque (marcha) Tecnofuel';
 const CLUTCH = 'Kit de clutch Sachs 3000 990 492';
 const tarjetaCatalogo = (nombre) => q.getByLabel(`Cantidad de ${nombre}`).locator('xpath=ancestor::*[.//button[normalize-space()="Agregar al carrito"]][1]');
 await q.getByLabel(`Cantidad de ${MARCHA}`).locator('xpath=ancestor::*[contains(., "Disponible bajo pedido")][1]').waitFor();
-ok('Catálogo: la marcha (sin piezas en la zona, solo en León) aparece "Disponible bajo pedido" desde la primera pieza');
+ok('Catálogo: la marcha (sin piezas en la zona, solo en sucursales foráneas) aparece "Disponible bajo pedido" desde la primera pieza');
 /* D46: el filtro de aire tiene 1 pieza en Tesistán: con 1 está disponible y al pedir 2 pasa a bajo pedido. */
 const FILTRO = 'Filtro de aire de motor Tecnofuel';
 const tarjetaFiltro = q.getByLabel(`Cantidad de ${FILTRO}`).locator('xpath=ancestor::*[contains(., "pzs")][1]');
@@ -125,7 +125,7 @@ await q.waitForURL('**/carrito');
 await q.getByText('Productos bajo pedido (2)').waitFor();
 if ((await q.getByText(/Existencia en otra región: se envía como pedido foráneo/).count()) !== 2) throw new Error('Falta la leyenda de sucursal foránea');
 await q.screenshot({ path: `${OUT}/7-carrito-foranea.png`, fullPage: true });
-ok('Carrito: marcha y 9 kits de clutch (la mayoría sale de León) separados en "Productos bajo pedido" con la leyenda');
+ok('Carrito: marcha y 9 kits de clutch (la zona no los completa) separados en "Productos bajo pedido" con la leyenda');
 await q.getByRole('button', { name: 'Proceder al pago' }).first().click();
 await q.getByRole('radio', { name: 'Tengo una cuenta Autex' }).click();
 await q.getByRole('button', { name: 'Aceptar' }).click();
@@ -133,10 +133,12 @@ await q.getByPlaceholder('Ingresa tu correo electrónico').fill('ernesto@empresa
 await q.getByPlaceholder('Ingresa tu contraseña').fill('demo1234');
 await q.getByRole('dialog', { name: 'Iniciar sesión' }).getByRole('button', { name: 'Iniciar sesión' }).click();
 await q.waitForURL('**/checkout/envio');
-await q.getByRole('button', { name: /Envío 1/ }).click();
+for (const b of await q.getByRole('button', { name: /Envío \d+/ }).all()) await b.click();
 await q.getByText(/\(sucursal foránea\)/).first().waitFor();
+/* D49: solo la foránea más cercana (Zamora): cuando mucho un envío foráneo. */
+if ((await q.getByText(/\(sucursal foránea\)/).count()) !== 1) throw new Error('Debe haber un solo envío foráneo');
 await q.screenshot({ path: `${OUT}/8-envio-foranea.png`, fullPage: true });
-ok('Paso 2: el envío bajo pedido sale de la sucursal foránea (León) con la leyenda');
+ok('Paso 2: el envío bajo pedido sale de la sucursal foránea más cercana (Zamora), un solo envío foráneo');
 
 await browser.close();
 if (errores.length) console.log('ERRORES', errores);

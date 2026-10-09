@@ -83,3 +83,64 @@
   background: transparent;
   cursor: pointer;
 }
+
+/* D54: envíos y artículos dentro de "Método de envío" (sin respaldo en Figma) */
+.envio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sucursal {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--color-neutral-900);
+}
+
+.sucursal > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.foranea {
+  color: var(--color-naranja-bajo-pedido);
+}
+
+.articulos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.articulos li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-neutral-900);
+}
+
+.articuloNombre {
+  flex: 1 1 0;
+}
+
+.gris {
+  color: var(--color-neutral-600);
+}
+
+/* D54: botón para desplegar los artículos */
+.verArticulos {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary-500);
+  cursor: pointer;
+}
