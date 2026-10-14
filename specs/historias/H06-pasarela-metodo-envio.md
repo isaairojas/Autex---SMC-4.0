@@ -44,7 +44,7 @@ Clientes no registrados y registrados dentro del pago.
 - **RF4.** "Calculando tu envío" mientras SMC 4.0 responde; si falla, el aviso con "Reintentar" (H02).
 - **RF5.** Si hay varios envíos, "Tu pedido llegará en N envíos"; cada "Envío 1, 2…" se despliega con la
   sucursal, su dirección, los artículos y la fecha. *(PAG-11)*
-- **RF6.** "Recoger en tienda" aparte, con la sucursal, dirección y horario. *(PAG-09)*
+- **RF6.** "Recoger en tienda" aparte, con "Entrega el mismo día", la sucursal, dirección y horario. *(PAG-09, D59)*
 - **RF7.** Los envíos desde foránea se marcan "Bajo pedido" con su fecha de 2 a 4 días hábiles. *(PAG-12)*
 - **RF8.** "Artículos sin existencia" y "Caja gris" aparte cuando SMC 4.0 los devuelva; "Continuar" se bloquea
   mientras haya artículos sin existencia.

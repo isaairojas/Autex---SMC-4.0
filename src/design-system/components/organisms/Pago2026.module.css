@@ -85,3 +85,14 @@
   color: var(--color-nativo-blanco);
   white-space: nowrap;
 }
+
+/* ===== Vista de celular (D59) ===== */
+:global(.vista-movil) .opciones {
+  height: auto;
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .tarjetaInfo {
+  flex-wrap: wrap;
+  gap: 8px;
+}

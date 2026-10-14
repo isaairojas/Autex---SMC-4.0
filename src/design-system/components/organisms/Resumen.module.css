@@ -128,3 +128,8 @@
 .grupoDetalle {
   color: var(--color-neutral-600);
 }
+
+/* Vista de celular (D59): el resumen ocupa todo el ancho. */
+:global(.vista-movil) .columna {
+  width: 100%;
+}

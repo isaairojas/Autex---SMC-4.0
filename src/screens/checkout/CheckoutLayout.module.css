@@ -49,3 +49,36 @@
   line-height: 36px;
   letter-spacing: 0;
 }
+
+/* ===== Vista de celular (D58/D59): pasos y formulario en una columna; el resumen va después ===== */
+:global(.vista-movil) .headline {
+  height: auto;
+  padding: 16px 16px 8px;
+  gap: 12px;
+}
+
+:global(.vista-movil) .title {
+  white-space: normal;
+}
+
+:global(.vista-movil) .section {
+  margin-top: 0 !important;
+  padding: 16px;
+  gap: 16px;
+}
+
+:global(.vista-movil) .row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+
+/* Los bloques de escritorio (1270, 1190, 792…) se ajustan al ancho de la pantalla. */
+:global(.vista-movil) .row * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .cta {
+  white-space: normal;
+}

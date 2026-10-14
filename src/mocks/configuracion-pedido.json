@@ -1,0 +1,5 @@
+{
+  "descripcion": "D59: reglas del pedido. montoMaximoCompra (MXN): arriba de este total no se puede pasar al pago. diasParaRecoger: días naturales, a partir del día de compra, para recoger en tienda.",
+  "montoMaximoCompra": 70000,
+  "diasParaRecoger": 3
+}

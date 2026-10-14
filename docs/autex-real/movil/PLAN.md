@@ -8,6 +8,17 @@ Plan acordado (D58): primero se copia tal cual la vista de celular del sitio (in
 aplican los cambios de la demo. Mientras una pantalla no tiene su vista de celular, su versión de escritorio se ve
 reducida.
 
+## 0. Avance del 2026-10-14 (D59)
+
+- [x] Entregas 2 a 4 resueltas de forma práctica: ninguna pantalla se ve ya reducida. Los componentes de escritorio
+      toman su tamaño real y en celular se acomodan en una columna (reglas `:global(.vista-movil)` en cada módulo).
+- [x] Catálogo: "Búsqueda por vehículo" plegable, "Filtros" en panel a pantalla completa y tarjetas en 2 columnas.
+- [x] Detalle, carrito (entrega y subtotal arriba), los 4 pasos del pago (solo logo y "Volver al carrito"), gracias,
+      cuenta y páginas del sitio; "Mi tienda" y "Entrega en" bajo el buscador; "Buscar en otras tiendas" y el
+      selector de estado a pantalla completa; celular acostado también se detecta.
+- [ ] Copia fina contra las capturas del sitio (medidas exactas de cada pantalla), aviso al agregar al carrito y
+      conservar el estado al recargar.
+
 ## 1. Ya está (entrega 1: marco y navegación)
 
 - [x] Encabezado: franja, menú, logo, "Mis vehículos", "Ingresar" (o cuenta y campana con sesión), carrito con burbuja

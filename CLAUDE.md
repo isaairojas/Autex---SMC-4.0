@@ -20,4 +20,4 @@
 - `npm run dev` · `npm run build`
 - Verificación visual: `node tests/visual/compare-all.mjs` (servidor en el puerto 5179: `npx vite --port 5179`; capturas en docs/figma-2026/cache).
 - Flujo completo: `node tests/e2e-flujo.mjs`.
-- Vista de celular: `node tests/referencia/movil-demo.mjs`.
+- Vista de celular: `node tests/referencia/movil-demo.mjs` y `node tests/referencia/cambios-d59-demo.mjs` (D59).

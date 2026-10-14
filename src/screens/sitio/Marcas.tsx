@@ -21,8 +21,8 @@ export function Marcas() {
   }));
 
   return (
-    <PageShell version2026 enlaceActivo="Marcas">
-      <div className={styles.contenido} style={{ width: 1536, gap: 24 }}>
+    <PageShell version2026 movilListo enlaceActivo="Marcas">
+      <div className={`${styles.contenido} ${styles.compacto}`}>
         <h1 className={`${styles.titulo} text-heading-3-medium`}>Búsqueda por marca</h1>
         <div className={styles.letras}>
           {LETRAS.map((l) => (

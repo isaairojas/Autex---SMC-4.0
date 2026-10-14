@@ -92,7 +92,7 @@ td.debe { color: var(--tinta); }
     <h1>Demo Autex.com.mx con SMC 4.0: cambios frente al sitio actual</h1>
     <p class="intro">Lista de lo que la demo hace distinto a autex.com.mx hoy. Es la base para escribir las specs de la programación real: cada cambio tiene un identificador, lo que hace hoy el sitio, cómo debe quedar, las pantallas donde aplica, su nota para celular y la decisión de la demo de donde sale (D-número, en <code>docs/figma/discrepancias.md</code>).</p>
     <ul class="datos">
-      <li>Corte: <strong>9 de octubre de 2026</strong></li>
+      <li>Corte: <strong>14 de octubre de 2026</strong></li>
       <li>Cambios: <strong id="total"></strong></li>
       <li>Sitio de referencia: <strong>autex.com.mx</strong> (solo lectura; escritorio el 5 de octubre y celular el 9 de octubre)</li>
       <li>Diseño: <strong>Figma Autex 2026</strong> en escritorio; en celular, <strong>el sitio actual</strong> (D58)</li>
@@ -124,13 +124,16 @@ td.debe { color: var(--tinta); }
       <li>Los cambios de tipo "Regla" los decide el cálculo de existencias y envíos (SMC 4.0); las pantallas solo muestran su resultado.</li>
       <li>Cada cambio aplica en escritorio y en celular. La columna "Celular" dice cuando hay una diferencia o algo pendiente.</li>
     </ul>
+    <h3>Celular: decisiones tomadas (D59, por confirmar)</h3>
+    <ul>
+      <li>"Mi tienda" y "Entrega en" van en una fila bajo el buscador; cada uno abre su panel a pantalla completa.</li>
+      <li>Carrito: método de entrega, zona o dirección y subtotal arriba (como el resumen del sitio en celular) y los productos abajo.</li>
+      <li>Pago: solo el logo y "Volver al carrito", como en escritorio (D52); los pasos muestran sus números y el nombre del paso actual.</li>
+      <li>Catálogo: "Búsqueda por vehículo" plegable y "Filtros" en un panel a pantalla completa, como el sitio.</li>
+    </ul>
     <h3>Celular: decisiones pendientes</h3>
     <ul>
-      <li>Dónde van "Mi tienda" y "Entrega en" en el encabezado de celular (el sitio en celular no los tiene).</li>
       <li>Cómo se ve el aviso de ubicación al entrar.</li>
-      <li>Cómo se ve "Buscar en otra tienda" (en escritorio es una barra a la derecha).</li>
-      <li>El orden del carrito con los bloques nuevos (el sitio en celular pone el resumen arriba).</li>
-      <li>El encabezado del pago (el sitio en celular muestra el encabezado completo).</li>
       <li>Si el estado de la demo se conserva al recargar la página (en celular se recarga más seguido).</li>
       <li>Plan y avance de la vista de celular: <code>docs/autex-real/movil/PLAN.md</code>.</li>
     </ul>
@@ -214,8 +217,8 @@ const CAMBIOS = [
     '"Mi tienda", detalle, pago (pasos 2 y 4), Mis pedidos', 'Igual.', 'D44, D57'],
   ['UBI-08', 'ubicacion', 'regla', 'Tiendas que surten cada entrega',
     PC,
-    'Las existencias en línea, "Buscar en otra tienda" y los envíos solo usan las tiendas Local y Local Extendido de la dirección (hasta 30 km) más la sucursal foránea más cercana. El número de foráneas es configurable (1 por defecto), así que el pedido tiene cuando mucho un envío foráneo.',
-    'Catálogo, detalle, carrito, pago', 'Igual.', 'D49'],
+    'Las existencias en línea, "Buscar en otra tienda" y los envíos solo usan las tiendas Local y Local Extendido de la dirección (hasta 30 km) más la sucursal foránea más cercana. El número de foráneas es configurable (1 por defecto), así que el pedido tiene cuando mucho un envío foráneo. Una configuración dice qué sucursales no venden en línea (por ejemplo, Mercado Libre Adolf Horn): no aparecen en ninguna lista ni surten envíos.',
+    'Catálogo, detalle, carrito, pago, "Mi tienda", sucursales', 'Igual.', 'D49, D59'],
   ['UBI-09', 'ubicacion', 'ajuste', 'Página de sucursales',
     'Lista de tiendas con búsqueda por estado, ciudad o C.P.; cada una con dirección, si está abierta, horario, "Pickup disponible", teléfono y "Cómo llegar".',
     'Las tiendas se ordenan por distancia a la entrega, con kilómetros, nivel de servicio, tiempo de entrega y el botón "Hacer mi tienda".',
@@ -239,16 +242,16 @@ const CAMBIOS = [
     'Catálogo, detalle, carrito', 'Igual.', 'D39, D41'],
   ['CAT-05', 'catalogo', 'regla', 'Venta bajo pedido desde la sucursal foránea',
     PC,
-    'Si las tiendas de la zona (hasta 30 km) no completan la cantidad pero la sucursal foránea más cercana sí, el producto se vende "Disponible bajo pedido", con entrega de 2 a 4 días hábiles y la leyenda "Existencia en otra región: se envía como pedido foráneo y podría tardar más de lo normal". Se recalcula con la cantidad, también desde la tarjeta: el filtro de aire tiene 1 pieza en Tesistán, así que con 1 está disponible y con 2 pasa a bajo pedido; la marcha no tiene piezas en la zona y es bajo pedido desde la primera. En el pago, las tiendas de la zona envían lo que tienen con su tiempo normal y solo lo que falta sale bajo pedido de la foránea.',
-    'Búsqueda, detalle, carrito, pago', 'Igual.', 'D44, D46'],
+    'Si las tiendas de la zona (hasta 30 km) no completan la cantidad pero la sucursal foránea más cercana sí, el producto se vende "Disponible bajo pedido", con entrega de 2 a 4 días hábiles y la leyenda "Este producto está disponible en otra zona. El envío puede tardar más de lo normal." (no se habla de sucursales foráneas: es un término operativo). Se recalcula con la cantidad, también desde la tarjeta: el filtro de aire tiene 1 pieza en Tesistán, así que con 1 está disponible y con 2 pasa a bajo pedido; la marcha no tiene piezas en la zona y es bajo pedido desde la primera. En el pago, las tiendas de la zona envían lo que tienen con su tiempo normal y solo lo que falta sale bajo pedido de la foránea.',
+    'Búsqueda, detalle, carrito, pago', 'Igual.', 'D44, D46, D59'],
   ['CAT-06', 'catalogo', 'regla', 'CEDIS fuera de la venta en línea',
     PC,
     'La venta en línea solo cuenta las piezas de las tiendas. Lo que únicamente tiene CEDIS aparece sin existencia y se oculta en los resultados. CEDIS nunca es origen de un envío.',
     'Catálogo, detalle, carrito, pago', 'Igual.', 'D45'],
   ['CAT-07', 'catalogo', 'nuevo', 'Disponibilidad en el detalle',
     'El detalle muestra precio, cantidad y "Añadir al carrito", sin piezas por tienda.',
-    'Sección "Disponibilidad" con las piezas para compra en línea y las piezas físicas en "Mi tienda", más "Buscar en otra tienda". No se muestran pasillo ni bahía. Si el producto solo se consigue en la sucursal foránea, en lugar de la tienda aparece "Existencia en otra región", con entrega estimada de 2 a 4 días hábiles; en el carrito se muestra igual, bajo pedido.',
-    'Detalle, carrito', 'Igual.', 'D34, D45'],
+    'Sección "Disponibilidad" con las piezas para compra en línea y las piezas físicas en "Mi tienda", más "Buscar en otra tienda". No se muestran pasillo ni bahía. Si el producto solo se consigue en la sucursal foránea, o la cantidad supera lo que hay en las tiendas de la zona, el detalle dice: "No encontramos este producto en las tiendas de tu zona. Lo enviaremos desde otra región y podría tardar más de lo normal. *Entrega estimada de 2 a 4 días hábiles"; en el carrito se muestra bajo pedido.',
+    'Detalle, carrito', 'Igual.', 'D34, D45, D59'],
   ['CAT-08', 'catalogo', 'nuevo', 'Buscar en otra tienda',
     'No existe.',
     'Desde la disponibilidad del detalle se abre una barra con "Mi tienda" primero y las tiendas cercanas que tienen el producto: abierta o cerrada, piezas disponibles, dirección, teléfono, mapa y "Seleccionar tienda". Al pie, "Cambiar dirección" lleva al C.P. o a la dirección de entrega.',
@@ -291,6 +294,14 @@ const CAMBIOS = [
     'Una sola lista de productos, cada uno con su estado ("Producto disponible").',
     'Los productos se agrupan en "Productos disponibles" y "Productos bajo pedido". Los que no tienen existencia en la zona bloquean el pago hasta eliminarlos o guardarlos para más tarde.',
     'Carrito', 'Igual.', 'D44, D57'],
+  ['CAR-08', 'carrito', 'regla', 'Cantidad mínima y eliminar',
+    PC,
+    'Bajar la cantidad con "−" o escribir 0 deja el producto en 1 pieza: no se elimina. Para quitarlo del carrito está "Eliminar".',
+    'Carrito', 'Igual.', 'D59'],
+  ['CAR-09', 'carrito', 'regla', 'Monto máximo de compra',
+    PC,
+    'Si el total del carrito supera $70,000 (configurable), aparece "El total de tu compra no puede superar $70,000.00. Ajusta las cantidades o elimina productos para continuar." y no se puede pasar al pago.',
+    'Carrito', 'Igual.', 'D59'],
   ['CAR-04', 'carrito', 'regla', 'Tope al recoger en tienda',
     'No aplica.',
     'Si un producto se recoge en tienda, agregar más piezas desde el catálogo o el detalle no pasa de las piezas de esa tienda: la cantidad se ajusta con un aviso y el producto no queda sin existencia.',
@@ -342,8 +353,8 @@ const CAMBIOS = [
     'Pago, carrito', 'Igual.', 'D57'],
   ['PAG-09', 'pago', 'nuevo', 'Recoger en tienda en el pago',
     'No aplica.',
-    'Lo que el cliente eligió recoger no entra en los envíos: el paso 2 lo muestra en "Recoger en tienda" con la tienda, su dirección y horario, y la confirmación lo muestra aparte con sus artículos.',
-    'Pago (pasos 2 y 4)', 'Igual.', 'D43, D54'],
+    'Lo que el cliente eligió recoger no entra en los envíos: el paso 2 lo muestra en "Recoger en tienda" con "Entrega el mismo día", la tienda, su dirección y horario, y la confirmación lo muestra aparte con sus artículos. Al terminar la compra (y en el correo de confirmación) se avisa: "Recoge tu pedido a partir de hoy y hasta 3 días posteriores a tu compra", con su número de pedido y su INE. Los 3 días se configuran.',
+    'Pago (pasos 2 y 4), gracias, correo de confirmación', 'Igual.', 'D43, D54, D59'],
   ['PAG-10', 'pago', 'ajuste', 'Sin costo de envío',
     'Envío a domicilio de $249.00 en pedidos menores a $1,500, con "Agrega $… a tu pedido para envío sin costo".',
     'No se muestra costo de envío en ningún paso ni en el total del pedido.',
@@ -388,8 +399,8 @@ const CAMBIOS = [
     'Todas', 'Igual: ocupa toda la pantalla.', 'D36'],
   ['GEN-03', 'general', 'ajuste', 'Franja de envío gratis',
     '"Envío gratis a todo México · Compras mayores a $1500 MXN".',
-    '"Envío gratis a todo México | Sin mínimo de compra por apertura" con "(Aplica restricciones)" en letra más chica. La promoción y la leyenda de restricciones se encienden o se apagan por configuración.',
-    'Barra superior', 'Igual; en celular la leyenda hace que la franja ocupe 3 líneas.', 'D57'],
+    '"Envío gratis en tus primeras compras" con "(Aplica restricciones)" en letra más chica, para no prometer que siempre será así. El beneficio del inicio dice lo mismo. La promoción y la leyenda de restricciones se encienden o se apagan por configuración.',
+    'Barra superior, inicio', 'Igual.', 'D57, D59'],
   ['GEN-04', 'general', 'ajuste', 'Textos',
     'Textos del sitio y del diseño 2026.',
     'Confirmación: "Tienda de autoservicio" y "Revisa tu pedido y confírmalo". Gracias: sin "Tu auto está por estrenar" y con la tienda de autoservicio elegida. "Días hábiles" con acento. Pie con el año actual en todas las páginas.',
@@ -397,8 +408,8 @@ const CAMBIOS = [
 
   ['CEL-01', 'celular', 'ajuste', 'Vista de celular',
     'El sitio tiene su vista de celular (768 px o menos): franja azul, menú de hamburguesa, "Mis vehículos", "Ingresar", carrito, buscador con "Especialidades", "Búsqueda por vehículo" plegable, pie plegable y botón flotante de WhatsApp. En celular la lista de "Especialidades" no abre.',
-    'La vista de celular parte de la del sitio, copiada tal cual (capturas y medidas en docs/autex-real/movil), y le aplica todos los cambios de esta lista; Figma no tiene diseño de celular. "Especialidades" abre su lista. En la demo ya están el encabezado, el menú, el pie, "Mis vehículos" y el inicio de sesión; el resto de las pantallas sigue el plan de docs/autex-real/movil/PLAN.md.',
-    'Todas', 'Ver las decisiones pendientes abajo.', 'D58'],
+    'La vista de celular parte de la del sitio, copiada tal cual (capturas y medidas en docs/autex-real/movil), y le aplica todos los cambios de esta lista; Figma no tiene diseño de celular. "Especialidades" abre su lista. En la demo todas las pantallas ya tienen su vista de celular (encabezado, menú, pie, inicio, catálogo con filtros en un panel, detalle, carrito, los 4 pasos del pago, gracias y la cuenta), con "Mi tienda" y "Entrega en" bajo el buscador y, en el pago, solo el logo y "Volver al carrito".',
+    'Todas', 'Ver las decisiones pendientes abajo.', 'D58, D59'],
 ];
 
 const filas = document.getElementById('filas');

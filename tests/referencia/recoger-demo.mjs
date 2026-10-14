@@ -128,7 +128,7 @@ for (const [nombre, n] of [[MARCHA, 1], [CLUTCH, 9]]) {
 }
 await q.waitForURL('**/carrito');
 await q.getByText('Productos bajo pedido (2)').waitFor();
-if ((await q.getByText(/Existencia en otra región: se envía como pedido foráneo/).count()) !== 2) throw new Error('Falta la leyenda de sucursal foránea');
+if ((await q.getByText(/Este producto está disponible en otra zona/).count()) !== 2) throw new Error('Falta la leyenda de sucursal foránea');
 await q.screenshot({ path: `${OUT}/7-carrito-foranea.png`, fullPage: true });
 ok('Carrito: marcha y 9 kits de clutch (la zona no los completa) separados en "Productos bajo pedido" con la leyenda');
 await q.getByRole('button', { name: 'Proceder al pago' }).first().click();
@@ -144,9 +144,9 @@ await q.getByRole('button', { name: 'Ver todos los productos' }).click();
 await q.getByRole('button', { name: 'Proceder al pago' }).first().click();
 await q.waitForURL('**/checkout/envio');
 for (const b of await q.getByRole('button', { name: /Envío \d+/ }).all()) await b.click();
-await q.getByText(/\(sucursal foránea\)/).first().waitFor();
+await q.getByText(/\(otra zona\)/).first().waitFor();
 /* D49: solo la foránea más cercana (Zamora): cuando mucho un envío foráneo. */
-if ((await q.getByText(/\(sucursal foránea\)/).count()) !== 1) throw new Error('Debe haber un solo envío foráneo');
+if ((await q.getByText(/\(otra zona\)/).count()) !== 1) throw new Error('Debe haber un solo envío foráneo');
 await q.screenshot({ path: `${OUT}/8-envio-foranea.png`, fullPage: true });
 ok('Paso 2: el envío bajo pedido sale de la sucursal foránea más cercana (Zamora), un solo envío foráneo');
 

@@ -484,3 +484,105 @@
   color: var(--color-primary-500);
   text-decoration: underline;
 }
+
+/* ===== Vista de celular (D58, captura 18) ===== */
+:global(.vista-movil) .card {
+  gap: 12px;
+  padding: 12px;
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .cardContenido {
+  gap: 12px;
+}
+
+:global(.vista-movil) .cardImagen > img {
+  max-width: 72px;
+  height: auto;
+}
+
+:global(.vista-movil) .cardInfo {
+  gap: 16px;
+}
+
+:global(.vista-movil) .sku,
+:global(.vista-movil) .cardAcciones,
+:global(.vista-movil) .links {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  white-space: normal;
+}
+
+:global(.vista-movil) .qty {
+  width: 140px;
+}
+
+:global(.vista-movil) .grupo {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .subtotalFila,
+:global(.vista-movil) .subtotalAcciones {
+  padding: 12px 16px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+:global(.vista-movil) .resumen {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .guardados {
+  padding: 0;
+}
+
+:global(.vista-movil) .guardadosTop,
+:global(.vista-movil) .guardadosAcciones {
+  padding: 16px;
+}
+
+:global(.vista-movil) .tabs {
+  padding: 0 16px;
+  overflow-x: auto;
+}
+
+:global(.vista-movil) .guardadosAcciones {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+:global(.vista-movil) .select {
+  width: auto;
+}
+
+:global(.vista-movil) .card {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+:global(.vista-movil) .cardContenido {
+  flex-direction: column;
+}
+
+:global(.vista-movil) .cardImagen {
+  align-self: flex-start;
+}
+
+:global(.vista-movil) .buscar {
+  flex: 1 1 100%;
+}
+
+:global(.vista-movil) .cardContenido {
+  align-items: stretch;
+}
+
+:global(.vista-movil) .card {
+  flex-wrap: nowrap;
+}
+
+:global(.vista-movil) .link {
+  white-space: normal;
+}

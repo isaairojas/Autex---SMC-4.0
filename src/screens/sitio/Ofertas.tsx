@@ -35,9 +35,9 @@ export function Ofertas() {
   const ocultos = enOferta.filter((p) => estado(p.id) === 'sin-existencia').length;
   const productos = verNoDisponibles ? enOferta : enOferta.filter((p) => estado(p.id) !== 'sin-existencia');
   return (
-    <PageShell version2026 enlaceActivo="Promociones">
+    <PageShell version2026 movilListo enlaceActivo="Promociones">
       {cargando && <CargaPagina texto="Cargando productos…" />}
-      <div className={styles.contenido} style={{ width: 1360 }}>
+      <div className={`${styles.contenido} ${styles.angosto}`}>
         {enOferta.length === 0 ? (
           <div className={styles.vacio}>
             <p className={`${styles.vacioTitulo} text-heading-1-book`}>¡No se encontraron productos en oferta!</p>
@@ -49,7 +49,7 @@ export function Ofertas() {
         ) : (
           <>
             <h1 className={`${styles.titulo} text-heading-3-medium`}>Ofertas</h1>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+            <div className={styles.gridProductos}>
               {productos.map((p) => (
                 <TarjetaProducto
                   key={p.id}

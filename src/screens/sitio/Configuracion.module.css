@@ -247,3 +247,38 @@
   display: flex;
   gap: 20px;
 }
+
+/* ===== Vista de celular (D58): menú de la cuenta arriba y tarjeta a todo el ancho ===== */
+:global(.vista-movil) .pagina {
+  width: auto;
+  padding: 16px 16px 40px;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+:global(.vista-movil) .pagina * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .franja {
+  padding-left: 72px;
+}
+
+:global(.vista-movil) .cuerpo {
+  padding: 16px 12px;
+}
+
+:global(.vista-movil) .datos,
+:global(.vista-movil) .rejilla {
+  grid-template-columns: 1fr;
+}
+
+:global(.vista-movil) .datos,
+:global(.vista-movil) .item,
+:global(.vista-movil) .listaCabecera,
+:global(.vista-movil) .itemAcciones,
+:global(.vista-movil) .botones {
+  flex-wrap: wrap;
+  gap: 12px;
+}

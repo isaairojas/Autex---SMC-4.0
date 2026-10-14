@@ -745,3 +745,140 @@
   color: var(--color-neutral-900);
 }
 
+
+/* ===== Vista de celular (D58, captura 17 del sitio): galería, datos, precio y disponibilidad en una columna ===== */
+:global(.vista-movil) .section {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+:global(.vista-movil) .gallery,
+:global(.vista-movil) .desc,
+:global(.vista-movil) .divider,
+:global(.vista-movil) .marca,
+:global(.vista-movil) .side,
+:global(.vista-movil) .enOferta,
+:global(.vista-movil) .precio,
+:global(.vista-movil) .addToCart {
+  position: static;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .marca {
+  width: auto;
+  align-self: flex-start;
+}
+
+:global(.vista-movil) .gallery {
+  flex-direction: column-reverse;
+}
+
+:global(.vista-movil) .thumbs {
+  flex-direction: row;
+  overflow-x: auto;
+}
+
+:global(.vista-movil) .thumb {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+:global(.vista-movil) .viewer {
+  width: 100%;
+  height: 300px;
+}
+
+:global(.vista-movil) .main {
+  width: 80%;
+  height: 260px;
+}
+
+:global(.vista-movil) .indicators {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .sku,
+:global(.vista-movil) .pricing,
+:global(.vista-movil) .dispTxt {
+  flex-wrap: wrap;
+  gap: 8px;
+  white-space: normal;
+}
+
+:global(.vista-movil) .nombre {
+  font-size: 22px;
+  line-height: 30px;
+}
+
+:global(.vista-movil) .cost {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px;
+}
+
+:global(.vista-movil) .juntos,
+:global(.vista-movil) .bullets,
+:global(.vista-movil) .carrusel {
+  padding: 16px;
+}
+
+:global(.vista-movil) .juntosMain,
+:global(.vista-movil) .checks,
+:global(.vista-movil) .bulletCol,
+:global(.vista-movil) .carruselRow,
+:global(.vista-movil) .juntosAction {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .juntosMain,
+:global(.vista-movil) .bullets {
+  flex-direction: column;
+}
+
+:global(.vista-movil) .photos,
+:global(.vista-movil) .carruselItems,
+:global(.vista-movil) .tabsMenu {
+  overflow-x: auto;
+}
+
+:global(.vista-movil) .tabsMenu {
+  padding: 16px 16px 0;
+}
+
+:global(.vista-movil) .disponibilidad {
+  width: auto;
+  margin: 0 16px 24px;
+  padding: 16px;
+}
+
+:global(.vista-movil) .dispColumnas {
+  flex-direction: column;
+  gap: 16px;
+}
+
+:global(.vista-movil) .dispColumna + .dispColumna {
+  padding-left: 0;
+  border-left: none;
+}
+
+:global(.vista-movil) .dispColumna {
+  padding-right: 0;
+}
+
+:global(.vista-movil) .dispColumna + .dispColumna {
+  padding: 16px 0 0;
+  box-shadow: inset 0 1px 0 var(--color-neutral-200);
+}
+
+:global(.vista-movil) .thumbs {
+  height: auto;
+}

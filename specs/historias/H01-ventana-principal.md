@@ -21,7 +21,7 @@ cliente compra sin saber si la pieza le llega.
 - La lista de "Mi tienda" se limita a las Local y Local Extendido de la ubicación (antes mostraba todas las del
   estado). Una sucursal de otra zona se elige desde la página de sucursales, donde sigue la regla de "tienda de
   otro estado" (UBI-04).
-- Un solo mensaje de envío gratis en todo el sitio: "Sin mínimo de compra".
+- Un solo mensaje de envío gratis en todo el sitio: "Envío gratis en tus primeras compras" (D59).
 
 ## 2. Usuarios
 
@@ -39,8 +39,8 @@ cliente compra sin saber si la pieza le llega.
 
 ## 4. Requisitos funcionales
 
-- **RF1.** Franja "Envío gratis a todo México | Sin mínimo de compra por apertura" con "(Aplica restricciones)" en
-  letra más chica; promoción y leyenda se encienden o apagan por configuración. *(GEN-03)*
+- **RF1.** Franja "Envío gratis en tus primeras compras" con "(Aplica restricciones)" en letra más chica, para no
+  prometer que siempre será así; promoción y leyenda se encienden o apagan por configuración. *(GEN-03, D59)*
 - **RF2.** Todos los banners de envío gratis (franja e inicio) dicen el mismo mensaje.
 - **RF3.** Al entrar se pide permiso de ubicación; si se da, la sucursal más cercana queda como "Mi tienda"; si se
   cierra, "Elige una tienda" con "Usar mi ubicación" y "Elegir tienda manualmente" (pide el C.P. y luego las
@@ -70,7 +70,7 @@ cliente compra sin saber si la pieza le llega.
 - **RN5. La sucursal no mueve la entrega.** *Ejemplo*: desde Sucursales, un invitado en 45138 hace "Mi tienda" a
   Monterrey Ruiz y su entrega sigue en 45138.
 - **RN6. "No permitir nunca"** cierra el aviso y no se vuelve a preguntar.
-- **RN7. Mensaje único.** *Ejemplo*: el inicio ya no dice "Compras mayores a $499".
+- **RN7. Mensaje único.** *Ejemplo*: el inicio ya no dice "Compras mayores a $499", sino "En tus primeras compras".
 
 ## 6. Criterios de aceptación (verificables sin código)
 

@@ -88,8 +88,8 @@ export function Navbar2026({
         {banner && (
           <div className={`${styles.bannerText} text-body-1-medium`}>
             <span>{banner.titulo}</span>
-            <span>|</span>
-            <span>{banner.detalle}</span>
+            {banner.detalle && <span>|</span>}
+            {banner.detalle && <span>{banner.detalle}</span>}
             {banner.nota && <span className={`${styles.bannerNota} text-caption-book`}>{banner.nota}</span>}
           </div>
         )}

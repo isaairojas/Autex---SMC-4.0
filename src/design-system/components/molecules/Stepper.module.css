@@ -58,3 +58,25 @@
 .boton:hover .label {
   text-decoration: underline;
 }
+
+/* Vista de celular (D59): solo los números; el nombre del paso actual queda visible. */
+:global(.vista-movil) .stepper {
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .step {
+  gap: 8px;
+  padding: 4px;
+}
+
+:global(.vista-movil) .label {
+  display: none;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+:global(.vista-movil) .active .label {
+  display: inline;
+}

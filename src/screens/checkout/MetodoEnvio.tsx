@@ -145,11 +145,13 @@ export function MetodoEnvio() {
                 <Icon name="store" box={32} size={28} color="var(--color-primary-500)" />
                 <div>
                   <p className="text-subheadline-medium">Recoger en tienda</p>
+                  {/* D59: lo que se recoge está listo el mismo día. */}
+                  <p className="text-body-1-medium">Entrega el mismo día</p>
                   <p className="text-body-1-book">
                     Autex {tienda.nombre} · <span className={styles.gris}>{tienda.direccion}</span>
                   </p>
                   <p className={`${styles.gris} text-body-2-book`}>
-                    {estadoHorario(tienda.horario).corto} · Te avisaremos por correo cuando tu pedido esté listo para recoger.
+                    {estadoHorario(tienda.horario).corto}
                   </p>
                 </div>
               </div>

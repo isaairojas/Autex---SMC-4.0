@@ -17,7 +17,7 @@ import { Mosaico, rutaBusqueda } from './Mosaico';
 import styles from './Sitio.module.css';
 
 const BENEFICIOS = [
-  { icono: 'local_shipping', titulo: 'Envío gratis', detalle: 'Compras mayores a $499' },
+  { icono: 'local_shipping', titulo: 'Envío gratis', detalle: 'En tus primeras compras' },
   { icono: 'assignment_return', titulo: 'Devoluciones', detalle: '30 días en todos los productos' },
   { icono: 'verified_user', titulo: '90 días de garantía', detalle: 'en todos los productos' },
 ];
@@ -31,7 +31,7 @@ export function Home() {
   const SLIDES = 3;
 
   return (
-    <PageShell version2026 enlaceActivo="Inicio">
+    <PageShell version2026 movilListo enlaceActivo="Inicio">
       <div className={styles.contenido}>
         <section className={styles.buscador}>
           <h1 className={`${styles.titulo} text-heading-3-medium`}>Encuentra los mejores productos para tu vehículo</h1>

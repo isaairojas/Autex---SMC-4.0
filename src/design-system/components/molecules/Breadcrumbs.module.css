@@ -30,3 +30,10 @@
   color: var(--color-primary-500);
   white-space: nowrap;
 }
+
+/* Vista de celular (D58): las migas se recorren de lado sin mover la página. */
+:global(.vista-movil) .content {
+  padding: 12px 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+}

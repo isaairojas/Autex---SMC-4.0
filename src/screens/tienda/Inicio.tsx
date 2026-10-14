@@ -20,6 +20,7 @@ import { CATALOGO_SITIO, GRID_2026_FIGMA, type ProductoCatalogo } from '../../mo
 import { estadoExistencia, etiquetaExistencia, existenciaEnLinea, maximoVenta, piezasEnTiendas } from '../../mocks/existencias';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
+import { useMovil } from '../../design-system/movil';
 import styles from './Inicio.module.css';
 
 /* Familia de cada producto para el filtro "Familia" de la demo. */
@@ -58,6 +59,10 @@ export function Inicio() {
   const [params] = useSearchParams();
   const [filtros, setFiltros] = useState<Set<string>>(new Set());
   const [verNoDisponibles, setVerNoDisponibles] = useState(false);
+  /* D58: en celular, "Búsqueda por vehículo" plegable y los filtros en un panel a pantalla completa, como el sitio. */
+  const movil = useMovil();
+  const [vehiculoAbierto, setVehiculoAbierto] = useState(false);
+  const [panelFiltros, setPanelFiltros] = useState(false);
   /* Sitio (D36): carga de página al buscar o cambiar categoría, marca, vehículo o filtros (la de ubicación la hace PageShell). */
   const [cargandoProductos, setCargandoProductos] = useState(!modoFigma);
   const claveFiltros = [...filtros].sort().join('|');
@@ -97,10 +102,19 @@ export function Inicio() {
   };
 
   return (
-    <PageShell version2026 enlaceActivo="Catálogo">
+    <PageShell version2026 enlaceActivo="Catálogo" movilListo>
       {cargandoProductos && <CargaPagina texto="Cargando productos…" />}
       <section className={styles.busqueda}>
-        <p className={`${styles.busquedaTitulo} text-heading-3-medium`}>Encuentra los mejores productos para tu vehículo</p>
+        {movil ? (
+          <button type="button" className={`${styles.plegable} text-body-1-book`} aria-expanded={vehiculoAbierto} onClick={() => setVehiculoAbierto(!vehiculoAbierto)}>
+            <Icon name="manage_search" />
+            <span className={styles.plegableTexto}>Búsqueda por vehículo</span>
+            <Icon name={vehiculoAbierto ? 'expand_less' : 'expand_more'} />
+          </button>
+        ) : (
+          <p className={`${styles.busquedaTitulo} text-heading-3-medium`}>Encuentra los mejores productos para tu vehículo</p>
+        )}
+        {(!movil || vehiculoAbierto) && (
         <div className={styles.vehiculo}>
           {['Año', 'Marca', 'Modelo', 'Motor (opcional)'].map((c) => (
             <div key={c} className={styles.select}>
@@ -112,18 +126,40 @@ export function Inicio() {
             <Icon name="search" size={24} color="var(--color-nativo-blanco)" />
           </button>
         </div>
+        )}
       </section>
       <div className={styles.cuerpo}>
         {modoFigma ? (
           <Filtros2026 marcados={filtros} onCambiar={setFiltros} />
         ) : (
-          <div className={styles.columnaFiltros}>
+          (!movil || panelFiltros) && (
+          <div className={styles.columnaFiltros} role={movil ? 'dialog' : undefined} aria-label={movil ? 'Filtros' : undefined}>
+            {movil && (
+              <div className={styles.filtrosCabecera}>
+                <p className="text-subheadline-medium">Filtros</p>
+                <button type="button" className={styles.cerrarFiltros} aria-label="Cerrar filtros" onClick={() => setPanelFiltros(false)}>
+                  <Icon name="close" />
+                </button>
+              </div>
+            )}
             <Filtros2026 marcados={filtros} onCambiar={setFiltros} />
             <FiltroNoDisponibles ocultos={ocultos} mostrar={verNoDisponibles} onCambiar={setVerNoDisponibles} />
+            {movil && (
+              <button type="button" className={`${styles.verResultados} text-body-1-book`} onClick={() => setPanelFiltros(false)}>
+                Ver {productos.length} resultados
+              </button>
+            )}
           </div>
+          )
         )}
         <div className={styles.resultados}>
           <div className={styles.barra}>
+            {movil && (
+              <button type="button" className={`${styles.botonFiltros} text-body-1-book`} onClick={() => setPanelFiltros(true)}>
+                Filtros
+                <Icon name="filter_list" box={20} size={20} />
+              </button>
+            )}
             {(vehiculo.length > 0 || especialidad || categoria || marca || q) && (
               <p className={`${styles.criterios} text-body-2-book`}>
                 {[vehiculo.join(' '), especialidad, categoria, marca, params.get('q')].filter(Boolean).join(' · ')}

@@ -474,3 +474,21 @@
   width: auto;
   transform: none;
 }
+
+/* D59: "Buscar en otras tiendas" a pantalla completa en celular. */
+:global(.vista-movil) .lateral {
+  left: 0;
+  width: auto;
+  height: 100vh;
+  z-index: 1001;
+}
+
+/* D59: en celular el selector de estado baja a su propio renglón. */
+:global(.vista-movil) .filaEstado {
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .filaEstado .selector {
+  flex: 1 1 100%;
+  width: auto;
+}

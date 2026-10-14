@@ -28,7 +28,11 @@ import { PageShell } from '../PageShell';
 import { useIrAlCheckout } from '../checkout/inicioCheckout';
 import { lineaDireccion } from '../../mocks/clientes';
 import { ComoContinuar } from '../../design-system/components/organisms/ComoContinuar';
+import pedidoConfig from '../../mocks/configuracion-pedido.json';
 import styles from './CarritoPagina.module.css';
+
+/** D59: arriba de este total no se puede pasar al pago (configuracion-pedido.json). */
+const MONTO_MAXIMO = pedidoConfig.montoMaximoCompra;
 
 export function CarritoPagina() {
   const navigate = useNavigate();
@@ -54,7 +58,13 @@ export function CarritoPagina() {
   const sinExistencia = conEstado.filter((x) => x.estado === 'sin-existencia');
   const subtotal = carrito.reduce((s, l) => s + l.producto.precio * l.cantidad, 0);
   const piezas = carrito.reduce((n, l) => n + l.cantidad, 0);
-  const bloqueado = carrito.length === 0 || !ubicacion || sinExistencia.length > 0;
+  const excedeMonto = !modoFigma && subtotal > MONTO_MAXIMO;
+  const bloqueado = carrito.length === 0 || !ubicacion || sinExistencia.length > 0 || excedeMonto;
+  const avisoMonto = excedeMonto && (
+    <p className={`${styles.sinExistencia} text-os-subheadline`} role="alert">
+      El total de tu compra no puede superar {formatoMXN(MONTO_MAXIMO)}. Ajusta las cantidades o elimina productos para continuar.
+    </p>
+  );
   /* Invitado: "Proceder al pago" abre el Modal login (742:19087); desde ahí ingresa o continúa como invitado. */
   /* Registrado (sitio, D35): ya tiene dirección predeterminada, así que pasa directo al paso 2 "Método de envío". */
   const pagar = () =>
@@ -108,7 +118,8 @@ export function CarritoPagina() {
           />
         )
       }
-      onCantidad={(n) => (n < 1 ? quitar(linea.producto.id) : cambiarCantidad(linea.producto.id, Math.min(n, maximo(linea.producto.id) ?? n)))}
+      /* D59: bajar de 1 no elimina; para quitar el producto está "Eliminar". */
+      onCantidad={(n) => cambiarCantidad(linea.producto.id, Math.max(1, Math.min(n, maximo(linea.producto.id) ?? n)))}
       onEliminar={() => quitar(linea.producto.id)}
       onGuardar={() => guardar(linea.producto.id)}
       /* D55: cantidad escrita con "Validando existencias", como en el detalle y el catálogo. */
@@ -119,7 +130,7 @@ export function CarritoPagina() {
   );
 
   return (
-    <PageShell version2026>
+    <PageShell version2026 movilListo>
       <div className={styles.seccion}>
         <div className={styles.lista}>
           {carrito.length === 0 && (
@@ -138,6 +149,7 @@ export function CarritoPagina() {
             </p>
           )}
           {sinExistencia.map(tarjeta)}
+          {avisoMonto}
           {carrito.length > 0 && (
             <SubtotalCarrito
               piezas={modoFigma ? carrito.length : piezas}
@@ -171,6 +183,7 @@ export function CarritoPagina() {
                 onCambiar={() => abrirArriba('tienda')}
               />
             )}
+            {avisoMonto}
             <ResumenCarrito titulo={`Subtotal (${piezas} productos)`} total={formatoMXN(subtotal)} onPagar={pagar} deshabilitado={bloqueado && !!ubicacion} />
           </ColumnaCarrito>
         )}

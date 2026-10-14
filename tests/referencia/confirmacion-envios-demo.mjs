@@ -23,7 +23,7 @@ await p.waitForURL('http://localhost:5179/');
 await p.getByRole('search').getByRole('button', { name: 'Buscar' }).click();
 await p.waitForURL('**/busqueda**');
 await p.getByRole('status', { name: 'Cargando productos…' }).waitFor({ state: 'detached' }).catch(() => {});
-for (const [nombre, n] of [[INYECTOR, 100], [CINTA, 2]]) {
+for (const [nombre, n] of [[INYECTOR, 90], [CINTA, 2]]) {
   const c = p.getByLabel(`Cantidad de ${nombre}`);
   await c.fill(String(n));
   await c.press('Enter');

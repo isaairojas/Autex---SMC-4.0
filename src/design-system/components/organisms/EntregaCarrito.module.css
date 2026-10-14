@@ -187,3 +187,26 @@
   flex-direction: column;
   gap: 20px;
 }
+
+/* ===== Vista de celular (D58): la columna del carrito va arriba, a todo el ancho, como el resumen del sitio ===== */
+:global(.vista-movil) .columna,
+:global(.vista-movil) .tarjeta {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .columna {
+  order: -1;
+}
+
+:global(.vista-movil) .opciones {
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .opcion {
+  flex: 1 1 100%;
+}
+
+:global(.vista-movil) .selector {
+  width: 100%;
+}

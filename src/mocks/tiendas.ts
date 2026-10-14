@@ -7,6 +7,7 @@
  *   resto, la zona por los dos primeros dígitos (ciudad representativa, ubicación aproximada).
  */
 import config from './configuracion-servicios-smc.json';
+import reglasExistencia from './configuracion-existencias.json';
 import { haversine } from './geo';
 import { SUCURSALES_AUTEX } from './sucursales';
 import { calleCompleta, type DireccionEntrega, type Ubicacion } from './clientes';
@@ -94,7 +95,10 @@ const DE_CONFIG: Record<string, string> = {
 };
 const ESTADOS_CONFIG: Record<string, string> = { 'Distrito Federal': 'Ciudad de México' };
 
-const delSitio: Tienda[] = SUCURSALES_AUTEX.map((s) => {
+/** D59: sucursales que no venden en línea (configuracion-existencias.json): no aparecen en ninguna lista ni surten. */
+const OCULTAS = new Set<string>(reglasExistencia.sucursalesOcultas);
+
+const delSitio: Tienda[] = SUCURSALES_AUTEX.filter((s) => !OCULTAS.has(s.nombre)).map((s) => {
   const c = config.sucursales.find((x) => x.id === DE_CONFIG[s.nombre]);
   const [lat, lon] = c ? [c.lat, c.lng] : COORDS[s.nombre];
   /* "1593": la dirección del sitio no trae ciudad (Tuxtla Gutiérrez). */

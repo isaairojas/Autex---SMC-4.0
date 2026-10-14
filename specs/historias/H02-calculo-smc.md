@@ -51,8 +51,10 @@ parte), logística y atención a clientes. El negocio controla el parámetro de 
 
 **Foráneas**
 - **RF6.** Con el parámetro N > 0, sumar las N foráneas más cercanas (hasta 350 km). Si la zona no completa la
-  cantidad y la foránea sí, el estado es "bajo pedido" con la leyenda "Existencia en otra región: se envía como
-  pedido foráneo y podría tardar más de lo normal". *(CAT-05, UBI-08)*
+  cantidad y la foránea sí, el estado es "bajo pedido" con la leyenda "Este producto está disponible en otra zona.
+  El envío puede tardar más de lo normal." (sin hablar de sucursales foráneas). *(CAT-05, UBI-08, D59)*
+- **RF6b.** Una configuración dice qué sucursales no venden en línea (hoy, Mercado Libre Adolf Horn): no cuentan en
+  existencias, no surten envíos y no aparecen en ninguna lista. *(UBI-08, D59)*
 
 **Surtido (contrato, operación 2)**
 - **RF7.** Recibir cliente, ubicación, sucursal elegida y líneas (producto, cantidad, domicilio o recoger) y

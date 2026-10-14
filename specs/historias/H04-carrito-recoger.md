@@ -1,7 +1,7 @@
 # H04 · Carrito y recoger en tienda
 
 - **Fecha**: 2026-10-12 · **Estado**: borrador · **Constitution**: 3.0.0
-- **Índice**: `specs/historias-de-usuario.md` · **Catálogo**: CAR-01, CAR-02, CAR-03, CAR-04, CAR-05, CAR-06,
+- **Índice**: `specs/historias-de-usuario.md` · **Catálogo**: CAR-01, CAR-02, CAR-03, CAR-04, CAR-05, CAR-06, CAR-08, CAR-09,
   PAG-05 · **Spec v2**: RN7, RN10
 - **Depende de**: H01, H02, H03 · **La usan**: H05, H06, H07
 
@@ -45,6 +45,13 @@ elegida, y los productos exclusivos de recoger siempre van ahí.
 - **RF8.** El subtotal cuenta las mismas piezas en todo el carrito; un guardado que regresa se suma a su línea.
   *(CAR-06)*
 - **RF9.** Si todo se recoge, el paso 1 del pago solo pide quién recoge y su teléfono (H05). *(PAG-05)*
+- **RF10.** Bajar la cantidad de 1 (con "−" o escribiendo 0) la deja en 1; solo "Eliminar" quita el producto.
+  *(CAR-08, D59)*
+- **RF11.** Si el total supera $70,000 (configurable), se avisa "El total de tu compra no puede superar $70,000.00.
+  Ajusta las cantidades o elimina productos para continuar." y "Proceder al pago" se bloquea. *(CAR-09, D59)*
+- **RF12.** Lo que se recoge dice "Entrega el mismo día". Al terminar la compra y en el correo de confirmación:
+  "Recoge tu pedido a partir de hoy y hasta 3 días posteriores a tu compra", con su número de pedido y su INE (los
+  3 días se configuran). *(PAG-09, D59)*
 
 ## 5. Reglas de negocio (con ejemplos)
 

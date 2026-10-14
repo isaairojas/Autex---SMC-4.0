@@ -28,7 +28,7 @@ const desborde = (p) => p.evaluate(() => document.documentElement.scrollWidth - 
 let p = await celular();
 const encabezado = p.locator('header').first();
 for (const t of ['Mis vehículos', 'Ingresar']) await encabezado.getByText(t, { exact: true }).waitFor();
-await encabezado.getByText('ENVÍO GRATIS A TODO MÉXICO').waitFor();
+await encabezado.getByText('ENVÍO GRATIS EN TUS PRIMERAS COMPRAS').waitFor();
 await p.getByRole('search').getByRole('button', { name: 'Especialidades' }).waitFor();
 if (await p.getByRole('link', { name: 'Inicio', exact: true }).count()) falla('En celular no va la barra de enlaces de escritorio');
 await p.getByRole('link', { name: 'WhatsApp' }).waitFor();

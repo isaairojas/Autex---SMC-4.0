@@ -9,6 +9,8 @@ const browser = await chromium.launch();
 const errores = [];
 const ok = (t) => console.log('✓', t);
 const INYECTOR = 'Inyector de combustible Tecnofuel AI3922';
+/* D59: todas las piezas del inyector rebasan el monto máximo ($70,000); el foco H7 tiene menos piezas en Monterrey. */
+const FOCO = 'Foco halógeno H7 12V 55W luz blanca';
 const MARCHA = 'Motor de arranque (marcha) Tecnofuel';
 
 /** Sesión de Ernesto (Taller Chapalita, Zapopan) con productos en el carrito y en el paso 2. */
@@ -54,8 +56,8 @@ async function cambiarA(p, nombre, captura) {
 }
 const continuar = (p) => p.getByRole('button', { name: 'Continuar' });
 
-// 1. Parcial: inyectores de más (Monterrey tiene menos piezas, pero no 0)
-let p = await paso2([[INYECTOR, 9999]]);
+// 1. Parcial: focos de más (Monterrey tiene menos piezas, pero no 0)
+let p = await paso2([[FOCO, 9999]]);
 await p.getByRole('button', { name: 'Cambiar dirección de entrega' }).click();
 await p.getByText('Cliente Monterrey', { exact: true }).click();
 await p.getByRole('button', { name: 'Usar esta dirección' }).click();

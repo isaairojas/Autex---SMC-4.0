@@ -63,3 +63,46 @@
   background: var(--color-primary-500);
   cursor: pointer;
 }
+
+/* ===== Vista de celular (D58, captura 04): "Búsqueda por vehículo" plegable ===== */
+:global(.vista-movil) .inicio,
+:global(.vista-movil) .detalle {
+  width: auto;
+  height: auto;
+  padding: 0 16px;
+}
+
+:global(.vista-movil) .searchByCar {
+  width: 100%;
+  gap: 12px;
+}
+
+:global(.vista-movil) .vehicle {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+}
+
+:global(.vista-movil) .select {
+  flex: 1 1 40%;
+  padding: 12px;
+}
+
+.plegable {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 8px;
+  border: none;
+  border-top: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--color-neutral-200);
+  background: var(--color-nativo-blanco);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+.plegableTexto {
+  flex: 1 1 0;
+  text-align: left;
+}

@@ -38,7 +38,7 @@ const comoInvitado = async (p) => {
 let p = await nueva();
 await p.goto(B + '/producto/cinta-aislante');
 await cerrarAviso(p);
-await p.getByText('SIN MÍNIMO DE COMPRA POR APERTURA').waitFor();
+await p.getByText('ENVÍO GRATIS EN TUS PRIMERAS COMPRAS').waitFor();
 await p.getByText('(Aplica restricciones)').waitFor();
 if (await p.getByText('COMPRAS MAYORES A $499 MXN').count()) falla('La franja aún dice $499');
 await p.getByText(`AUTEX ${new Date().getFullYear()}`).waitFor();
@@ -78,6 +78,7 @@ await p.locator('input[name=telefonoRecoge]').fill('3398765432');
 await p.getByRole('button', { name: 'Continuar' }).click();
 await p.waitForURL('**/checkout/envio');
 await p.getByText('Recoger en tienda').first().waitFor();
+await p.getByText('Entrega el mismo día').waitFor();
 paso('Todo para recoger: el paso 1 pide quién recoge y su teléfono (obligatorios), sin dirección ni datos fiscales');
 await p.getByRole('button', { name: 'Continuar' }).click();
 await p.waitForURL('**/checkout/pago');
@@ -96,6 +97,9 @@ await p.waitForURL('**/checkout/gracias');
 await p.getByText(/realizarlo en 7-Eleven/).waitFor();
 if (await p.getByText(/Tu auto está por estrenar/).count()) falla('Gracias aún dice "Tu auto está por estrenar"');
 paso('Gracias: nombra la tienda elegida (7-Eleven) y ya no dice "Tu auto está por estrenar"');
+await p.getByText(/Recoge tu pedido en Autex .+ a partir de hoy y hasta 3 días posteriores a tu compra/).waitFor();
+await p.getByText(/Presenta tu número de pedido y tu INE/).waitFor();
+paso('D59: recoger "Entrega el mismo día"; gracias da el plazo de 3 días y pide número de pedido e INE');
 
 // 3) Invitado con C.P. sin existencias en el paso 1 → regresa al carrito con leyenda; fechas en el paso 2
 p = await nueva();

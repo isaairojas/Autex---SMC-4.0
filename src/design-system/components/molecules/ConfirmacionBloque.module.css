@@ -70,3 +70,24 @@
   cursor: pointer;
   white-space: nowrap;
 }
+
+/* ===== Vista de celular (D59): título arriba y renglones abajo ===== */
+:global(.vista-movil) .block {
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+:global(.vista-movil) .rows {
+  width: 100%;
+}
+
+:global(.vista-movil) .row {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+:global(.vista-movil) .value {
+  font-size: 16px;
+  line-height: 24px;
+}

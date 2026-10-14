@@ -224,3 +224,144 @@
   flex-direction: column;
   gap: 16px;
 }
+
+/* ===== Vista de celular (D58, captura 13 del sitio): una columna, tarjetas en 2 columnas y filtros en un panel ===== */
+:global(.vista-movil) .busqueda {
+  margin-top: 0;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.plegable {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 8px;
+  border: none;
+  border-top: 1px solid var(--color-neutral-200);
+  border-bottom: 1px solid var(--color-neutral-200);
+  background: var(--color-nativo-blanco);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+.plegableTexto {
+  flex: 1 1 0;
+  text-align: left;
+}
+
+:global(.vista-movil) .vehiculo {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+}
+
+:global(.vista-movil) .select {
+  flex: 1 1 40%;
+  padding: 12px;
+}
+
+:global(.vista-movil) .cuerpo {
+  margin-top: 12px;
+  padding: 0 16px;
+  display: block;
+}
+
+:global(.vista-movil) .resultados {
+  width: 100%;
+  gap: 16px;
+}
+
+:global(.vista-movil) .barra {
+  height: auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+:global(.vista-movil) .criterios {
+  flex: 1 1 100%;
+  order: -1;
+}
+
+:global(.vista-movil) .porPagina,
+:global(.vista-movil) .vista {
+  display: none;
+}
+
+:global(.vista-movil) .orden {
+  width: auto;
+  flex: 1 1 0;
+  padding: 8px 12px;
+}
+
+:global(.vista-movil) .total {
+  margin: 0;
+}
+
+.botonFiltros {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 16px;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+:global(.vista-movil) .grid {
+  gap: 8px;
+}
+
+:global(.vista-movil) .grid > * {
+  width: calc(50% - 4px);
+}
+
+:global(.vista-movil) .vacio {
+  padding: 32px 0;
+  text-align: center;
+}
+
+:global(.vista-movil) .columnaFiltros {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow-y: auto;
+  padding: 16px;
+  background: var(--color-nativo-blanco);
+}
+
+:global(.vista-movil) .columnaFiltros > * {
+  width: 100%;
+}
+
+.filtrosCabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filtrosCabecera p {
+  margin: 0;
+}
+
+.cerrarFiltros {
+  display: flex;
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.verResultados {
+  position: sticky;
+  bottom: 0;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  cursor: pointer;
+}

@@ -51,7 +51,7 @@ export function CheckoutLayout({ paso, children, overlay, resumen, onConfirmar, 
     navigate('/carrito');
   }, [sinExistencia.length]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <PageShell version2026={version2026} enlaceActivo={null} pasarela={!modoFigma}>
+    <PageShell version2026={version2026} enlaceActivo={null} pasarela={!modoFigma} movilListo>
       <div className={styles.headline} style={{ marginTop: version2026 ? 20 : 26 }}>
         {/* D53: en el sitio aún no hay número de pedido (se asigna al pagar y se muestra en la página de gracias). */}
         <h1 className={`${styles.title} text-heading-3-strong`}>{modoFigma ? `Pago del pedido ${numeroPedido} ` : 'Pago del pedido'}</h1>

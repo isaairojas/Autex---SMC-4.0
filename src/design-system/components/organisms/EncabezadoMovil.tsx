@@ -19,6 +19,7 @@ import campanaIcono from '../../../assets/movil/campana.svg';
 import carritoIcono from '../../../assets/movil/carrito.svg';
 import flechaIcono from '../../../assets/movil/flecha-especialidades.svg';
 import lupaIcono from '../../../assets/movil/lupa.svg';
+import { Icon } from '../atoms/Icon';
 import styles from './EncabezadoMovil.module.css';
 
 export type OpcionCuenta = 'perfil' | 'pedidos' | 'salir';
@@ -38,6 +39,10 @@ type EncabezadoMovilProps = {
   cuentaAbierta: boolean;
   onOpcionCuenta: (o: OpcionCuenta) => void;
   onCarrito: () => void;
+  /** D59: "Mi tienda" y "Entrega en" bajo el buscador (el sitio en celular no los tiene; ver H01). */
+  ubicacion?: { tienda: string; detalle: string; entrega: string; onTienda: () => void; onEntrega: () => void };
+  /** D52/D59: en el pago solo quedan el logo y "Volver al carrito". */
+  onVolverCarrito?: () => void;
 };
 
 export function EncabezadoMovil({
@@ -53,6 +58,8 @@ export function EncabezadoMovil({
   cuentaAbierta,
   onOpcionCuenta,
   onCarrito,
+  ubicacion,
+  onVolverCarrito,
 }: EncabezadoMovilProps) {
   const navigate = useNavigate();
   const [texto, setTexto] = useState('');
@@ -71,6 +78,16 @@ export function EncabezadoMovil({
       {carrito > 0 && <span className={`${styles.burbuja} text-movil-8-8`}>{carrito > 99 ? '99+' : carrito}</span>}
     </button>
   );
+  if (onVolverCarrito)
+    return (
+      <header className={`${styles.encabezado} ${styles.pasarela}`}>
+        <button type="button" className={styles.logo} onClick={() => navigate('/')} aria-label="Autex inicio" />
+        <button type="button" className={`${styles.volver} text-movil-14-22`} onClick={onVolverCarrito}>
+          <Icon name="arrow_back" box={20} size={18} />
+          Volver al carrito
+        </button>
+      </header>
+    );
   return (
     <header className={styles.encabezado}>
       <div className={styles.franja}>
@@ -80,7 +97,7 @@ export function EncabezadoMovil({
               <strong className="text-movil-16-24-medium">{banner.titulo}</strong>
             </span>
             <span className={styles.linea}>
-              <strong className="text-movil-16-24-medium">{banner.detalle}</strong>
+              {banner.detalle && <strong className="text-movil-16-24-medium">{banner.detalle}</strong>}
               {banner.nota && <span className={`${styles.nota} text-caption-book`}> {banner.nota}</span>}
             </span>
           </>
@@ -186,6 +203,24 @@ export function EncabezadoMovil({
           </button>
         </span>
       </form>
+      {ubicacion && (
+        <div className={styles.ubicacion}>
+          <button type="button" className={styles.chip} data-ancla="tienda" onClick={ubicacion.onTienda}>
+            <Icon name="store" box={20} size={18} color="var(--color-primary-500)" />
+            <span className={styles.chipTexto}>
+              <span className="text-movil-12-16">Mi tienda</span>
+              <strong className="text-movil-14-22">{ubicacion.tienda}</strong>
+            </span>
+          </button>
+          <button type="button" className={styles.chip} data-ancla="entrega" onClick={ubicacion.onEntrega}>
+            <Icon name="local_shipping" box={20} size={18} color="var(--color-primary-500)" />
+            <span className={styles.chipTexto}>
+              <span className="text-movil-12-16">Entrega en</span>
+              <strong className="text-movil-14-22">{ubicacion.entrega}</strong>
+            </span>
+          </button>
+        </div>
+      )}
     </header>
   );
 }

@@ -41,7 +41,7 @@ export function EnviosMultiples({ envios, total }: { envios: Envio[]; total: num
                   <span>
                     <span>
                       Sale de <strong>{e.sucursal}</strong>
-                      {e.bajoPedido && (e.foranea ? ' (sucursal foránea)' : ' (se completa tu pedido foráneo)')}
+                      {e.bajoPedido && (e.foranea ? ' (otra zona)' : ' (bajo pedido)')}
                     </span>
                     {e.foranea && e.bajoPedido && <span className={`${styles.foranea} text-body-2-book`}>{LEYENDA_FORANEA}</span>}
                     {e.direccion && <span className={`${styles.gris} text-body-2-book`}>{e.direccion}</span>}

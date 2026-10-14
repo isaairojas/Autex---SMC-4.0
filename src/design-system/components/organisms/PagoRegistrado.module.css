@@ -134,3 +134,15 @@
   filter: drop-shadow(0 4px 4px rgba(175, 175, 175, 0.3));
   cursor: pointer;
 }
+
+/* ===== Vista de celular (D59) ===== */
+:global(.vista-movil) .tarjetas {
+  width: 100%;
+}
+
+:global(.vista-movil) .tarjetaMain,
+:global(.vista-movil) .tarjetaInfo {
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  white-space: normal;
+}

@@ -10,8 +10,8 @@ import styles from './Sitio.module.css';
 
 export function CatalogoEspecialidades() {
   return (
-    <PageShell version2026 enlaceActivo="Catálogo">
-      <div className={styles.contenido} style={{ width: 1360 }}>
+    <PageShell version2026 movilListo enlaceActivo="Catálogo">
+      <div className={`${styles.contenido} ${styles.angosto}`}>
         <h1 className={`${styles.titulo} text-heading-3-medium`}>Catálogo de productos</h1>
         <section>
           <h2 className={`${styles.subtitulo} text-headline-book`}>Especialidades</h2>

@@ -46,7 +46,7 @@ export function Configuracion() {
   const titulo = nueva ? 'Nueva dirección' : seccion === 'perfil' ? 'Mi perfil' : seccion === 'pago' ? 'Método de pago' : seccion === 'pedidos' ? 'Mis pedidos' : 'Dirección de envío';
 
   return (
-    <PageShell version2026 enlaceActivo={null}>
+    <PageShell version2026 movilListo enlaceActivo={null}>
       <div className={styles.pagina}>
         <Tarjeta titulo="" ancho={300}>
           <p className={`${styles.menuTitulo} text-subheadline-medium`}>Mi perfil</p>

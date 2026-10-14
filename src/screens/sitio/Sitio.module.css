@@ -569,3 +569,143 @@
   justify-content: center;
   gap: 16px;
 }
+
+/* ===== Vista de celular (D58, capturas 01 y 08–12 del sitio): una columna a 16 px de los bordes ===== */
+:global(.vista-movil) .contenido {
+  width: auto;
+  padding: 16px 16px 40px;
+  gap: 24px;
+}
+
+:global(.vista-movil) .vehiculo {
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+}
+
+:global(.vista-movil) .select {
+  flex: 1 1 40%;
+  padding: 12px;
+}
+
+:global(.vista-movil) .carrusel {
+  height: 180px;
+}
+
+:global(.vista-movil) .beneficios,
+:global(.vista-movil) .tarjetasAzules,
+:global(.vista-movil) .sucursales,
+:global(.vista-movil) .tresColumnas {
+  flex-direction: column;
+  gap: 12px;
+}
+
+:global(.vista-movil) .beneficio {
+  justify-content: flex-start;
+}
+
+:global(.vista-movil) .seccionHead {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+:global(.vista-movil) .mosaico,
+:global(.vista-movil) .marcasDestacadas,
+:global(.vista-movil) .letras {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+:global(.vista-movil) .tile {
+  width: calc(50% - 4px);
+}
+
+:global(.vista-movil) .tileImagen,
+:global(.vista-movil) .tileImagen img {
+  width: 100%;
+  max-width: 140px;
+  height: auto;
+}
+
+:global(.vista-movil) .marcaChip {
+  min-width: 0;
+  flex: 1 1 40%;
+}
+
+:global(.vista-movil) .grupoMarca {
+  margin-bottom: 24px;
+}
+
+:global(.vista-movil) .listaSuc,
+:global(.vista-movil) .pasos {
+  width: 100%;
+}
+
+:global(.vista-movil) .scrollSuc {
+  height: auto;
+  max-height: 520px;
+}
+
+:global(.vista-movil) .mapa {
+  min-height: 320px;
+}
+
+:global(.vista-movil) .paso,
+:global(.vista-movil) .pasoInvertido {
+  flex-direction: column;
+  gap: 12px;
+}
+
+:global(.vista-movil) .campo {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Anchos de escritorio de cada página (antes en línea) */
+.angosto {
+  width: 1360px;
+}
+
+.compacto {
+  gap: 24px;
+}
+
+.gridProductos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+:global(.vista-movil) .angosto {
+  width: auto;
+}
+
+:global(.vista-movil) .gridProductos {
+  gap: 8px;
+}
+
+:global(.vista-movil) .gridProductos > * {
+  width: calc(50% - 4px);
+}
+
+:global(.vista-movil) .suc,
+:global(.vista-movil) .sucFila {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+:global(.vista-movil) .heroAzul,
+:global(.vista-movil) .caja {
+  padding: 24px 16px;
+}
+
+:global(.vista-movil) .pasoVisual {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:global(.vista-movil) .columnasMarcas {
+  columns: 2;
+  column-gap: 16px;
+}

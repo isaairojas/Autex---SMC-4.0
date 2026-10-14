@@ -32,7 +32,7 @@ await p.getByRole('button', { name: 'Proceder al pago' }).first().click();
 /* D52: información completa y un solo envío → directo a Confirmación, sin el encabezado del sitio */
 await p.waitForURL('**/checkout/confirmacion');
 await p.getByText('Tu información está completa y tu pedido llega en un solo envío').waitFor();
-if (await p.getByText('ENVÍO GRATIS A TODO MÉXICO').count()) throw new Error('La pasarela no debe mostrar la franja superior');
+if (await p.getByText('ENVÍO GRATIS EN TUS PRIMERAS COMPRAS').count()) throw new Error('La pasarela no debe mostrar la franja superior');
 if (await p.getByRole('button', { name: /Mis vehículos|Buscando para/ }).count()) throw new Error('La pasarela no debe mostrar la barra de navegación');
 await p.getByRole('button', { name: 'Volver al carrito' }).waitFor();
 await p.screenshot({ path: `${OUT}/0-directo-confirmacion.png`, fullPage: true });

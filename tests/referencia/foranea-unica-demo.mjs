@@ -22,7 +22,8 @@ await p.getByRole('search').getByRole('button', { name: 'Buscar' }).click();
 await p.waitForURL('**/busqueda**');
 await p.getByRole('status', { name: 'Cargando productos…' }).waitFor({ state: 'detached' }).catch(() => {});
 
-const nombre = 'Inyector de combustible Tecnofuel AI3922';
+/* D59: con el monto máximo de $70,000, el foco H7 (131 piezas en línea, 106 en la zona) en lugar del inyector. */
+const nombre = 'Foco halógeno H7 12V 55W luz blanca';
 await p.getByRole('button', { name: nombre }).first().click();
 const cant = p.getByLabel(`Cantidad de ${nombre}`);
 await cant.fill('9999');
@@ -39,7 +40,7 @@ await p.evaluate(() => document.fonts.ready);
 for (const b of await p.getByRole('button', { name: /Envío \d+/ }).all()) await b.click();
 const texto = await p.locator('body').innerText();
 const envios = [...texto.matchAll(/Envío \d+/g)].length;
-const foraneos = [...texto.matchAll(/sucursal foránea/g)].length;
+const foraneos = [...texto.matchAll(/\(otra zona\)/g)].length;
 await p.screenshot({ path: `${OUT}/1-envios.png`, fullPage: true });
 console.log(texto.split('\n').filter((l) => /Envío \d|Autex|foránea|Entrega/.test(l)).join('\n'));
 if (foraneos > 1) throw new Error(`Debe haber cuando mucho 1 envío foráneo (hay ${foraneos})`);

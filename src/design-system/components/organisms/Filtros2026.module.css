@@ -203,3 +203,15 @@
   color: var(--color-nativo-blanco);
   cursor: pointer;
 }
+
+/* Vista de celular (D58): en el panel de filtros ocupan todo el ancho. */
+:global(.vista-movil) .filtros,
+:global(.vista-movil) .panel,
+:global(.vista-movil) .precio {
+  width: 100%;
+}
+
+:global(.vista-movil) .lista,
+:global(.vista-movil) .barra {
+  width: 100%;
+}

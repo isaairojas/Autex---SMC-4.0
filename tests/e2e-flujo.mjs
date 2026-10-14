@@ -126,11 +126,11 @@ const cant = p.getByLabel('Cantidad de Alternador 12V 150A alto rendimiento Tecn
 await cant.fill('50');
 await cant.press('Enter');
 await p.getByRole('status', { name: 'Validando existencias' }).waitFor({ state: 'detached' });
-if ((await cant.inputValue()) !== '9') throw new Error('La cantidad debe ajustarse a las 9 piezas disponibles en línea');
-await p.getByText('Solo hay 9 piezas disponibles para compra en línea.').waitFor();
+if ((await cant.inputValue()) !== '8') throw new Error('La cantidad debe ajustarse a las 8 piezas disponibles en línea (sin Mercado Libre Adolf Horn, D59)');
+await p.getByText('Solo hay 8 piezas disponibles para compra en línea.').waitFor();
 await cant.fill('2');
 await cant.press('Enter');
-paso('Tarjeta: la cantidad se escribe y no supera la existencia para venta en línea (50 → "Validando existencias" → 9 con aviso)');
+paso('Tarjeta: la cantidad se escribe y no supera la existencia para venta en línea (50 → "Validando existencias" → 8 con aviso)');
 await p.getByRole('button', { name: 'Agregar al carrito' }).first().click();
 await p.getByRole('dialog', { name: 'Mi carrito' }).waitFor();
 paso('Agregar abre el mini-carrito');
@@ -254,8 +254,8 @@ await p.getByLabel('Cantidad de Motoventilador de radiador Tecnofuel').locator('
 await p.getByRole('button', { name: 'Ver todos los productos' }).click();
 await p.waitForURL('**/carrito');
 await p.getByText('Productos bajo pedido (1)').waitFor();
-await p.getByText(/Existencia en otra región/).first().waitFor();
-paso('Carrito: la marcha (solo en sucursal foránea) aparece "bajo pedido" con "Existencia en otra región"');
+await p.getByText(/Este producto está disponible en otra zona/).first().waitFor();
+paso('Carrito: la marcha (solo en sucursal foránea) aparece "bajo pedido" con la leyenda de otra zona (D59)');
 await p.getByRole('button', { name: 'Proceder al pago' }).first().click();
 await p.getByRole('status', { name: 'Preparando tu pedido' }).waitFor();
 await p.waitForURL('**/checkout/envio');

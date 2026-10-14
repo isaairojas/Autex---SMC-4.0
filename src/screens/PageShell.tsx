@@ -86,11 +86,10 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
   const sitio = !demo.modoFigma;
   const { tienda, panel, abrirPanel } = demo;
   /*
-   * D58: vista de celular (≤768 px) copiada de autex.com.mx. La pasarela de pago sigue con su vista de escritorio
-   * reducida hasta que tenga la suya.
+   * D58: vista de celular (≤768 px) copiada de autex.com.mx; en la pasarela, solo el logo y "Volver al carrito" (D59).
    */
   const movil = useMovil();
-  const vistaMovil = movil && sitio && !pasarela;
+  const vistaMovil = movil && sitio;
   const [menuMovil, setMenuMovil] = useState(false);
   /* En el sitio en celular no hay mini-carrito: el carrito se abre en su página (D58). */
   useEffect(() => {
@@ -293,6 +292,14 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
           cuentaAbierta={panel === 'cuenta'}
           onOpcionCuenta={opcionCuenta}
           onCarrito={() => navigate('/carrito')}
+          onVolverCarrito={pasarela ? () => navigate('/carrito') : undefined}
+          ubicacion={{
+            tienda: tienda ? `Autex ${tienda.nombre}` : 'Elige tu tienda',
+            detalle: tienda ? estadoHorario(tienda.horario).corto : '',
+            entrega: demo.direccion ? `${demo.direccion.nombre} · ${demo.direccion.codigoPostal}` : ubicacion?.codigoPostal ?? 'C.P.',
+            onTienda: () => abrirPanel(panel === 'tienda' ? null : 'tienda'),
+            onEntrega: () => abrirPanel(panel === 'entrega' ? null : 'entrega'),
+          }}
         />
         {movilListo ? (
           children

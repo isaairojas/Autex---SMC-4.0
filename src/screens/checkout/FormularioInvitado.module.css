@@ -122,3 +122,8 @@
 .ayuda {
   color: var(--color-neutral-600);
 }
+
+/* Vista de celular (D59): un campo por renglón. */
+:global(.vista-movil) .rejilla {
+  grid-template-columns: 1fr;
+}

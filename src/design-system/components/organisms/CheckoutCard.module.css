@@ -56,3 +56,31 @@
 .actionsInset {
   padding: 0 20px;
 }
+
+/* Vista de celular (D59) */
+:global(.vista-movil) .card {
+  width: 100%;
+  flex-shrink: 1;
+}
+
+:global(.vista-movil) .head {
+  height: 64px;
+}
+
+:global(.vista-movil) .title {
+  left: 72px;
+  top: 32px;
+}
+
+:global(.vista-movil) .contenido {
+  padding: 0 16px 16px;
+}
+
+:global(.vista-movil) .actions {
+  flex-wrap: wrap;
+  justify-content: stretch;
+}
+
+:global(.vista-movil) .actions > * {
+  flex: 1 1 auto;
+}

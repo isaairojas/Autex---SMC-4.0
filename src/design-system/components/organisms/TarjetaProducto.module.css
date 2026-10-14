@@ -263,3 +263,65 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* ===== Vista de celular (D58, captura 13): tarjeta a media pantalla ===== */
+:global(.vista-movil) .card {
+  width: auto;
+  min-height: 0;
+  padding: 8px;
+}
+
+:global(.vista-movil) .imagen img {
+  max-width: 100%;
+  height: auto;
+}
+
+:global(.vista-movil) .principal {
+  min-height: 0;
+}
+
+:global(.vista-movil) .skuMarca {
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .skuMarca img {
+  max-width: 100%;
+  height: auto;
+}
+
+:global(.vista-movil) .precio {
+  flex-wrap: wrap;
+}
+
+:global(.vista-movil) .motion,
+:global(.vista-movil) .motionBajo,
+:global(.vista-movil) .motionNo {
+  white-space: normal;
+}
+
+:global(.vista-movil) .fila {
+  gap: 8px;
+}
+
+:global(.vista-movil) .qty {
+  width: 100%;
+}
+
+:global(.vista-movil) .lista,
+:global(.vista-movil) .carrito,
+:global(.vista-movil) .avisar {
+  min-width: 0;
+  padding: 6px 8px;
+  white-space: normal;
+}
+
+:global(.vista-movil) .piezas {
+  white-space: nowrap;
+  align-self: center;
+}
+
+:global(.vista-movil) .compat {
+  box-sizing: border-box;
+  min-width: 0;
+  white-space: normal;
+}

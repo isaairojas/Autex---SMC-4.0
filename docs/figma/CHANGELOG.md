@@ -1,5 +1,9 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-14 — Disponibilidad, recoger, monto máximo y vista de celular completa (sin respaldo en Figma, D59)
+- Franja "Envío gratis en tus primeras compras"; Mercado Libre Adolf Horn oculta por configuración; textos nuevos de otra región y otra zona; "Entrega el mismo día" y plazo de 3 días para recoger con número de pedido e INE; la cantidad no baja de 1; monto máximo de $70,000.
+- Celular: todas las pantallas con su vista (catálogo, detalle, carrito, pago, gracias, cuenta y páginas del sitio); "Mi tienda" y "Entrega en" bajo el buscador. Prueba `tests/referencia/cambios-d59-demo.mjs`.
+
 ## 2026-10-09 — Vista de celular, entrega 1: marco y navegación (sin respaldo en Figma, D58)
 - Referencia: autex.com.mx en celular (capturas en `docs/autex-real/movil`, estilos medidos en `medidas/`; scripts `capturar-autex-movil.mjs`, `cdp-registrado-movil.mjs`, `medir-autex-movil.mjs` y `cdp-medir-registrado-movil.mjs`).
 - Por debajo de 768 px: encabezado, menú, pie plegable y WhatsApp flotante de celular; "Mis vehículos" e inicio de sesión con su forma de celular; pantallas sin vista propia, reducidas. Tokens e íconos del sitio en `tokens.css` y `src/assets/movil/`. Prueba `tests/referencia/movil-demo.mjs`.

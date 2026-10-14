@@ -103,3 +103,17 @@
   color: var(--color-naranja-bajo-pedido);
 }
 
+
+/* ===== Vista de celular (D59) ===== */
+:global(.vista-movil) .aviso {
+  display: block;
+}
+
+:global(.vista-movil) .cabecera {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+:global(.vista-movil) .resumen {
+  flex: 1 1 60%;
+}

@@ -43,7 +43,9 @@ Clientes no registrados y registrados en búsqueda, categorías, promociones y d
   piezas de servicios distintos, la del envío más tardío; si solo la completa una foránea habilitada, "Disponible
   bajo pedido" con la leyenda de otra región.
 - **RF5.** Detalle: sección "Disponibilidad" con piezas en línea y piezas en "Mi tienda", sin pasillo ni bahía;
-  con solo foránea, "Existencia en otra región" con 2 a 4 días hábiles. *(CAT-07)*
+  si solo hay piezas en otra región o la cantidad supera lo de la zona: "No encontramos este producto en las tiendas
+  de tu zona. Lo enviaremos desde otra región y podría tardar más de lo normal. *Entrega estimada de 2 a 4 días
+  hábiles". Los rangos de piezas llegan hasta "+100". *(CAT-07, CAT-02, D59)*
 - **RF6.** "Buscar en otra tienda" abre una barra con "Mi tienda" primero y las sucursales cercanas que lo tienen
   (abierta o cerrada, piezas, dirección, teléfono, mapa y "Seleccionar tienda"); al pie, "Cambiar dirección".
   *(CAT-08)*

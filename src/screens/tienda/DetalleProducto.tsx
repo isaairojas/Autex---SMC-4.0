@@ -36,7 +36,7 @@ import r4 from '../../assets/images/rel-4.png';
 import { CATALOGO_SITIO } from '../../mocks/catalogo';
 import { formatoMXN } from '../../mocks/productos';
 import { esPedidoForaneo, esSoloLocal, estadoExistencia, etiquetaExistencia, existenciaEnLinea, existenciaEnTienda, existenciaLocal, maximoVenta, tiendasQueSurten } from '../../mocks/existencias';
-import { LEYENDA_FORANEA } from '../../design-system/components/organisms/EntregaCarrito';
+import { ENTREGA_OTRA_REGION, TEXTO_OTRA_REGION } from '../../design-system/components/organisms/EntregaCarrito';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
 import styles from './DetalleProducto.module.css';
@@ -159,7 +159,7 @@ export function DetalleProducto() {
 
   return (
     /* Sitio: cabecera 2026 con "Mi tienda" y "Entrega en" (la galería conserva el Navbar clásico del detalle). */
-    <PageShell version2026={!modoFigma} enlaceActivo={null}>
+    <PageShell version2026={!modoFigma} enlaceActivo={null} movilListo>
       <BuscadorVehiculo variante="detalle" />
       <Breadcrumbs
         items={modoFigma ? ['Especialidades', 'Automotriz', 'Actual section', '2020'] : ['Especialidades', producto.especialidad ?? 'Automotriz', producto.categoria ?? producto.nombre]}
@@ -246,7 +246,7 @@ export function DetalleProducto() {
           </div>
           {!modoFigma && estadoPedido === 'bajo-pedido' && (
             <p className={`${styles.dispBajo} text-body-1-book`}>
-              Entrega estimada de 2 a 4 días hábiles. {LEYENDA_FORANEA}
+              {TEXTO_OTRA_REGION} {ENTREGA_OTRA_REGION}
             </p>
           )}
         </div>
@@ -486,7 +486,7 @@ function Disponibilidad({ enLinea, enTienda, tienda, soloLocal, foranea, onOtraT
           </p>
           <p className={`${styles.dispGris} text-body-1-book`}>
             {foranea
-              ? 'Piezas de sucursales fuera de tu zona de entrega.'
+              ? 'Piezas de otra región.'
               : soloLocal
               ? 'Las baterías se surten solo de sucursales locales o locales extendidas de tu zona (hasta 30 km).'
               : 'Te mostraremos los detalles de entrega antes de finalizar tu compra'}
@@ -500,8 +500,7 @@ function Disponibilidad({ enLinea, enTienda, tienda, soloLocal, foranea, onOtraT
               <span>Existencia en otra región</span>
             </p>
             <p className="text-body-1-book">
-              Este producto no está en las tiendas de tu zona. Lo conseguimos en otra región y se envía como pedido foráneo: entrega estimada de 2 a 4 días hábiles y
-              podría tardar más de lo normal.
+              {TEXTO_OTRA_REGION} {ENTREGA_OTRA_REGION}
             </p>
           </div>
         ) : (

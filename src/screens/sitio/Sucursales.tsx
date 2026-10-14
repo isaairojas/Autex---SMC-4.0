@@ -43,8 +43,8 @@ export function Sucursales() {
   const limites: Limites = centro ? { latMin: centro[0] - 0.35, latMax: centro[0] + 0.35, lonMin: centro[1] - 0.45, lonMax: centro[1] + 0.45 } : MEXICO;
 
   return (
-    <PageShell version2026 enlaceActivo={null}>
-      <div className={styles.contenido} style={{ width: 1360 }}>
+    <PageShell version2026 movilListo enlaceActivo={null}>
+      <div className={`${styles.contenido} ${styles.angosto}`}>
         <div className={styles.sucursales}>
           <div className={styles.listaSuc}>
             <h1 className={`${styles.titulo} text-subheadline-medium`}>Localiza tu tienda Autex más cercana</h1>

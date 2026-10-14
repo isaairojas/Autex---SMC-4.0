@@ -1,4 +1,8 @@
 {
   "descripcion": "Red de búsqueda de existencias por ubicación de entrega: sucursales Local y Local Extendido + las N sucursales foráneas más cercanas (dentro del alcance Foráneo).",
-  "sucursalesForaneasMaximo": 1
+  "sucursalesForaneasMaximo": 1,
+  "sucursalesOcultas": [
+    "Mercado Libre Adolf Horn"
+  ],
+  "descripcionSucursalesOcultas": "D59: sucursales que no venden en línea ni surten envíos; no aparecen en ninguna lista del sitio."
 }

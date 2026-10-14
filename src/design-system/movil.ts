@@ -5,11 +5,12 @@
  */
 import { useEffect, useState } from 'react';
 
-export const CONSULTA_MOVIL = '(max-width: 768px)';
+/** D59: también el celular acostado (táctil y de poca altura), que mide más de 768 px de ancho. */
+export const CONSULTA_MOVIL = '(max-width: 768px), (pointer: coarse) and (max-height: 500px)';
 
 const coincide = () => typeof window !== 'undefined' && window.matchMedia(CONSULTA_MOVIL).matches;
 
-/** true mientras la ventana mide 768 px o menos (celular). */
+/** true en celular: ventana de 768 px o menos, o celular acostado. */
 export function useMovil() {
   const [movil, setMovil] = useState(coincide);
   useEffect(() => {

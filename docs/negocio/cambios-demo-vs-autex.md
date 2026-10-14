@@ -1,6 +1,6 @@
 # Cambios de la demo frente a autex.com.mx
 
-Corte: 9 de octubre de 2026. 52 cambios. Se genera desde `cambios-demo-vs-autex.html` (la fuente): no editar a mano;
+Corte: 14 de octubre de 2026. 54 cambios. Se genera desde `cambios-demo-vs-autex.html` (la fuente): no editar a mano;
 para actualizarlo, editar el HTML y correr `node docs/negocio/cambios-a-md.mjs`.
 
 Tipos: **Nuevo** (no existe en el sitio actual) · **Ajuste** (existe en el sitio, pero cambia) · **Regla** (regla de
@@ -37,6 +37,8 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 | CAR-01 | Enviar a domicilio o recoger en tienda | Nuevo | Carrito |
 | CAR-02 | Zona o dirección de entrega y tienda de recolección | Nuevo | Carrito |
 | CAR-03 | Carrito agrupado por disponibilidad | Ajuste | Carrito |
+| CAR-08 | Cantidad mínima y eliminar | Regla | Carrito |
+| CAR-09 | Monto máximo de compra | Regla | Carrito |
 | CAR-04 | Tope al recoger en tienda | Regla | Carrito |
 | CAR-05 | Detalle desde el carrito | Ajuste | Carrito |
 | CAR-06 | Conteo de piezas y guardados | Regla | Carrito |
@@ -125,10 +127,10 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 ### UBI-08 · Tiendas que surten cada entrega (Regla)
 
 - **Hoy en autex.com.mx:** Por confirmar con el equipo del sitio.
-- **Cómo debe quedar:** Las existencias en línea, "Buscar en otra tienda" y los envíos solo usan las tiendas Local y Local Extendido de la dirección (hasta 30 km) más la sucursal foránea más cercana. El número de foráneas es configurable (1 por defecto), así que el pedido tiene cuando mucho un envío foráneo.
-- **Pantallas:** Catálogo, detalle, carrito, pago
+- **Cómo debe quedar:** Las existencias en línea, "Buscar en otra tienda" y los envíos solo usan las tiendas Local y Local Extendido de la dirección (hasta 30 km) más la sucursal foránea más cercana. El número de foráneas es configurable (1 por defecto), así que el pedido tiene cuando mucho un envío foráneo. Una configuración dice qué sucursales no venden en línea (por ejemplo, Mercado Libre Adolf Horn): no aparecen en ninguna lista ni surten envíos.
+- **Pantallas:** Catálogo, detalle, carrito, pago, "Mi tienda", sucursales
 - **Celular:** Igual.
-- **Origen:** D49
+- **Origen:** D49, D59
 
 ### UBI-09 · Página de sucursales (Ajuste)
 
@@ -175,10 +177,10 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 ### CAT-05 · Venta bajo pedido desde la sucursal foránea (Regla)
 
 - **Hoy en autex.com.mx:** Por confirmar con el equipo del sitio.
-- **Cómo debe quedar:** Si las tiendas de la zona (hasta 30 km) no completan la cantidad pero la sucursal foránea más cercana sí, el producto se vende "Disponible bajo pedido", con entrega de 2 a 4 días hábiles y la leyenda "Existencia en otra región: se envía como pedido foráneo y podría tardar más de lo normal". Se recalcula con la cantidad, también desde la tarjeta: el filtro de aire tiene 1 pieza en Tesistán, así que con 1 está disponible y con 2 pasa a bajo pedido; la marcha no tiene piezas en la zona y es bajo pedido desde la primera. En el pago, las tiendas de la zona envían lo que tienen con su tiempo normal y solo lo que falta sale bajo pedido de la foránea.
+- **Cómo debe quedar:** Si las tiendas de la zona (hasta 30 km) no completan la cantidad pero la sucursal foránea más cercana sí, el producto se vende "Disponible bajo pedido", con entrega de 2 a 4 días hábiles y la leyenda "Este producto está disponible en otra zona. El envío puede tardar más de lo normal." (no se habla de sucursales foráneas: es un término operativo). Se recalcula con la cantidad, también desde la tarjeta: el filtro de aire tiene 1 pieza en Tesistán, así que con 1 está disponible y con 2 pasa a bajo pedido; la marcha no tiene piezas en la zona y es bajo pedido desde la primera. En el pago, las tiendas de la zona envían lo que tienen con su tiempo normal y solo lo que falta sale bajo pedido de la foránea.
 - **Pantallas:** Búsqueda, detalle, carrito, pago
 - **Celular:** Igual.
-- **Origen:** D44, D46
+- **Origen:** D44, D46, D59
 
 ### CAT-06 · CEDIS fuera de la venta en línea (Regla)
 
@@ -191,10 +193,10 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 ### CAT-07 · Disponibilidad en el detalle (Nuevo)
 
 - **Hoy en autex.com.mx:** El detalle muestra precio, cantidad y "Añadir al carrito", sin piezas por tienda.
-- **Cómo debe quedar:** Sección "Disponibilidad" con las piezas para compra en línea y las piezas físicas en "Mi tienda", más "Buscar en otra tienda". No se muestran pasillo ni bahía. Si el producto solo se consigue en la sucursal foránea, en lugar de la tienda aparece "Existencia en otra región", con entrega estimada de 2 a 4 días hábiles; en el carrito se muestra igual, bajo pedido.
+- **Cómo debe quedar:** Sección "Disponibilidad" con las piezas para compra en línea y las piezas físicas en "Mi tienda", más "Buscar en otra tienda". No se muestran pasillo ni bahía. Si el producto solo se consigue en la sucursal foránea, o la cantidad supera lo que hay en las tiendas de la zona, el detalle dice: "No encontramos este producto en las tiendas de tu zona. Lo enviaremos desde otra región y podría tardar más de lo normal. *Entrega estimada de 2 a 4 días hábiles"; en el carrito se muestra bajo pedido.
 - **Pantallas:** Detalle, carrito
 - **Celular:** Igual.
-- **Origen:** D34, D45
+- **Origen:** D34, D45, D59
 
 ### CAT-08 · Buscar en otra tienda (Nuevo)
 
@@ -279,6 +281,22 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 - **Pantallas:** Carrito
 - **Celular:** Igual.
 - **Origen:** D44, D57
+
+### CAR-08 · Cantidad mínima y eliminar (Regla)
+
+- **Hoy en autex.com.mx:** Por confirmar con el equipo del sitio.
+- **Cómo debe quedar:** Bajar la cantidad con "−" o escribir 0 deja el producto en 1 pieza: no se elimina. Para quitarlo del carrito está "Eliminar".
+- **Pantallas:** Carrito
+- **Celular:** Igual.
+- **Origen:** D59
+
+### CAR-09 · Monto máximo de compra (Regla)
+
+- **Hoy en autex.com.mx:** Por confirmar con el equipo del sitio.
+- **Cómo debe quedar:** Si el total del carrito supera $70,000 (configurable), aparece "El total de tu compra no puede superar $70,000.00. Ajusta las cantidades o elimina productos para continuar." y no se puede pasar al pago.
+- **Pantallas:** Carrito
+- **Celular:** Igual.
+- **Origen:** D59
 
 ### CAR-04 · Tope al recoger en tienda (Regla)
 
@@ -381,10 +399,10 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 ### PAG-09 · Recoger en tienda en el pago (Nuevo)
 
 - **Hoy en autex.com.mx:** No aplica.
-- **Cómo debe quedar:** Lo que el cliente eligió recoger no entra en los envíos: el paso 2 lo muestra en "Recoger en tienda" con la tienda, su dirección y horario, y la confirmación lo muestra aparte con sus artículos.
-- **Pantallas:** Pago (pasos 2 y 4)
+- **Cómo debe quedar:** Lo que el cliente eligió recoger no entra en los envíos: el paso 2 lo muestra en "Recoger en tienda" con "Entrega el mismo día", la tienda, su dirección y horario, y la confirmación lo muestra aparte con sus artículos. Al terminar la compra (y en el correo de confirmación) se avisa: "Recoge tu pedido a partir de hoy y hasta 3 días posteriores a tu compra", con su número de pedido y su INE. Los 3 días se configuran.
+- **Pantallas:** Pago (pasos 2 y 4), gracias, correo de confirmación
 - **Celular:** Igual.
-- **Origen:** D43, D54
+- **Origen:** D43, D54, D59
 
 ### PAG-10 · Sin costo de envío (Ajuste)
 
@@ -473,10 +491,10 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 ### GEN-03 · Franja de envío gratis (Ajuste)
 
 - **Hoy en autex.com.mx:** "Envío gratis a todo México · Compras mayores a $1500 MXN".
-- **Cómo debe quedar:** "Envío gratis a todo México | Sin mínimo de compra por apertura" con "(Aplica restricciones)" en letra más chica. La promoción y la leyenda de restricciones se encienden o se apagan por configuración.
-- **Pantallas:** Barra superior
-- **Celular:** Igual; en celular la leyenda hace que la franja ocupe 3 líneas.
-- **Origen:** D57
+- **Cómo debe quedar:** "Envío gratis en tus primeras compras" con "(Aplica restricciones)" en letra más chica, para no prometer que siempre será así. El beneficio del inicio dice lo mismo. La promoción y la leyenda de restricciones se encienden o se apagan por configuración.
+- **Pantallas:** Barra superior, inicio
+- **Celular:** Igual.
+- **Origen:** D57, D59
 
 ### GEN-04 · Textos (Ajuste)
 
@@ -491,10 +509,10 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 ### CEL-01 · Vista de celular (Ajuste)
 
 - **Hoy en autex.com.mx:** El sitio tiene su vista de celular (768 px o menos): franja azul, menú de hamburguesa, "Mis vehículos", "Ingresar", carrito, buscador con "Especialidades", "Búsqueda por vehículo" plegable, pie plegable y botón flotante de WhatsApp. En celular la lista de "Especialidades" no abre.
-- **Cómo debe quedar:** La vista de celular parte de la del sitio, copiada tal cual (capturas y medidas en docs/autex-real/movil), y le aplica todos los cambios de esta lista; Figma no tiene diseño de celular. "Especialidades" abre su lista. En la demo ya están el encabezado, el menú, el pie, "Mis vehículos" y el inicio de sesión; el resto de las pantallas sigue el plan de docs/autex-real/movil/PLAN.md.
+- **Cómo debe quedar:** La vista de celular parte de la del sitio, copiada tal cual (capturas y medidas en docs/autex-real/movil), y le aplica todos los cambios de esta lista; Figma no tiene diseño de celular. "Especialidades" abre su lista. En la demo todas las pantallas ya tienen su vista de celular (encabezado, menú, pie, inicio, catálogo con filtros en un panel, detalle, carrito, los 4 pasos del pago, gracias y la cuenta), con "Mi tienda" y "Entrega en" bajo el buscador y, en el pago, solo el logo y "Volver al carrito".
 - **Pantallas:** Todas
 - **Celular:** Ver las decisiones pendientes abajo.
-- **Origen:** D58
+- **Origen:** D58, D59
 
 ## Qué tener en cuenta
 
@@ -504,13 +522,16 @@ existencias, tiendas o envíos que decide el cálculo, no una pantalla). "Origen
 - Los cambios de tipo "Regla" los decide el cálculo de existencias y envíos (SMC 4.0); las pantallas solo muestran su resultado.
 - Cada cambio aplica en escritorio y en celular. La columna "Celular" dice cuando hay una diferencia o algo pendiente.
 
+### Celular: decisiones tomadas (D59, por confirmar)
+
+- "Mi tienda" y "Entrega en" van en una fila bajo el buscador; cada uno abre su panel a pantalla completa.
+- Carrito: método de entrega, zona o dirección y subtotal arriba (como el resumen del sitio en celular) y los productos abajo.
+- Pago: solo el logo y "Volver al carrito", como en escritorio (D52); los pasos muestran sus números y el nombre del paso actual.
+- Catálogo: "Búsqueda por vehículo" plegable y "Filtros" en un panel a pantalla completa, como el sitio.
+
 ### Celular: decisiones pendientes
 
-- Dónde van "Mi tienda" y "Entrega en" en el encabezado de celular (el sitio en celular no los tiene).
 - Cómo se ve el aviso de ubicación al entrar.
-- Cómo se ve "Buscar en otra tienda" (en escritorio es una barra a la derecha).
-- El orden del carrito con los bloques nuevos (el sitio en celular pone el resumen arriba).
-- El encabezado del pago (el sitio en celular muestra el encabezado completo).
 - Si el estado de la demo se conserva al recargar la página (en celular se recarga más seguido).
 - Plan y avance de la vista de celular: `docs/autex-real/movil/PLAN.md`.
 

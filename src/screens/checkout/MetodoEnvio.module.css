@@ -160,3 +160,13 @@
 .direccionTexto {
   flex: 1;
 }
+
+/* ===== Vista de celular (D59) ===== */
+:global(.vista-movil) .direccion {
+  flex-wrap: wrap;
+  padding: 12px;
+}
+
+:global(.vista-movil) .direccionTexto {
+  flex: 1 1 70%;
+}

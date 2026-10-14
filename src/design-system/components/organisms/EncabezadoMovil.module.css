@@ -238,3 +238,57 @@
   background: var(--color-nativo-blanco);
   cursor: pointer;
 }
+
+/* D59: "Mi tienda" y "Entrega en" bajo el buscador, cada uno abre su panel. */
+.ubicacion {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+
+.chip {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 4px;
+  background: var(--color-nativo-blanco);
+  text-align: left;
+  cursor: pointer;
+}
+
+.chipTexto {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-neutral-900);
+}
+
+.chipTexto strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* D52/D59: encabezado del pago en celular: logo y "Volver al carrito". */
+.pasarela {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--color-neutral-200);
+}
+
+.volver {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary-500);
+  cursor: pointer;
+}

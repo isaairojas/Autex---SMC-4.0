@@ -31,8 +31,12 @@ function Opcion({ activo, icono, children, deshabilitado, onClick }: { activo: b
   );
 }
 
-/** D44/D45: leyenda de lo que se consigue en sucursales foráneas (existencia en otra región). */
-export const LEYENDA_FORANEA = 'Existencia en otra región: se envía como pedido foráneo y podría tardar más de lo normal.';
+/** D59: leyenda de lo que pasa a bajo pedido porque la mercancía está en otra zona (sin hablar de sucursales foráneas). */
+export const LEYENDA_FORANEA = 'Este producto está disponible en otra zona. El envío puede tardar más de lo normal.';
+
+/** D59: texto del detalle cuando el producto solo está en otra región o la cantidad supera lo de la zona. */
+export const TEXTO_OTRA_REGION = 'No encontramos este producto en las tiendas de tu zona. Lo enviaremos desde otra región y podría tardar más de lo normal.';
+export const ENTREGA_OTRA_REGION = '*Entrega estimada de 2 a 4 días hábiles';
 
 type SelectorProps = {
   modo: ModoEntrega;
@@ -59,7 +63,7 @@ export function SelectorEntrega({ modo, enLinea, enTienda, tienda, aviso, forane
         <p className="text-body-2-book">
           <Icon name="devices" box={20} size={18} color="var(--color-neutral-700)" />
           <span>
-            <strong className={enLinea === '0' ? styles.rojo : styles.verde}>{enLinea}</strong> disponibles para compra en línea{foranea && ' (en otra región)'}
+            <strong className={enLinea === '0' ? styles.rojo : styles.verde}>{enLinea}</strong> disponibles para compra en línea{foranea && ' (en otra zona)'}
           </span>
         </p>
         {/* D45/D46: en un pedido foráneo sin piezas en tu tienda solo se muestra la existencia en línea. */}

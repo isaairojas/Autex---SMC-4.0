@@ -30,8 +30,8 @@ const FAQ = [
 export function ComoComprar() {
   const navigate = useNavigate();
   return (
-    <PageShell version2026 enlaceActivo={null}>
-      <div className={styles.contenido} style={{ width: 1360 }}>
+    <PageShell version2026 movilListo enlaceActivo={null}>
+      <div className={`${styles.contenido} ${styles.angosto}`}>
         <section className={styles.heroAzul}>
           <h1 className="text-heading-3-book" style={{ margin: 0 }}>
             Compra en Autex fácil y seguro

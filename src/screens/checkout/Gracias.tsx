@@ -14,6 +14,7 @@ import pesos from '../../assets/illustrations/gracias-signo-pesos.svg';
 import brand from '../../assets/illustrations/gracias-brand.svg';
 import { useDemo } from '../../state/DemoContext';
 import { PageShell } from '../PageShell';
+import pedidoConfig from '../../mocks/configuracion-pedido.json';
 import styles from './Gracias.module.css';
 
 type GraciasProps = {
@@ -33,6 +34,8 @@ export function Gracias({ ticketAbierto = false, soloContenido = false }: Gracia
   const monto = pedido ? pedido.total : totales.total;
   /* Plazo para pagar en tienda: 3 días (Figma: 21-04-2023). */
   const limite = modoFigma ? '21-04-2023' : new Date(Date.now() + 3 * 86400000).toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+
+  const fechaLimiteRecoger = new Date(Date.now() + pedidoConfig.diasParaRecoger * 86400000).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
 
   const inicio = () => {
     if (!modoFigma) reiniciar();
@@ -65,6 +68,13 @@ export function Gracias({ ticketAbierto = false, soloContenido = false }: Gracia
                 {modoFigma ? 'Tu auto está por estrenar. ' : 'Recibimos tu pedido. '}Tu número de pedido es<b className={styles.bold}> {numero}. </b>Se enviará un correo electrónico con los detalles de tu
                 compra.{enTienda && ` No te olvides de descargar tu referencia de pago y realizarlo en ${modoFigma ? 'Tienda OXXO' : pedido?.tiendaPago ?? 'la tienda de autoservicio que elegiste'}.`}
               </p>
+              {/* D59: plazo para recoger (configuracion-pedido.json) y lo que hay que presentar en la tienda. */}
+              {pedido?.tiendaRecoge && (
+                <p className={`${styles.desc} text-os-body-1`}>
+                  Recoge tu pedido en {pedido.tiendaRecoge} a partir de hoy y hasta {pedidoConfig.diasParaRecoger} días posteriores a tu compra (
+                  {fechaLimiteRecoger}). Presenta tu número de pedido y tu INE.
+                </p>
+              )}
             </div>
           </div>
           <div className={styles.actions}>
@@ -95,7 +105,7 @@ export function Gracias({ ticketAbierto = false, soloContenido = false }: Gracia
   if (soloContenido) return contenido;
 
   return (
-    <PageShell>
+    <PageShell movilListo>
       <section className={styles.section}>
         {contenido}
       </section>
