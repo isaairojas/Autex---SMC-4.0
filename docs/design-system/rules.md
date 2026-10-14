@@ -14,3 +14,8 @@
    en el comentario de cabecera y en `figma-map.json`, y proponer el diseño al equipo.
 9. Cada archivo de componente o pantalla inicia con su nodo de Figma y la fecha de sincronización.
 10. Después de cambiar UI: `node tests/visual/compare-all.mjs` y revisar los diffs; `node tests/e2e-flujo.mjs` para el flujo.
+11. Vista de celular (≤768 px, D58): no hay frames móviles en Figma; la referencia es autex.com.mx en celular
+    (`docs/autex-real/movil`). Valores medidos en `medidas/medidas.json` como tokens (sección "Vista de celular" de
+    `tokens.css`); íconos e imágenes del sitio en `src/assets/movil/`. Las piezas solo de celular se llaman *Movil*
+    (`EncabezadoMovil`, `MenuMovil`, `PieMovil`); los estilos de celular de piezas compartidas con escritorio van bajo
+    `:global(.vista-movil)` para no tocar escritorio ni las pantallas aún reducidas. Prueba: `node tests/referencia/movil-demo.mjs`.

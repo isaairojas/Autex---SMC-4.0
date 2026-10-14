@@ -1,0 +1,12 @@
+/* SIN RESPALDO EN FIGMA (D58): marco de la vista de celular (≤768 px), al ancho de la pantalla como autex.com.mx. */
+.pagina {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--color-nativo-blanco);
+}
+
+/* Pantalla sin vista de celular todavía: su diseño de 1920 px reducido con zoom al ancho de la pantalla. */
+.escalado {
+  width: 1920px;
+}

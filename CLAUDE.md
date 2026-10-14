@@ -1,6 +1,6 @@
 # AUTEX — Demo Autex.com.mx + SMC 4.0
 
-- Constitution: `.specify/memory/constitution.md` (Spec Kit). Spec activa: `specs/001-smc4-demo-sucursales/spec.md`.
+- Constitution: `.specify/memory/constitution.md` (Spec Kit). Spec activa: `specs/002-smc4-integracion/spec.md` (v2; la v1 es `specs/001-smc4-demo-sucursales/spec.md`).
 - Antes de cualquier tarea de UI, lee y sigue @FIGMA_REPLICA.md.
 
 ## Sistema de diseño (réplica de Figma)
@@ -13,8 +13,11 @@
   "sin respaldo en Figma" en docs/figma-2026/figma-map.json.
 - Si el diseño cambia en Figma: resincronizar solo los nodos modificados y registrar en docs/figma/CHANGELOG.md.
 - Reglas detalladas: docs/design-system/rules.md · Discrepancias: docs/figma/discrepancias.md.
+- Vista de celular (≤768 px, D58): Figma no tiene diseño móvil; la referencia es autex.com.mx en celular
+  (capturas y medidas en docs/autex-real/movil). Primero se copia tal cual y después se aplican los cambios de la demo.
 
 ## Comandos
 - `npm run dev` · `npm run build`
 - Verificación visual: `node tests/visual/compare-all.mjs` (servidor en el puerto 5179: `npx vite --port 5179`; capturas en docs/figma-2026/cache).
 - Flujo completo: `node tests/e2e-flujo.mjs`.
+- Vista de celular: `node tests/referencia/movil-demo.mjs`.

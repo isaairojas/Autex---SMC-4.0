@@ -23,3 +23,5 @@ Scripts (requieren Chrome instalado; el sitio bloquea el Chromium de Playwright 
 
 Fuera de alcance (enlaces externos o páginas de texto legal): términos, aviso de privacidad, preguntas frecuentes, facturación,
 quiénes somos, bolsa de trabajo, revista y solicitud de crédito (PDF de Apymsa).
+
+Vista de celular (2026-10-09): capturas y scripts en `movil/` (ver `movil/README.md`).

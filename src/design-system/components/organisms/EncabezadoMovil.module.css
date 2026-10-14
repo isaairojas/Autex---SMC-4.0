@@ -1,0 +1,240 @@
+/*
+ * SIN RESPALDO EN FIGMA (D58): encabezado de autex.com.mx en celular. Valores medidos en el sitio real a 390 px
+ * (docs/autex-real/movil/medidas/medidas.json, "encabezado"; con sesión: registrado/medidas).
+ */
+
+/* nav 390×225: franja 82 + fila 96 + buscador 35 + 12 */
+.encabezado {
+  padding-bottom: 12px;
+  background: var(--color-nativo-blanco);
+}
+
+.franja {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  background: var(--color-primary-500);
+  color: var(--color-nativo-blanco);
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.linea {
+  display: block;
+  padding: 0 10px;
+}
+
+/* D57: la nota de restricciones va en texto más chico y sin mayúsculas, como en escritorio */
+.nota {
+  text-transform: none;
+}
+
+.telefonos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.telefono {
+  display: flex;
+  align-items: center;
+  color: var(--color-nativo-blanco);
+  text-decoration: none;
+}
+
+.telefono strong {
+  padding-left: 5px;
+}
+
+.fila {
+  height: 96px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.icono,
+.ingresar,
+.carrito,
+.vehiculos,
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-neutral-900);
+  cursor: pointer;
+}
+
+/* Logo: fondo SVG de 35×26, 90 % de ancho y centrado (logo-responsive.svg) */
+.logo {
+  width: 35px;
+  height: 26px;
+  background: url('../../../assets/movil/logo-responsive.svg') 50% 50% / 90% auto no-repeat;
+}
+
+.vehiculos {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: var(--color-neutral-50);
+}
+
+.vehiculos img,
+.ingresar img,
+.carrito img {
+  margin-right: 8px;
+}
+
+.ancla {
+  position: relative;
+  display: flex;
+}
+
+/* Menú de la cuenta (Ant Dropdown): 3 px bajo el ícono, alineado a su derecha */
+.cuenta {
+  position: absolute;
+  top: calc(100% + 3px);
+  right: 0;
+  z-index: 20;
+  width: max-content;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: var(--shadow-desplegable-movil);
+}
+
+.cuenta button,
+.listaEsp button {
+  display: block;
+  width: 100%;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  color: var(--color-texto-control-movil);
+  text-align: left;
+  cursor: pointer;
+}
+
+.grupo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.campana {
+  display: flex;
+  margin-right: 15px;
+}
+
+.carrito {
+  position: relative;
+}
+
+/* Burbuja del carrito: 5 px arriba del ícono, 4 px a su derecha */
+.burbuja {
+  position: absolute;
+  top: -5px;
+  left: 4px;
+  display: flex;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-secondary-500);
+  color: var(--color-nativo-blanco);
+}
+
+.buscador {
+  position: relative;
+  height: 35px;
+  margin: 0;
+  padding: 0 16px;
+  display: flex;
+}
+
+.especialidades {
+  flex: 0 0 auto;
+  width: 128.5px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 1px solid var(--color-primary-400);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  background: var(--color-primary-50);
+  box-shadow: var(--shadow-boton-movil);
+  color: var(--color-texto-control-movil);
+  cursor: pointer;
+}
+
+.especialidades span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.listaEsp {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  max-height: 320px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border-radius: 8px;
+  background: var(--color-nativo-blanco);
+  box-shadow: var(--shadow-desplegable-movil);
+}
+
+.campo {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.campo input {
+  width: 100%;
+  min-width: 0;
+  height: 35px;
+  padding: 4px 11px;
+  border: 1px solid var(--color-primary-400);
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  outline: none;
+  background: var(--color-nativo-blanco);
+  color: var(--color-texto-control-movil);
+}
+
+.campo input::placeholder {
+  color: var(--color-placeholder-movil);
+}
+
+.lupa {
+  position: absolute;
+  top: 1.75px;
+  right: 3px;
+  bottom: 1.75px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border: none;
+  background: var(--color-nativo-blanco);
+  cursor: pointer;
+}

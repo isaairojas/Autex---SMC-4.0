@@ -165,6 +165,11 @@ Cada escenario es un criterio de aceptación: al cargarlo, el resultado visible 
   asignar a ninguna sucursal de la opción, distinguiéndolos de los artículos sin existencia.
 - **FR-015**: La demo DEBE verse como la tienda Autex.com.mx de escritorio definida en Figma
   (cabecera, pie de página, inicio, detalle de producto y los 4 pasos del checkout).
+- **FR-018**: En celular (pantallas de 768 px de ancho o menos) la demo DEBE verse como autex.com.mx en
+  celular, tomado de capturas y medidas del sitio real porque Figma no tiene diseño móvil. Primero se
+  copia tal cual (encabezado, menú, pie, ventanas y las pantallas del flujo de invitado y de cliente
+  registrado) y después se le aplican los cambios de la demo. Mientras una pantalla no tenga su vista de
+  celular, se muestra su versión de escritorio reducida al ancho de la pantalla.
 - **FR-016**: El usuario DEBE poder elegir su dirección o código postal antes de agregar mercancía,
   y ver las existencias según esa ubicación.
 - **FR-017**: El flujo completo (dirección/C.P. → agregar mercancía → checkout → confirmación) DEBE
@@ -196,6 +201,9 @@ Cada escenario es un criterio de aceptación: al cargarlo, el resultado visible 
   palabras por qué se eligió esa sucursal.
 - **SC-004**: El 100 % de las pantallas del flujo tienen al menos un globo explicativo.
 - **SC-005**: Las opciones de envío aparecen en menos de 2 segundos tras llegar al paso de envío.
+- **SC-006**: En un celular de 390 px de ancho se abre el menú, "Mis vehículos", el inicio de sesión y
+  el carrito sin desplazar la página de lado, y el encabezado, el menú y el pie se ven como en las
+  capturas de autex.com.mx en celular (`docs/autex-real/movil`).
 
 ## Fuera de alcance
 

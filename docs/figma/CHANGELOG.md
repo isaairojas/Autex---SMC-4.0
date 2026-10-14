@@ -1,5 +1,9 @@
 # CHANGELOG — sincronización con Figma
 
+## 2026-10-09 — Vista de celular, entrega 1: marco y navegación (sin respaldo en Figma, D58)
+- Referencia: autex.com.mx en celular (capturas en `docs/autex-real/movil`, estilos medidos en `medidas/`; scripts `capturar-autex-movil.mjs`, `cdp-registrado-movil.mjs`, `medir-autex-movil.mjs` y `cdp-medir-registrado-movil.mjs`).
+- Por debajo de 768 px: encabezado, menú, pie plegable y WhatsApp flotante de celular; "Mis vehículos" e inicio de sesión con su forma de celular; pantallas sin vista propia, reducidas. Tokens e íconos del sitio en `tokens.css` y `src/assets/movil/`. Prueba `tests/referencia/movil-demo.mjs`.
+
 ## 2026-10-09 — Revisión del flujo: existencias, fechas hábiles, recoger y factura opcional (sin respaldo en Figma, D57)
 - Sin pagar artículos sin existencia (regreso al carrito con leyenda temporal); barra superior ajusta el carrito; tope de piezas al recoger; tienda de otro estado ya no cambia la entrega (reemplaza D47).
 - Fechas de entrega en días hábiles; franja de envío gratis configurable; "Requiero factura"; "¿Quién recoge el pedido?"; tarjeta predeterminada; inicio de sesión regresa al inicio; textos corregidos. Prueba `tests/referencia/revision-flujo-demo.mjs`.

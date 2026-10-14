@@ -1,0 +1,152 @@
+/*
+ * SIN RESPALDO EN FIGMA (D58): pie de autex.com.mx en celular (Ant Menu en línea) y botón flotante de WhatsApp.
+ * Valores medidos en el sitio real a 390 px (docs/autex-real/movil/medidas/medidas.json, "pie" y "whatsapp").
+ */
+
+/* 64 px sobre el pie; 3 px de bordes del mismo azul antes de las secciones */
+.pie {
+  margin-top: 64px;
+  padding-top: 3px;
+  background: var(--color-primary-600);
+  color: var(--color-nativo-blanco);
+}
+
+.pie p {
+  margin: 0;
+}
+
+.secciones,
+.submenu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.secciones {
+  padding: 32px 16px;
+}
+
+.titulo,
+.elemento {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: calc(100% - 8px);
+  height: 40px;
+  margin: 4px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-nativo-blanco);
+  text-align: left;
+}
+
+.titulo {
+  padding: 0 34px 0 24px;
+  cursor: pointer;
+}
+
+/* Flecha de Ant Menu: dos trazos de 6×1.5 px a 16 px del borde; abierta apunta hacia arriba */
+.flecha {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 10px;
+}
+
+.flecha::before,
+.flecha::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 1.5px;
+  border-radius: 6px;
+  background: currentColor;
+}
+
+.flecha::before {
+  transform: rotate(-45deg) translateX(2.5px);
+}
+
+.flecha::after {
+  transform: rotate(45deg) translateX(-2.5px);
+}
+
+.flechaAbierta {
+  transform: translateY(-2px);
+}
+
+.flechaAbierta::before {
+  transform: rotate(45deg) translateX(2.5px);
+}
+
+.flechaAbierta::after {
+  transform: rotate(-45deg) translateX(-2.5px);
+}
+
+.submenu {
+  background: var(--color-submenu-pie-movil);
+}
+
+.elemento {
+  padding: 0 16px 0 48px;
+}
+
+.elemento:disabled {
+  cursor: default;
+}
+
+button.elemento:not(:disabled) {
+  cursor: pointer;
+}
+
+.conIcono {
+  margin-left: 10px;
+}
+
+.legal {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 16px;
+  background: var(--color-primary-700);
+}
+
+.derechos span {
+  margin-right: 25px;
+}
+
+.pagos {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.tarjetas {
+  display: flex;
+  gap: 20px;
+}
+
+.redes {
+  display: flex;
+  align-items: center;
+}
+
+.redes > * {
+  margin-right: 25px;
+}
+
+/* Botón flotante: 60×60, 20 px de los bordes */
+.whatsapp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  background: var(--color-whatsapp-flotante);
+}

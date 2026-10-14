@@ -284,3 +284,190 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+/*
+ * Vista de celular (D58): en autex.com.mx el inicio de sesión es una página a todo el ancho (medidas en
+ * docs/autex-real/movil/medidas/medidas.json, "login"): márgenes de 22 px, logo centrado, "Bienvenido" 24/24,
+ * campos de 56 px y botones de 40 px con radio 8. Se conservan los textos y la opción de invitado de la demo.
+ */
+:global(.vista-movil) > .fondo {
+  z-index: 1001;
+  align-items: stretch;
+  background: var(--color-nativo-blanco);
+}
+
+:global(.vista-movil) > .fondo .modal {
+  width: 100% !important;
+  height: 100%;
+  gap: 0;
+  overflow-y: auto;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+:global(.vista-movil) > .fondo .head {
+  height: auto;
+  padding: 12px 22px 0;
+  background: none;
+}
+
+:global(.vista-movil) > .fondo .cuerpo {
+  gap: 0;
+  align-items: stretch;
+  padding: 14px 22px 15px;
+}
+
+:global(.vista-movil) > .fondo .cuerpo > img {
+  align-self: center;
+  width: 148px;
+  height: 22px;
+}
+
+:global(.vista-movil) > .fondo .bienvenida {
+  gap: 5px;
+  margin-top: 25px;
+  text-align: center;
+}
+
+:global(.vista-movil) > .fondo .titulo {
+  font: var(--font-weight-medium) 24px/24px var(--font-family-medium);
+  color: var(--color-nativo-negro);
+}
+
+:global(.vista-movil) > .fondo .subtitulo,
+:global(.vista-movil) > .fondo .registro span {
+  font: var(--font-weight-book) 16px/16px var(--font-family-book);
+  color: var(--color-nativo-negro);
+}
+
+:global(.vista-movil) > .fondo .formulario {
+  gap: 0;
+  margin-top: 24px;
+}
+
+:global(.vista-movil) > .fondo .campos {
+  gap: 27px;
+}
+
+:global(.vista-movil) > .fondo .etiqueta span {
+  font: var(--font-weight-book) 14px/14px var(--font-family-book);
+  color: var(--color-nativo-negro);
+}
+
+:global(.vista-movil) > .fondo .input {
+  height: 56px;
+  padding: 4px 11px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--color-borde-campo-movil);
+  font: var(--font-weight-book) 14px/22px var(--font-family-book);
+  color: var(--color-texto-control-movil);
+}
+
+:global(.vista-movil) > .fondo .input::placeholder {
+  color: var(--color-placeholder-movil);
+}
+
+:global(.vista-movil) > .fondo .extras {
+  justify-content: space-between;
+  align-items: center;
+  gap: 0;
+  margin: 32px 8px 35px;
+}
+
+:global(.vista-movil) > .fondo .mantener {
+  flex: 0 1 auto;
+  gap: 8px;
+  padding: 0;
+}
+
+:global(.vista-movil) > .fondo .mantener span,
+:global(.vista-movil) > .fondo .olvido {
+  font: var(--font-weight-book) 14px/22px var(--font-family-book);
+}
+
+:global(.vista-movil) > .fondo .mantener span {
+  color: var(--color-texto-control-movil);
+}
+
+:global(.vista-movil) > .fondo .checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--color-borde-campo-movil);
+  border-radius: 4px;
+}
+
+:global(.vista-movil) > .fondo .olvido {
+  flex: 0 1 auto;
+  padding: 0;
+  white-space: normal;
+  text-align: left;
+  color: var(--color-primary-500);
+}
+
+:global(.vista-movil) > .fondo .acciones {
+  gap: 0;
+  padding: 0;
+}
+
+:global(.vista-movil) > .fondo .iniciar,
+:global(.vista-movil) > .fondo .boton {
+  height: 40px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font: var(--font-weight-book) 16px/18.4px var(--font-family-book);
+}
+
+:global(.vista-movil) > .fondo .iniciar {
+  margin-bottom: 30px;
+}
+
+/* Sin correo y contraseña, gris Neutral/400 en lugar de transparencia */
+:global(.vista-movil) > .fondo .iniciar:disabled {
+  opacity: 1;
+  background: var(--color-neutral-400);
+}
+
+:global(.vista-movil) > .fondo .social {
+  gap: 0;
+}
+
+:global(.vista-movil) > .fondo .separador {
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+:global(.vista-movil) > .fondo .separador p {
+  flex: 0 0 auto;
+  padding: 0 9.6px;
+  font: var(--font-weight-book) 14px/14px var(--font-family-book);
+  color: var(--color-nativo-negro);
+}
+
+:global(.vista-movil) > .fondo .boton {
+  gap: 10px;
+  margin: 0 0 15px;
+}
+
+:global(.vista-movil) > .fondo .google {
+  box-shadow: inset 0 0 0 2px var(--color-neutral-200);
+  color: var(--color-nativo-negro);
+}
+
+:global(.vista-movil) > .fondo .registro {
+  gap: 4.8px;
+  margin-top: 35px;
+}
+
+:global(.vista-movil) > .fondo .registro span {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+:global(.vista-movil) > .fondo .registrate {
+  height: 32px;
+  padding: 0 15px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px var(--color-primary-800);
+  text-decoration: none;
+  font: var(--font-weight-book) 14px/16.1px var(--font-family-book);
+}

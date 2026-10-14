@@ -305,6 +305,10 @@
     "Revisión del flujo (D57)": {
       "pantalla": "src/state/DemoContext.tsx, src/screens/PageShell.tsx, src/screens/checkout/*, src/mocks/fechasEntrega.ts, src/mocks/configuracion-banner.json",
       "nota": "Leyenda temporal (Toast 2596:99563 flotante) al ajustar el carrito o regresar del checkout por artículos sin existencia; formulario del paso 1 con \"Requiero factura\" y, si todo se recoge, \"¿Quién recoge el pedido?\" sin dirección; fechas de entrega en días hábiles; franja \"Sin mínimo de compra por apertura (Aplica restricciones)\" configurable; tarjeta predeterminada (etiqueta en TarjetaGuardada y Mi cuenta → Método de pago); \"Comprados juntos\" agrega al carrito. D57."
+    },
+    "Vista de celular: marco y navegación (D58)": {
+      "pantalla": "src/design-system/components/organisms/EncabezadoMovil.tsx, MenuMovil.tsx, PieMovil.tsx (PieMovil y WhatsappFlotante), src/screens/PageShell.tsx, src/design-system/movil.ts",
+      "nota": "Sin frames móviles en Figma: copia de autex.com.mx en celular (≤768 px). Referencia: docs/autex-real/movil (capturas de invitado y registrado) y medidas/medidas.json (estilos calculados); íconos del sitio en src/assets/movil/. Encabezado, menú, pie plegable y WhatsApp flotante; \"Mis vehículos\", inicio de sesión y paneles con su forma de celular bajo .vista-movil. Pantallas sin vista de celular todavía: su versión de escritorio reducida. Prueba tests/referencia/movil-demo.mjs. D58."
     }
   },
   "componentes": {

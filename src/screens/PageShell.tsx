@@ -17,9 +17,14 @@ import { Toast } from '../design-system/components/molecules/Toast';
 import { ModalLogin } from '../design-system/components/organisms/ModalLogin';
 import { AvisoTienda, PanelEntrega, PanelTienda, PermisoNavegador, type Posicion } from '../design-system/components/organisms/UbicacionTienda';
 import { MisVehiculos } from '../design-system/components/organisms/MisVehiculos';
+import { EncabezadoMovil, type OpcionCuenta } from '../design-system/components/organisms/EncabezadoMovil';
+import { MenuMovil } from '../design-system/components/organisms/MenuMovil';
+import { PieMovil, WhatsappFlotante } from '../design-system/components/organisms/PieMovil';
+import { useMovil } from '../design-system/movil';
 import { nombreVehiculo } from '../mocks/vehiculos';
 import { estadoHorario } from '../mocks/tiendas';
 import styles from '../design-system/components/organisms/UbicacionTienda.module.css';
+import movilStyles from './PageShell.module.css';
 import { CATALOGO_SITIO } from '../mocks/catalogo';
 import bannerConfig from '../mocks/configuracion-banner.json';
 import { useDemo } from '../state/DemoContext';
@@ -33,6 +38,11 @@ const SKUS = Object.fromEntries(CATALOGO_SITIO.map((p) => [p.id, p.skuVisible]))
 
 /** Ancho de diseño: los frames de Figma miden 1920 px. */
 const ANCHO = 1920;
+
+/* Teléfonos de la demo (D57: se mantienen): los del encabezado (Navbar2026) y los del pie de escritorio. */
+const TELEFONO_ENCABEZADO = '33 3205 4440';
+const TELEFONO_PIE = '33 3208 4440';
+const WHATSAPP = '33 2835 9694';
 
 /**
  * Página adaptativa al zoom (sin respaldo en Figma, D37): si la ventana es más angosta que 1920 px (zoom in o
@@ -60,9 +70,14 @@ type PageShellProps = {
   enlaceActivo?: 'Inicio' | 'Catálogo' | 'Marcas' | 'Promociones' | null;
   /** D52: pasarela de pago del sitio; sin franja ni barra de navegación, solo el logo y "Volver al carrito". */
   pasarela?: boolean;
+  /**
+   * D58: la pantalla ya tiene su vista de celular. Mientras no la tenga, en celular su contenido de escritorio se
+   * muestra reducido al ancho de la pantalla dentro del encabezado y el pie móviles.
+   */
+  movilListo?: boolean;
 };
 
-export function PageShell({ children, version2026 = false, enlaceActivo = 'Catálogo', pasarela = false }: PageShellProps) {
+export function PageShell({ children, version2026 = false, enlaceActivo = 'Catálogo', pasarela = false, movilListo = false }: PageShellProps) {
   const navigate = useNavigate();
   const demo = useDemo();
   const { ubicacion, cliente, carrito, abrirUbicacion, ubicacionAbierta, cerrarUbicacion, setUbicacion, miniAbierto, cerrarMini, abrirMini, quitar } = demo;
@@ -70,6 +85,23 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
   /* Sitio (no galería): el chip de ubicación del navbar muestra "Mi tienda" y a su lado "Entrega en C.P.". */
   const sitio = !demo.modoFigma;
   const { tienda, panel, abrirPanel } = demo;
+  /*
+   * D58: vista de celular (≤768 px) copiada de autex.com.mx. La pasarela de pago sigue con su vista de escritorio
+   * reducida hasta que tenga la suya.
+   */
+  const movil = useMovil();
+  const vistaMovil = movil && sitio && !pasarela;
+  const [menuMovil, setMenuMovil] = useState(false);
+  /* En el sitio en celular no hay mini-carrito: el carrito se abre en su página (D58). */
+  useEffect(() => {
+    if (vistaMovil && miniAbierto) cerrarMini();
+  }, [vistaMovil, miniAbierto, cerrarMini]);
+  /* Como el sitio: al salir se vuelve al inicio (la cuenta y el checkout del registrado ya no aplican). */
+  const salir = () =>
+    demo.conCarga('Cerrando sesión', '', () => {
+      demo.salir();
+      navigate('/');
+    }, 700);
   /* Cada panel se abre bajo su chip del navbar ("Mi tienda" o "Entrega en"). */
   const marco = useRef<HTMLDivElement>(null);
   const escala = useEscala();
@@ -88,49 +120,10 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
     demo.setAvisoTienda(false);
     abrirPanel('entrega');
   };
-  return (
-    <div ref={marco} style={{ width: ANCHO, margin: '0 auto', background: 'var(--color-nativo-blanco)', position: 'relative', zoom: escala, ['--escala' as string]: escala }}>
-      {pasarela ? (
-        <EncabezadoPasarela onVolver={() => navigate('/carrito')} />
-      ) : version2026 ? (
-        <Navbar2026
-          /* En la galería se muestran los textos literales del Head 2026 (I673:18975;606:13284, badge "99+"). */
-          ubicacion={demo.modoFigma ? 'Calz. del Federalismo N' : tienda ? `Autex ${tienda.nombre}` : 'Elige tu tienda'}
-          ubicacionDetalle={sitio ? (tienda ? estadoHorario(tienda.horario).corto : 'Código postal o dirección') : ubicacion ? ubicacion.detalle : 'Código postal o dirección'}
-          onUbicacionClick={() => (sitio ? abrirPanel(panel === 'tienda' ? null : 'tienda') : abrirUbicacion())}
-          usuario={cliente.tipo === 'invitado' ? null : cliente.nombre}
-          empresa={cliente.tipo === 'invitado' ? undefined : cliente.empresa}
-          /* Con sesión, el menú de la cuenta de autex.com.mx: Mi perfil, Mis pedidos, Salir. */
-          onUsuarioClick={() => (cliente.tipo === 'invitado' ? demo.abrirLogin() : sitio ? abrirPanel(panel === 'cuenta' ? null : 'cuenta') : undefined)}
-          carrito={demo.modoFigma ? 100 : piezas}
-          onCarritoClick={() => (miniAbierto ? cerrarMini() : abrirMini())}
-          activo={enlaceActivo}
-          sitio={!demo.modoFigma}
-          vehiculo={sitio ? (demo.vehiculo ? nombreVehiculo(demo.vehiculo) : null) : undefined}
-          onVehiculoClick={() => sitio && demo.setVehiculosAbierto(true)}
-          /* Registrado con dirección guardada: "Entrega en C.P." y el nombre de la dirección; si no, solo el C.P. */
-          entrega={sitio ? (demo.direccion ? demo.direccion.nombre : ubicacion?.codigoPostal ?? 'C.P.') : undefined}
-          entregaTitulo={demo.direccion ? `Entrega en ${demo.direccion.codigoPostal}` : undefined}
-          onEntregaClick={() => abrirPanel(panel === 'entrega' ? null : 'entrega')}
-          banner={sitio ? BANNER : undefined}
-        />
-      ) : (
-      <Navbar
-        ubicacion={ubicacion ? ubicacion.etiqueta : 'Elige tu ubicación'}
-        ubicacionDetalle={ubicacion ? ubicacion.detalle : 'Código postal o dirección'}
-        onUbicacionClick={abrirUbicacion}
-        usuario={cliente.tipo === 'invitado' ? null : cliente.nombre}
-        logueado={cliente.tipo === 'b2c'}
-        b2b={cliente.tipo === 'b2b'}
-        empresa={cliente.empresa}
-        onUsuarioClick={() => (cliente.tipo === 'invitado' ? demo.abrirLogin() : undefined)}
-        carrito={demo.modoFigma ? 100 : piezas}
-        onCarritoClick={() => (miniAbierto ? cerrarMini() : abrirMini())}
-      />
-      )}
-      {children}
-      <Footer version2026={version2026} sitio={sitio} />
-      {miniAbierto && (
+  /* Ventanas, paneles y avisos de la página (los mismos en escritorio y en celular). */
+  const capas = (
+    <>
+      {miniAbierto && !vistaMovil && (
         <MiniCarrito
           lineas={carrito}
           skus={SKUS}
@@ -207,7 +200,7 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
           onClose={() => abrirPanel(null)}
         />
       )}
-      {sitio && panel === 'cuenta' && (
+      {sitio && panel === 'cuenta' && !vistaMovil && (
         <nav className={styles.menuCuenta} style={posicion} aria-label="Mi cuenta">
           {[
             ['Mi perfil', '/configuracion/perfil'],
@@ -222,11 +215,7 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
             className="text-body-1-book"
             onClick={() => {
               abrirPanel(null);
-              /* Como el sitio: al salir se vuelve al inicio (la cuenta y el checkout del registrado ya no aplican). */
-              demo.conCarga('Cerrando sesión', '', () => {
-                demo.salir();
-                navigate('/');
-              }, 700);
+              salir();
             }}
           >
             Salir
@@ -280,6 +269,91 @@ export function PageShell({ children, version2026 = false, enlaceActivo = 'Catá
         </div>
       )}
       {sitio && demo.cargando && <CargaPagina texto={demo.cargando.titulo} />}
+    </>
+  );
+  if (vistaMovil) {
+    const opcionCuenta = (o: OpcionCuenta) => {
+      abrirPanel(null);
+      if (o === 'salir') salir();
+      else navigate(o === 'perfil' ? '/configuracion/perfil' : '/configuracion/pedidos');
+    };
+    return (
+      /* "vista-movil": las ventanas compartidas con escritorio toman su forma de celular (D58). */
+      <div ref={marco} className={`${movilStyles.pagina} vista-movil`}>
+        <EncabezadoMovil
+          banner={BANNER}
+          telefono={TELEFONO_ENCABEZADO}
+          whatsapp={WHATSAPP}
+          usuario={cliente.tipo === 'invitado' ? null : cliente.nombre}
+          carrito={piezas}
+          onMenu={() => setMenuMovil(true)}
+          onVehiculos={() => demo.setVehiculosAbierto(true)}
+          onIngresar={() => demo.abrirLogin()}
+          onCuenta={() => abrirPanel(panel === 'cuenta' ? null : 'cuenta')}
+          cuentaAbierta={panel === 'cuenta'}
+          onOpcionCuenta={opcionCuenta}
+          onCarrito={() => navigate('/carrito')}
+        />
+        {movilListo ? (
+          children
+        ) : (
+          /* Pantalla sin vista de celular todavía: su versión de escritorio reducida al ancho de la pantalla. */
+          <div className={`${movilStyles.escalado} vista-escalada`} style={{ zoom: escala, ['--escala' as string]: escala }}>
+            {children}
+          </div>
+        )}
+        <PieMovil telefono={TELEFONO_PIE} whatsapp={WHATSAPP} />
+        <WhatsappFlotante numero={WHATSAPP} />
+        {menuMovil && (
+          <MenuMovil usuario={cliente.tipo === 'invitado' ? null : cliente.nombre} onClose={() => setMenuMovil(false)} onIngresar={() => demo.abrirLogin()} onSalir={salir} />
+        )}
+        {capas}
+      </div>
+    );
+  }
+  return (
+    <div ref={marco} style={{ width: ANCHO, margin: '0 auto', background: 'var(--color-nativo-blanco)', position: 'relative', zoom: escala, ['--escala' as string]: escala }}>
+      {pasarela ? (
+        <EncabezadoPasarela onVolver={() => navigate('/carrito')} />
+      ) : version2026 ? (
+        <Navbar2026
+          /* En la galería se muestran los textos literales del Head 2026 (I673:18975;606:13284, badge "99+"). */
+          ubicacion={demo.modoFigma ? 'Calz. del Federalismo N' : tienda ? `Autex ${tienda.nombre}` : 'Elige tu tienda'}
+          ubicacionDetalle={sitio ? (tienda ? estadoHorario(tienda.horario).corto : 'Código postal o dirección') : ubicacion ? ubicacion.detalle : 'Código postal o dirección'}
+          onUbicacionClick={() => (sitio ? abrirPanel(panel === 'tienda' ? null : 'tienda') : abrirUbicacion())}
+          usuario={cliente.tipo === 'invitado' ? null : cliente.nombre}
+          empresa={cliente.tipo === 'invitado' ? undefined : cliente.empresa}
+          /* Con sesión, el menú de la cuenta de autex.com.mx: Mi perfil, Mis pedidos, Salir. */
+          onUsuarioClick={() => (cliente.tipo === 'invitado' ? demo.abrirLogin() : sitio ? abrirPanel(panel === 'cuenta' ? null : 'cuenta') : undefined)}
+          carrito={demo.modoFigma ? 100 : piezas}
+          onCarritoClick={() => (miniAbierto ? cerrarMini() : abrirMini())}
+          activo={enlaceActivo}
+          sitio={!demo.modoFigma}
+          vehiculo={sitio ? (demo.vehiculo ? nombreVehiculo(demo.vehiculo) : null) : undefined}
+          onVehiculoClick={() => sitio && demo.setVehiculosAbierto(true)}
+          /* Registrado con dirección guardada: "Entrega en C.P." y el nombre de la dirección; si no, solo el C.P. */
+          entrega={sitio ? (demo.direccion ? demo.direccion.nombre : ubicacion?.codigoPostal ?? 'C.P.') : undefined}
+          entregaTitulo={demo.direccion ? `Entrega en ${demo.direccion.codigoPostal}` : undefined}
+          onEntregaClick={() => abrirPanel(panel === 'entrega' ? null : 'entrega')}
+          banner={sitio ? BANNER : undefined}
+        />
+      ) : (
+      <Navbar
+        ubicacion={ubicacion ? ubicacion.etiqueta : 'Elige tu ubicación'}
+        ubicacionDetalle={ubicacion ? ubicacion.detalle : 'Código postal o dirección'}
+        onUbicacionClick={abrirUbicacion}
+        usuario={cliente.tipo === 'invitado' ? null : cliente.nombre}
+        logueado={cliente.tipo === 'b2c'}
+        b2b={cliente.tipo === 'b2b'}
+        empresa={cliente.empresa}
+        onUsuarioClick={() => (cliente.tipo === 'invitado' ? demo.abrirLogin() : undefined)}
+        carrito={demo.modoFigma ? 100 : piezas}
+        onCarritoClick={() => (miniAbierto ? cerrarMini() : abrirMini())}
+      />
+      )}
+      {children}
+      <Footer version2026={version2026} sitio={sitio} />
+      {capas}
     </div>
   );
 }

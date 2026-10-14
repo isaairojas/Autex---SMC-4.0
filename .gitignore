@@ -3,3 +3,5 @@ dist
 # Artefactos generados por las pruebas y el compilador
 tests/visual/__diff__/
 *.tsbuildinfo
+# Capturas del sitio real con datos del cliente (sesión iniciada): solo locales
+docs/autex-real/movil/registrado/

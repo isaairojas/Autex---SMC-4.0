@@ -25,7 +25,7 @@
 |---|---|
 | URL del archivo Figma | `https://www.figma.com/design/qp14Mbl7khZF2xWAwaocfP/FE_Autex_B2C_Editable?node-id=32-309` |
 | `FILE_KEY` | `qp14Mbl7khZF2xWAwaocfP` |
-| Plataforma objetivo inicial | `Escritorio` (los frames de la página son de escritorio; móvil fuera de alcance) |
+| Plataforma objetivo inicial | `Escritorio` (los frames de la página son de escritorio). Celular (≤768 px, 2026-10-09): sin frames en Figma; se copia autex.com.mx en celular (`docs/autex-real/movil`, D58) |
 | Tamaño(s) de frame base | `1920×2414 escritorio` (contenido centrado de 1178 px; tomado de Figma) |
 | Stack | `React 18 + TypeScript + Vite + CSS variables` (web de escritorio, sin PWA) |
 | Librería de componentes externa | `Ninguna` (todo se construye desde Figma) |

@@ -444,3 +444,33 @@
   border-radius: 6px;
   background: var(--color-nativo-blanco);
 }
+
+/*
+ * Vista de celular (D58): paneles y avisos del marco de la página a todo el ancho de la pantalla.
+ * Los paneles de tienda y entrega son cambios de la demo; se ajustarán al aplicar los cambios a la vista de celular.
+ */
+:global(.vista-movil) > .panel {
+  position: fixed;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0;
+  z-index: 1001;
+  width: auto;
+  max-height: 100vh;
+  overflow-y: auto;
+  border-radius: 0;
+}
+
+:global(.vista-movil) > .navegador {
+  left: 8px;
+  right: 8px;
+  width: auto;
+}
+
+:global(.vista-movil) > .avisoTemporal {
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  width: auto;
+  transform: none;
+}

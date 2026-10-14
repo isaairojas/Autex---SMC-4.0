@@ -51,3 +51,64 @@
   display: flex;
   gap: 24px;
 }
+
+/*
+ * Vista de celular (D58): ventana de Ant Design como en autex.com.mx ("Mis vehículos", medidas en
+ * docs/autex-real/movil/medidas/medidas.json): a todo el ancho menos 8 px, centrada, título 18/26 sin fondo y la X
+ * arriba a la derecha. Solo las ventanas del marco de la página (no las de pantallas aún reducidas).
+ */
+:global(.vista-movil) > .backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: flex-start;
+  padding: 8px;
+  overflow-y: auto;
+  background: var(--color-mascara-movil);
+}
+
+/* margin auto: centrada si cabe en la pantalla y desde arriba (con desplazamiento) si es más alta */
+:global(.vista-movil) > .backdrop > .modal {
+  position: relative;
+  width: 100% !important;
+  margin: auto 0 !important;
+  padding: 20px 24px;
+  overflow: visible;
+  border-radius: 8px;
+  box-shadow: var(--shadow-desplegable-movil);
+}
+
+:global(.vista-movil) > .backdrop .head {
+  margin-bottom: 20px;
+  padding: 0;
+  background: none;
+}
+
+:global(.vista-movil) > .backdrop .title {
+  font: var(--font-weight-book) 18px/26px var(--font-family-book); /* medido: "Mis vehículos" 18/26 */
+}
+
+:global(.vista-movil) > .backdrop .close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+}
+
+:global(.vista-movil) > .backdrop .content {
+  padding: 0;
+}
+
+:global(.vista-movil) > .backdrop .footer {
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 0 0;
+}
+
+:global(.vista-movil) > .backdrop .actions {
+  flex-wrap: wrap;
+  gap: 12px;
+}

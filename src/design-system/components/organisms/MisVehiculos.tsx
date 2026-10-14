@@ -9,6 +9,11 @@ import { Button } from '../atoms/Button';
 import { Icon } from '../atoms/Icon';
 import { Modal } from './Modal';
 import { ANIOS, MARCAS_AUTO, MODELOS, MOTORES, nombreVehiculo, type Vehiculo } from '../../../mocks/vehiculos';
+import { useMovil } from '../../movil';
+import flecha from '../../../assets/movil/flecha-vehiculo.svg';
+import lupa from '../../../assets/movil/lupa.svg';
+import seleccionado from '../../../assets/movil/mv-seleccionado.svg';
+import sinVehiculo from '../../../assets/movil/mv-sin-vehiculo.svg';
 import styles from './MisVehiculos.module.css';
 
 type Props = {
@@ -26,6 +31,8 @@ const VACIO = { anio: '', marca: '', modelo: '', motor: '' };
 export function MisVehiculos({ vehiculos, activo, invitado, onAgregar, onActivar, onIngresar, onClose }: Props) {
   const [v, setV] = useState(VACIO);
   const [q, setQ] = useState('');
+  const movil = useMovil();
+  const [agregarAbierto, setAgregarAbierto] = useState(false);
   const completo = !!(v.anio && v.marca && v.modelo);
   const f = q.trim().toLowerCase();
   const lista = vehiculos.filter((x) => !f || `${nombreVehiculo(x)} ${x.motor}`.toLowerCase().includes(f));
@@ -40,6 +47,75 @@ export function MisVehiculos({ vehiculos, activo, invitado, onAgregar, onActivar
       <Icon name="expand_more" />
     </span>
   );
+  const formulario = (
+    <>
+      {select('anio', 'Año', ANIOS)}
+      {select('marca', 'Marca', MARCAS_AUTO, { modelo: '' })}
+      {select('modelo', 'Modelo', MODELOS[v.marca] ?? [])}
+      {select('motor', 'Motor (Opcional)', v.modelo ? MOTORES : [])}
+      <Button
+        disabled={!completo}
+        onClick={() => {
+          onAgregar(v);
+          setV(VACIO);
+        }}
+      >
+        Agregar vehículo a la lista
+      </Button>
+    </>
+  );
+  /*
+   * Vista de celular (D58): la ventana de autex.com.mx en celular (docs/autex-real/movil/05-mis-vehiculos.png): "Iniciar
+   * sesión", "Agregar nuevo vehículo" plegado, buscador y la lista con "Navegando sin vehículo" como primera opción.
+   */
+  if (movil)
+    return (
+      <Modal titulo="Mis vehículos" onClose={onClose} ancho={840} top={218}>
+        <section className={styles.sesionMovil}>
+          {invitado && (
+            <button type="button" className={`${styles.enlace} ${styles.textoMovil}`} onClick={onIngresar}>
+              Iniciar sesión
+            </button>
+          )}
+        </section>
+        <div className={styles.cuerpoMovil}>
+          <section className={styles.agregarMovil}>
+            <button type="button" className={styles.agregarTitulo} onClick={() => setAgregarAbierto(!agregarAbierto)} aria-expanded={agregarAbierto}>
+              Agregar nuevo vehículo
+              <img src={flecha} alt="" width={10} height={7} className={agregarAbierto ? styles.flechaAbierta : undefined} />
+            </button>
+            {agregarAbierto && formulario}
+          </section>
+          <section className={styles.listaMovil}>
+            <label className={styles.buscarMovil}>
+              <input placeholder="Buscar por modelo, año, tipo de producto, marca..." value={q} onChange={(e) => setQ(e.target.value)} />
+              <img src={lupa} alt="" width={16} height={16} />
+            </label>
+            <div className={styles.opcionesMovil}>
+              <button type="button" className={activo ? styles.opcionMovil : `${styles.opcionMovil} ${styles.opcionActiva}`} onClick={() => onActivar(null)}>
+                Navegando sin vehículo
+                {!activo && <img src={seleccionado} alt="" width={18} height={18} />}
+              </button>
+              {lista.map((x) => (
+                <button key={x.id} type="button" className={x.id === activo?.id ? `${styles.opcionMovil} ${styles.opcionActiva}` : styles.opcionMovil} onClick={() => onActivar(x.id)}>
+                  <span>
+                    {nombreVehiculo(x)}
+                    {x.motor && ` · ${x.motor}`}
+                  </span>
+                  {x.id === activo?.id && <img src={seleccionado} alt="" width={18} height={18} />}
+                </button>
+              ))}
+              {vehiculos.length === 0 && (
+                <section className={styles.vacioMovil}>
+                  <img src={sinVehiculo} alt="" width={96} height={96} />
+                  <span className={styles.textoMovil}>No has seleccionado ningún vehículo</span>
+                </section>
+              )}
+            </div>
+          </section>
+        </div>
+      </Modal>
+    );
   return (
     <Modal titulo="Mis vehículos" onClose={onClose} ancho={840} top={218}>
       <div className={styles.cabecera}>
@@ -63,19 +139,7 @@ export function MisVehiculos({ vehiculos, activo, invitado, onAgregar, onActivar
       <div className={styles.cuerpo}>
         <div className={styles.agregar}>
           <p className="text-subheadline-medium">Agregar nuevo vehículo</p>
-          {select('anio', 'Año', ANIOS)}
-          {select('marca', 'Marca', MARCAS_AUTO, { modelo: '' })}
-          {select('modelo', 'Modelo', MODELOS[v.marca] ?? [])}
-          {select('motor', 'Motor (Opcional)', v.modelo ? MOTORES : [])}
-          <Button
-            disabled={!completo}
-            onClick={() => {
-              onAgregar(v);
-              setV(VACIO);
-            }}
-          >
-            Agregar vehículo a la lista
-          </Button>
+          {formulario}
         </div>
         <div className={styles.lista}>
           <label className={styles.buscar}>
